@@ -1,120 +1,159 @@
-# F1 Championship 2025 - Laravel Application
+# F1 Bajnokság 2025 - Laravel Alkalmazás
 
-🏁 **Formula 1 Championship management system** built with Laravel and HTML5 UP Eventually template.
+🏁 **Formula 1 bajnokság kezelő rendszer** Laravel és HTML5 UP Eventually sablon alapján.
 
-## Features
+## Funkciók
 
 ### 🎨 **Frontend**
-- **HTML5 UP Eventually Template** integration as homepage
-- **Responsive F1-themed design** with red color scheme (#ff6b6b)
-- **Interactive navigation** with login dropdown
-- **Tab-based data display** for F1 History section
+- **HTML5 UP Eventually sablon** integrálva főoldalként
+- **Reszponzív F1-es témájú design** piros színsémával (#ff6b6b)
+- **Interaktív navigáció** bejelentkezés dropdown-pal
+- **Tab-alapú adatmegjelenítés** az F1 történelem szekcióban
 
-### 🏎️ **F1 Data Management**
-- **Pilots Database** - 801+ driver records
-- **Race Results** - 2000+ race results with DNF tracking
-- **Grand Prix Calendar** - 750+ race events
-- **MySQL Models** with proper relationships
+### 🏎️ **F1 Adatkezelés**
+- **Pilóta adatbázis** - 801+ pilóta rekord
+- **Versenyeredmények** - 2000+ versenyeredmény DNF követéssel
+- **Grand Prix naptár** - 750+ versenyesemény
+- **MySQL modellek** megfelelő kapcsolatokkal
 
-### 📱 **Pages**
-- **Homepage** - Eventually template with F1 branding
-- **F1 History** - Interactive tabs showing Drivers, Results, Grand Prix
-- **Contact** - Form with validation and F1 styling
-- **Authentication** - Login/Register system
+### 📱 **Oldalak**
+- **Főoldal** - Eventually sablon F1 branding-gel
+- **F1 Történelem** - Interaktív tabok pilótákkal, eredményekkel, Grand Prix-kkel
+- **Kapcsolat** - Űrlap validációval és F1 stílussal
+- **Hitelesítés** - Bejelentkezés/Regisztrációs rendszer
 
-## Technology Stack
+## Technológiai Stack
 
-- **Laravel** - PHP framework
-- **MySQL** - Database
-- **HTML5 UP Eventually** - Template
-- **Bootstrap 5** - CSS framework
-- **Blade Templates** - Laravel templating
-- **Inertia.js** - Modern monolith architecture
+- **Laravel** - PHP keretrendszer
+- **MySQL** - Adatbázis
+- **HTML5 UP Eventually** - Sablon
+- **Bootstrap 5** - CSS keretrendszer
+- **Blade sablonok** - Laravel templating
+- **Inertia.js** - Modern monolit architektúra
 
-## Database Structure
+## Adatbázis Struktúra
 
-### Models
-- `Pilot` - Driver information (ID, name, gender, birth date, nationality)
-- `Result` - Race results (date, pilot, position, issues, team, car, engine)
-- `GrandPrix` - Race events (date, name, location)
+### Modellek
+- `Pilot` - Pilóta információk (ID, név, nem, születési dátum, nemzetiség)
+- `Result` - Versenyeredmények (dátum, pilóta, pozíció, problémák, csapat, autó, motor)
+- `GrandPrix` - Versenyesemények (dátum, név, helyszín)
 
-### Data Import
-- Supports TXT file import with tab-separated values
-- Custom Artisan command: `php artisan f1:import`
-- Progressive data loading with error handling
+### Adatimport
+- TXT fájl import támogatás tab-separated értékekkel
+- Egyedi Artisan parancs: `php artisan f1:import`
+- Progresszív adatbetöltés hibakezeléssel
 
-## Installation
+## Telepítés
 
-1. **Clone repository**
+1. **Repository klónozása**
 ```bash
 git clone https://github.com/GH5MZN/WebProg2_EA_beadando.git
 cd WebProg2_EA_beadando
 ```
 
-2. **Install dependencies**
+2. **Függőségek telepítése**
 ```bash
 composer install
 npm install
 ```
 
-3. **Environment setup**
+3. **Környezet beállítása**
 ```bash
 cp .env.example .env
 php artisan key:generate
 ```
 
-4. **Database setup**
+4. **Adatbázis beállítása**
 ```bash
-# Configure MySQL in .env file
+# MySQL konfigurálása a .env fájlban
 php artisan migrate
-php artisan f1:import  # Import F1 data from TXT files
+php artisan f1:import  # F1 adatok importálása TXT fájlokból
 ```
 
-5. **Development server**
+5. **Fejlesztői szerver**
 ```bash
 php artisan serve
 npm run dev
 ```
 
-## Project Structure
+## Éles Környezetbe Telepítés
+
+### 🌐 **Tárhelyszolgáltatók**
+
+#### **1. Osztott tárhely (pl. ATHOS, Tárhely.eu)**
+```bash
+# Csak az app fájlok feltöltése (vendor mappa nincs a git-ben)
+# 1. FTP/FileManager-rel töltsd fel a fájlokat
+# 2. SSH-ban vagy hosting vezérlőpult-ban:
+composer install --no-dev --optimize-autoloader
+php artisan config:cache
+php artisan route:cache
+php artisan view:cache
+```
+
+#### **2. VPS/Szerver (pl. DigitalOcean, Vultr)**
+```bash
+# Domain beállítás
+git clone https://github.com/GH5MZN/WebProg2_EA_beadando.git /var/www/html
+cd /var/www/html
+composer install --no-dev --optimize-autoloader
+chmod -R 755 storage bootstrap/cache
+chown -R www-data:www-data storage bootstrap/cache
+```
+
+#### **3. Ingyenes tárhely (pl. Heroku, Railway)**
+- **Procfile** szükséges: `web: vendor/bin/heroku-php-apache2 public/`
+- Környezeti változók beállítása
+- MySQL adatbázis addon hozzáadása
+
+### ⚙️ **Éles környezet ellenőrzőlista**
+- [ ] `.env` fájl létrehozása és konfigurálása
+- [ ] `APP_DEBUG=false` beállítása
+- [ ] MySQL adatbázis létrehozása
+- [ ] `php artisan migrate` futtatása
+- [ ] `php artisan f1:import` adatok betöltéséhez
+- [ ] Webszerver konfiguráció (Apache/Nginx)
+- [ ] Domain DNS beállítása
+
+## Projekt Struktúra
 
 ```
-📁 F1 Championship App
-├── 🏠 Homepage (Eventually template)
-├── 🏁 F1 History (Drivers/Results/GP)
-├── 📧 Contact (Form with validation)
-├── 🔐 Authentication (Login/Register)
-└── 🗄️ Database (MySQL with F1 data)
+📁 F1 Bajnokság App
+├── 🏠 Főoldal (Eventually sablon)
+├── 🏁 F1 Történelem (Pilóták/Eredmények/GP)
+├── 📧 Kapcsolat (Űrlap validációval)
+├── 🔐 Hitelesítés (Bejelentkezés/Regisztráció)
+└── 🗄️ Adatbázis (MySQL F1 adatokkal)
 ```
 
-## Screenshots
+## Képernyőfotók
 
-### Homepage
-- F1-themed Eventually template with navigation
-- Hero section with championship branding
-- Responsive design with red accent colors
+### Főoldal
+- F1-es témájú Eventually sablon navigációval
+- Hero szekció bajnokság branding-gel
+- Reszponzív design piros kiemelő színekkel
 
-### F1 History
-- Interactive tabs for different data types
-- Sortable tables with pagination
-- Real F1 data from text file imports
+### F1 Történelem
+- Interaktív tabok különböző adattípusokhoz
+- Rendezhető táblák lapozással
+- Valós F1 adatok szövegfájl importból
 
-### Contact
-- Professional contact form
-- F1 styling consistency
-- Form validation and success feedback
+### Kapcsolat
+- Professzionális kapcsolat űrlap
+- F1 stílus konzisztencia
+- Űrlap validáció és sikeres visszajelzés
 
-## Development
+## Fejlesztés
 
-This project was developed as a **Web Programming 2** assignment, demonstrating:
-- **Laravel MVC architecture**
-- **Database design and relationships**
-- **Frontend template integration**
-- **Data import and management**
-- **Responsive web design**
+Ez a projekt **Webprogramozás 2** beadandóként készült, bemutatva:
+- **Laravel MVC architektúra**
+- **Adatbázis tervezés és kapcsolatok**
+- **Frontend sablon integráció**
+- **Adatimport és -kezelés**
+- **Reszponzív webdesign**
 
-## License
+## Licensz
 
-This project is open-sourced software licensed under the [MIT license](LICENSE).
+Ez a projekt nyílt forráskódú szoftver a [MIT licensz](LICENSE) alatt.
 
 ---
