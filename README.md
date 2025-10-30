@@ -143,6 +143,136 @@ chown -R www-data:www-data storage bootstrap/cache
 - F1 stílus konzisztencia
 - Űrlap validáció és sikeres visszajelzés
 
+## 👥 Kollaboráció - Szaktárs Beállítási Útmutató
+
+### **Első alkalommal (projekt leszedése)**
+
+1. **Git klónozása**
+```bash
+git clone https://github.com/GH5MZN/WebProg2_EA_beadando.git
+cd WebProg2_EA_beadando
+```
+
+2. **Laravel környezet telepítése**
+```bash
+# Composer függőségek telepítése
+composer install
+
+# Node.js függőségek (ha szükséges frontend build-hez)
+npm install
+
+# .env fájl létrehozása
+copy .env.example .env
+
+# Laravel alkalmazás kulcs generálása
+php artisan key:generate
+```
+
+3. **Adatbázis beállítása (helyi fejlesztéshez)**
+```bash
+# .env fájlban állítsd be a MySQL kapcsolatot:
+# DB_CONNECTION=mysql
+# DB_HOST=127.0.0.1
+# DB_PORT=3306
+# DB_DATABASE=f1_bajnoksag
+# DB_USERNAME=your_username
+# DB_PASSWORD=your_password
+
+# Adatbázis táblák létrehozása
+php artisan migrate
+
+# F1 adatok importálása (ha TXT fájlok elérhetők)
+php artisan f1:import
+```
+
+4. **Fejlesztői szerver indítása**
+```bash
+php artisan serve
+# Az alkalmazás elérhető: http://localhost:8000
+```
+
+### **Napi munkafolyamat (commit/push)**
+
+1. **Friss változások leszedése**
+```bash
+git pull origin main
+```
+
+2. **Saját módosítások készítése**
+```bash
+# Fájlok szerkesztése...
+# Tesztelés helyi szerverrel
+```
+
+3. **Változások commitálása**
+```bash
+# Módosított fájlok ellenőrzése
+git status
+
+# Fájlok hozzáadása a commit-hoz
+git add .
+# VAGY specifikus fájlok:
+git add app/Http/Controllers/SomeController.php
+
+# Commit leírás magyar nyelven
+git commit -m "Funkció neve: Rövid leírás a változásról"
+
+# Példák:
+# git commit -m "Pilóta szűrés: Hozzáadtam nemzetiség alapú szűrést"
+# git commit -m "Bugfix: F1 történelem oldal mobil megjelenítés javítása"
+# git commit -m "Stílus: Főoldal színek finomhangolása"
+```
+
+4. **Változások feltöltése**
+```bash
+git push origin main
+```
+
+### **🚨 Konfliktusok kezelése**
+
+Ha ugyanazt a fájlt mindketten módosítottátok:
+
+```bash
+# Pull során konfliktus
+git pull origin main
+# Git jelzi a konfliktusokat
+
+# Konfliktus fájlok manuális szerkesztése
+# Keresed a <<<<<<< és >>>>>>> jeleket
+# Eldöntöd melyik verziót tartod meg
+
+# Konfliktus megoldása után
+git add .
+git commit -m "Konfliktus megoldás: [fájl neve]"
+git push origin main
+```
+
+### **💡 Hasznos fejlesztői parancsok**
+
+```bash
+# Laravel cache törölése fejlesztés során
+php artisan cache:clear
+php artisan config:clear
+php artisan route:clear
+php artisan view:clear
+
+# Adatbázis újra létrehozása (teszteléshez)
+php artisan migrate:fresh --seed
+
+# Git branch-ek kezelése (opcionális)
+git checkout -b feature/uj-funkcio
+git checkout main
+git merge feature/uj-funkcio
+```
+
+### **📁 Fontos fájlok amit NE commitálj**
+
+Ezek már be vannak állítva a `.gitignore`-ban:
+- `vendor/` - Composer csomagok
+- `node_modules/` - NPM csomagok  
+- `.env` - Személyes környezeti beállítások
+- `storage/logs/` - Laravel log fájlok
+
 ## Fejlesztés
 
 Ez a projekt **Webprogramozás 2** beadandóként készült, bemutatva:
