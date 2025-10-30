@@ -1,0 +1,694 @@
+/* F1 Tech Solutions - Global Styles */
+
+/* === PERFORMANCE OPTIMIZATIONS === */
+* {
+    box-sizing: border-box;
+}
+
+/* CSS Containment for better performance */
+.card-f1, .floating-login, .video-background {
+    contain: layout style paint;
+}
+
+/* Hardware acceleration for smooth animations */
+.btn-f1, .btn-outline-f1, .nav-link, .form-control {
+    transform: translateZ(0);
+    backface-visibility: hidden;
+}
+
+/* === BACKGROUND VIDEO === */
+.video-background {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    z-index: -1;
+    pointer-events: none;
+    overflow: hidden;
+    transition: opacity 0.5s ease;
+}
+
+.video-background.hidden {
+    opacity: 0;
+}
+
+.video-background iframe {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 100vw;
+    height: 56.25vw; /* 16:9 aspect ratio */
+    min-height: 100vh;
+    min-width: 177.77vh; /* 16:9 aspect ratio */
+    transform: translate(-50%, -50%);
+    opacity: 0.25; /* Magasabb átlátszóság a jobb láthatóságért */
+    filter: brightness(0.5) contrast(1.1); /* Világosabb és lágyabb filter */
+}
+
+/* Fallback animált háttér ha a videó nem működik */
+.animated-background {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: -2;
+    background: linear-gradient(45deg, #1a1a1a 0%, #2d2d30 25%, #ff6b6b 50%, #2d2d30 75%, #1a1a1a 100%);
+    background-size: 400% 400%;
+    animation: f1Gradient 8s ease infinite;
+    opacity: 0.3;
+}
+
+@keyframes f1Gradient {
+    0% {
+        background-position: 0% 50%;
+    }
+    50% {
+        background-position: 100% 50%;
+    }
+    100% {
+        background-position: 0% 50%;
+    }
+}
+
+/* F1 sávok animáció */
+.racing-stripes {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: -1;
+    pointer-events: none;
+    overflow: hidden;
+    opacity: 0.1;
+}
+
+.racing-stripes::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 200%;
+    height: 100%;
+    background: repeating-linear-gradient(
+        90deg,
+        transparent 0px,
+        transparent 20px,
+        #ff6b6b 20px,
+        #ff6b6b 22px
+    );
+    animation: raceStripes 3s linear infinite;
+}
+
+@keyframes raceStripes {
+    0% {
+        transform: translateX(-100%);
+    }
+    100% {
+        transform: translateX(0%);
+    }
+}
+
+.video-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(45deg, rgba(26,26,26,0.8) 0%, rgba(45,45,48,0.7) 50%, rgba(26,26,26,0.8) 100%);
+    z-index: -1;
+    pointer-events: none;
+}
+
+/* Video Toggle Button */
+.video-toggle {
+    position: fixed;
+    bottom: 20px;
+    left: 20px;
+    background: rgba(255,107,107,0.9);
+    border: none;
+    border-radius: 50%;
+    width: 50px;
+    height: 50px;
+    color: white;
+    cursor: pointer;
+    z-index: 1060;
+    transition: all 0.3s ease;
+    backdrop-filter: blur(10px);
+    box-shadow: 0 4px 15px rgba(0,0,0,0.3);
+}
+
+.video-toggle:hover {
+    background: rgba(255,107,107,1);
+    transform: scale(1.1);
+}
+
+.video-toggle.paused {
+    background: rgba(100,100,100,0.9);
+}
+
+/* === GLOBAL LAYOUT === */
+body {
+    background: linear-gradient(45deg, #1a1a1a 0%, #2d2d30 50%, #1a1a1a 100%); /* Fallback háttér */
+    min-height: 100vh;
+    color: white;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    display: flex;
+    flex-direction: column;
+    position: relative;
+}
+
+/* Ha a videó nem töltődik be, legyen szép gradient háttér */
+body::before {
+    content: '';
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(45deg, #1a1a1a 0%, #2d2d30 50%, #1a1a1a 100%);
+    z-index: -2;
+}
+
+main {
+    flex: 1;
+}
+
+/* === NAVIGATION === */
+.navbar {
+    background: rgba(0,0,0,0.9) !important;
+    backdrop-filter: blur(10px);
+    border-bottom: 1px solid rgba(255,107,107,0.3);
+}
+
+.navbar-brand {
+    color: #ff6b6b !important;
+    font-weight: bold;
+    font-size: 1.2rem;
+}
+
+.navbar-nav {
+    justify-content: center;
+    width: 100%;
+}
+
+.navbar-nav .nav-link {
+    color: white !important;
+    margin: 0 0.5rem;
+    padding: 0.5rem 1rem !important;
+    border-radius: 5px;
+    transition: background-color 0.15s ease; /* Gyorsabb transition */
+    will-change: background-color; /* GPU optimalizálás */
+}
+
+.navbar-nav .nav-link:hover,
+.navbar-nav .nav-link.active {
+    background: rgba(255, 107, 107, 0.3) !important;
+    color: white !important;
+}
+
+.navbar-toggler {
+    border: none;
+    padding: 0.25rem 0.5rem;
+}
+
+.navbar-toggler:focus {
+    box-shadow: none;
+}
+
+/* === HERO SECTION === */
+.hero-section {
+    padding: 5rem 0;
+    text-align: center;
+    color: white;
+}
+
+.hero-title {
+    font-size: 3rem;
+    color: #ff6b6b;
+    margin-bottom: 1rem;
+}
+
+.lead {
+    color: white !important;
+    font-size: 1.2rem;
+}
+
+/* === BUTTONS === */
+.btn-f1 {
+    background: #ff6b6b;
+    border: none;
+    padding: 0.8rem 2rem;
+    border-radius: 25px;
+    color: white;
+    font-weight: bold;
+    transition: background-color 0.2s ease, transform 0.15s ease; /* Gyorsabb transitions */
+    will-change: background-color, transform; /* GPU optimalizálás */
+}
+
+.btn-f1:hover {
+    background: #ff5252;
+    transform: translateY(-2px);
+    box-shadow: 0 5px 15px rgba(255,107,107,0.4);
+    color: white;
+}
+
+.btn-outline-f1 {
+    background: transparent;
+    border: 2px solid #ff6b6b;
+    padding: 0.8rem 2rem;
+    border-radius: 25px;
+    color: white;
+    font-weight: bold;
+    transition: all 0.3s;
+    text-decoration: none;
+}
+
+.btn-outline-f1:hover {
+    background: #ff6b6b;
+    color: white;
+    text-decoration: none;
+}
+
+/* === FOOTER === */
+footer {
+    margin-top: auto;
+    padding: 2rem 0;
+    background: rgba(0,0,0,0.8);
+    text-align: center;
+    color: white !important;
+    border-top: 1px solid rgba(255,107,107,0.3);
+}
+
+footer p {
+    color: white !important;
+    margin-bottom: 0.5rem;
+}
+
+footer small {
+    color: rgba(255,255,255,0.8) !important;
+}
+
+/* === FLOATING LOGIN BOX === */
+.floating-login {
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    background: rgba(0,0,0,0.95);
+    border: 2px solid #ff6b6b;
+    border-radius: 15px;
+    padding: 1.5rem;
+    width: 280px;
+    z-index: 1050;
+    backdrop-filter: blur(10px);
+    box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+}
+
+.floating-login h5 {
+    color: #ff6b6b;
+    margin-bottom: 1rem;
+    text-align: center;
+}
+
+.floating-login .form-control {
+    background: rgba(255,255,255,0.1);
+    border: 1px solid rgba(255,107,107,0.3);
+    color: white !important;
+    margin-bottom: 0.8rem;
+}
+
+.floating-login .form-control:focus {
+    background: rgba(255,255,255,0.15);
+    border-color: #ff6b6b;
+    box-shadow: 0 0 0 0.2rem rgba(255,107,107,0.25);
+    color: white !important;
+}
+
+.floating-login .form-control::placeholder {
+    color: rgba(255,255,255,0.8) !important;
+}
+
+.floating-login .text-muted {
+    color: rgba(255,255,255,0.7) !important;
+}
+
+.floating-login a {
+    color: rgba(255,255,255,0.8) !important;
+    text-decoration: none;
+}
+
+.floating-login a:hover {
+    color: #ff6b6b !important;
+}
+
+.floating-login .btn {
+    width: 100%;
+    margin-bottom: 0.5rem;
+}
+
+.floating-login .btn-sm {
+    padding: 0.4rem 0.8rem;
+    font-size: 0.85rem;
+}
+
+/* === FORMS === */
+.form-control {
+    background: rgba(255,255,255,0.1);
+    border: 1px solid rgba(255,107,107,0.3);
+    color: white;
+    border-radius: 8px;
+    padding: 0.75rem;
+    transition: border-color 0.15s ease, box-shadow 0.15s ease; /* Gyorsabb transitions */
+    will-change: border-color, box-shadow; /* GPU optimalizálás */
+}
+
+/* Speciális stílusozás a select elemekhez */
+select.form-control {
+    background: rgba(128,128,128,0.3);
+    color: white;
+}
+
+select.form-control option {
+    background: #666666;
+    color: white;
+    padding: 0.5rem;
+}
+
+.form-control:focus {
+    background: rgba(255,255,255,0.15);
+    border-color: #ff6b6b;
+    box-shadow: 0 0 0 0.2rem rgba(255,107,107,0.25);
+    color: white;
+    outline: none;
+}
+
+select.form-control:focus {
+    background: rgba(128,128,128,0.4);
+}
+
+.form-control::placeholder {
+    color: rgba(255,255,255,0.7);
+}
+
+.form-control.is-invalid {
+    border-color: #dc3545;
+    background: rgba(220,53,69,0.1);
+}
+
+.form-control.is-invalid:focus {
+    border-color: #dc3545;
+    box-shadow: 0 0 0 0.2rem rgba(220,53,69,0.25);
+}
+
+.invalid-feedback {
+    display: block;
+    width: 100%;
+    margin-top: 0.25rem;
+    font-size: 0.875em;
+    color: #dc3545;
+    background: rgba(220,53,69,0.1);
+    padding: 0.5rem;
+    border-radius: 4px;
+    border-left: 3px solid #dc3545;
+}
+
+.form-label {
+    color: rgba(255,255,255,0.9);
+    font-weight: 500;
+    margin-bottom: 0.5rem;
+}
+
+.form-check-input {
+    background: rgba(255,255,255,0.1);
+    border: 1px solid rgba(255,107,107,0.3);
+}
+
+.form-check-input:checked {
+    background-color: #ff6b6b;
+    border-color: #ff6b6b;
+}
+
+.form-check-label {
+    color: rgba(255,255,255,0.9);
+}
+
+.form-text {
+    color: rgba(255,255,255,0.6);
+    font-size: 0.875em;
+    margin-top: 0.25rem;
+}
+
+/* === CONTENT SECTIONS === */
+.content-section {
+    padding: 3rem 0;
+    color: white;
+}
+
+.content-section h1,
+.content-section h2,
+.content-section h3 {
+    color: #ff6b6b;
+    margin-bottom: 1.5rem;
+}
+
+.content-section p {
+    color: rgba(255,255,255,0.9);
+    line-height: 1.6;
+}
+
+/* === CARDS === */
+.card-f1 {
+    background: rgba(255,255,255,0.05);
+    border: 1px solid rgba(255,107,107,0.2);
+    border-radius: 15px;
+    padding: 2rem;
+    transition: all 0.3s;
+    backdrop-filter: blur(10px);
+}
+
+.card-f1:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 15px 35px rgba(255,107,107,0.2);
+    border-color: rgba(255,107,107,0.4);
+}
+
+.card-f1 h3 {
+    color: #ff6b6b;
+    margin-bottom: 1rem;
+}
+
+.card-f1 p {
+    color: rgba(255,255,255,0.8);
+}
+
+/* === TABLES === */
+.table-f1 {
+    background: rgba(255,255,255,0.05);
+    border-radius: 10px;
+    overflow: hidden;
+}
+
+.table-f1 th {
+    background: rgba(255,107,107,0.2);
+    color: white;
+    border: none;
+    padding: 1rem;
+}
+
+.table-f1 td {
+    background: rgba(255,255,255,0.03);
+    color: white;
+    border: 1px solid rgba(255,107,107,0.1);
+    padding: 0.8rem;
+}
+
+.table-f1 tbody tr:hover {
+    background: rgba(255,107,107,0.1);
+}
+
+/* === ALERTS === */
+.alert-f1 {
+    background: rgba(255,107,107,0.1);
+    border: 1px solid rgba(255,107,107,0.3);
+    border-radius: 10px;
+    color: white;
+    padding: 1rem;
+    margin: 1rem 0;
+}
+
+/* === RESPONSIVE === */
+@media (max-width: 768px) {
+    .floating-login {
+        display: none;
+    }
+    
+    .video-background iframe {
+        opacity: 0.15; /* Közepes átlátszóság mobilon */
+    }
+    
+    .hero-title {
+        font-size: 2rem;
+    }
+    
+    .hero-section {
+        padding: 3rem 0;
+    }
+    
+    .btn-f1,
+    .btn-outline-f1 {
+        padding: 0.6rem 1.5rem;
+        font-size: 0.9rem;
+    }
+}
+
+@media (max-width: 576px) {
+    .video-background iframe {
+        opacity: 0.1; /* Alacsonyabb átlátszóság kis képernyőn */
+    }
+    
+    .hero-title {
+        font-size: 1.8rem;
+    }
+    
+    .navbar-brand {
+        font-size: 1rem;
+    }
+    
+    .container {
+        padding: 0 1rem;
+    }
+}
+
+/* === UTILITIES === */
+.text-f1 {
+    color: #ff6b6b !important;
+}
+
+.bg-f1 {
+    background: #ff6b6b !important;
+}
+
+.border-f1 {
+    border-color: #ff6b6b !important;
+}
+
+.shadow-f1 {
+    box-shadow: 0 5px 15px rgba(255,107,107,0.3) !important;
+}
+
+/* === ANIMATIONS === */
+@keyframes fadeInUp {
+    from {
+        opacity: 0;
+        transform: translateY(30px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.fade-in-up {
+    animation: fadeInUp 0.6s ease;
+}
+
+/* === CUSTOM SCROLLBAR === */
+::-webkit-scrollbar {
+    width: 8px;
+}
+
+::-webkit-scrollbar-track {
+    background: rgba(255,255,255,0.1);
+}
+
+::-webkit-scrollbar-thumb {
+    background: #ff6b6b;
+    border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: #ff5252;
+}
+
+/* ===== TELJESÍTMÉNY OPTIMALIZÁLÁSOK ===== */
+
+/* CPU és GPU optimalizálás */
+.contact-container,
+.contact-form,
+.form-group,
+.btn,
+input,
+textarea {
+    /* GPU réteg létrehozása */
+    transform: translateZ(0);
+    backface-visibility: hidden;
+    perspective: 1000px;
+    
+    /* Layout és composite optimalizálás */
+    will-change: transform, opacity;
+    contain: layout style paint;
+}
+
+/* Gyorsított átmenetek */
+.form-control:focus,
+.btn:hover,
+.btn:focus {
+    transition: all 0.1s ease-out !important; /* Gyorsabb átmenet */
+}
+
+.form-control.is-valid,
+.form-control.is-invalid {
+    transition: border-color 0.08s ease, box-shadow 0.08s ease !important;
+}
+
+/* Preload animációk */
+@keyframes pulse-fast {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.7; }
+}
+
+.btn.loading {
+    animation: pulse-fast 1s infinite;
+    pointer-events: none;
+}
+
+/* Touch optimalizálás mobilra */
+@media (hover: none) and (pointer: coarse) {
+    .btn,
+    .form-control {
+        transition: none !important; /* Touchscreen eszközökön nincs hover */
+    }
+    
+    .form-control {
+        font-size: 16px; /* Zoom megakadályozása iOS-en */
+    }
+}
+
+/* Memory leak megelőzés */
+.contact-container * {
+    box-sizing: border-box;
+}
+
+/* Async font loading support */
+.font-loading {
+    font-family: system-ui, -apple-system, sans-serif;
+}
+
+/* Critical path optimalizálás */
+.above-fold {
+    contain: layout style;
+}
+
+.below-fold {
+    contain: layout style paint;
+    content-visibility: auto;
+    contain-intrinsic-size: 0 500px;
+}
+
+/* Hardware acceleration forced */
+.performance-critical {
+    transform: translate3d(0,0,0);
+    will-change: auto;
+}

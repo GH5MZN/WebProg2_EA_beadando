@@ -6,7 +6,7 @@ use App\Http\Controllers\PilotController;
 use App\Http\Controllers\ContactController;
 
 Route::get('/', function () {
-    return view('eventually-welcome');
+    return view('welcome-new');
 })->name('home');
 
 Route::get('/history', [PilotController::class, 'index'])->name('history');
