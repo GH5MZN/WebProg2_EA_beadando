@@ -4,6 +4,7 @@ use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
 use App\Http\Controllers\PilotController;
 use App\Http\Controllers\ContactController;
+use App\Http\Controllers\DiagramController;
 
 Route::get('/', function () {
     return view('welcome-new');
@@ -13,6 +14,8 @@ Route::get('/history', [PilotController::class, 'index'])->name('history');
 Route::get('/test', [PilotController::class, 'index'])->name('test');
 Route::get('/contact', [ContactController::class, 'show'])->name('contact');
 Route::post('/contact', [ContactController::class, 'store'])->name('contact.store');
+
+Route::get('/diagrams', [DiagramController::class, 'index'])->name('diagrams');
 
 Route::resource('pilots', PilotController::class);
 

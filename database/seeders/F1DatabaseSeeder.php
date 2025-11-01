@@ -38,33 +38,37 @@ class F1DatabaseSeeder extends Seeder
         $filePath = storage_path('app/data/pilota.txt');
         
         if (!file_exists($filePath)) {
-            $this->command->error('Pilots file not found: ' . $filePath);
+            echo "File not found: {$filePath}\n";
             return;
         }
 
         $content = file_get_contents($filePath);
+        $content = mb_convert_encoding($content, 'UTF-8', 'Windows-1252');
         $lines = explode("\n", $content);
-
-        // Skip header line
-        for ($i = 1; $i < count($lines); $i++) {
-            $line = trim($lines[$i]);
-            if (!empty($line)) {
-                $data = explode("\t", $line);
+        $lines = array_filter($lines, function($line) { return trim($line) !== ''; });
+        
+        // Skip header
+        array_shift($lines);
+        
+        foreach ($lines as $lineNumber => $line) {
+            try {
+                $data = explode("\t", trim($line));
+                
                 if (count($data) >= 5) {
-                    try {
-                        \App\Models\Pilot::create([
-                            'pilot_id' => (int)$data[0],
-                            'name' => $data[1],
-                            'gender' => $data[2],
-                            'birth_date' => Carbon::createFromFormat('Y.n.j', $data[3]),
-                            'nationality' => $data[4]
-                        ]);
-                    } catch (\Exception $e) {
-                        $this->command->warn("Error seeding pilot line $i: " . $e->getMessage());
-                    }
+                    Pilot::create([
+                        'pilot_id' => (int)trim($data[0]),
+                        'name' => trim($data[1]),
+                        'gender' => trim($data[2]) === 'F' ? 'Male' : 'Female',
+                        'birth_date' => Carbon::createFromFormat('Y.n.j', trim($data[3])),
+                        'nationality' => trim($data[4])
+                    ]);
                 }
+            } catch (\Exception $e) {
+                echo "Error seeding pilot line " . ($lineNumber + 2) . ": " . $e->getMessage() . " Data: " . $line . "\n";
             }
         }
+        
+        echo "Pilots seeded successfully!\n";
     }
 
     private function seedGrandPrix()
@@ -79,7 +83,7 @@ class F1DatabaseSeeder extends Seeder
         $content = file_get_contents($filePath);
         $lines = explode("\n", $content);
 
-        // Skip header line
+        // Skip header line (datum	nev	helyszin)
         for ($i = 1; $i < count($lines); $i++) {
             $line = trim($lines[$i]);
             if (!empty($line)) {
@@ -87,12 +91,12 @@ class F1DatabaseSeeder extends Seeder
                 if (count($data) >= 3) {
                     try {
                         \App\Models\GrandPrix::create([
-                            'race_date' => Carbon::createFromFormat('Y.n.j', $data[0]),
-                            'name' => $data[1],
-                            'location' => $data[2]
+                            'race_date' => Carbon::createFromFormat('Y.n.j', $data[0]), // datum
+                            'name' => $data[1] . ' Grand Prix', // nev
+                            'location' => $data[2] // helyszin
                         ]);
                     } catch (\Exception $e) {
-                        $this->command->warn("Error seeding GP line $i: " . $e->getMessage());
+                        $this->command->warn("Error seeding GP line $i: " . $e->getMessage() . " Data: " . implode('|', $data));
                     }
                 }
             }
@@ -104,34 +108,42 @@ class F1DatabaseSeeder extends Seeder
         $filePath = storage_path('app/data/eredmeny.txt');
         
         if (!file_exists($filePath)) {
-            $this->command->error('Results file not found: ' . $filePath);
+            echo "File not found: {$filePath}\n";
             return;
         }
 
         $content = file_get_contents($filePath);
+        $content = mb_convert_encoding($content, 'UTF-8', 'Windows-1252');
         $lines = explode("\n", $content);
-
-        // Skip header line
-        for ($i = 1; $i < count($lines); $i++) {
-            $line = trim($lines[$i]);
-            if (!empty($line)) {
-                $data = explode("\t", $line);
+        $lines = array_filter($lines, function($line) { return trim($line) !== ''; });
+        
+        // Skip header
+        array_shift($lines);
+        
+        foreach ($lines as $lineNumber => $line) {
+            try {
+                $data = explode("\t", trim($line));
+                
                 if (count($data) >= 7) {
-                    try {
-                        \App\Models\Result::create([
-                            'race_date' => Carbon::createFromFormat('Y.n.j', $data[0]),
-                            'pilot_id' => (int)$data[1],
-                            'position' => !empty($data[2]) ? (int)$data[2] : null,
-                            'issue' => !empty($data[3]) ? $data[3] : null,
-                            'team' => $data[4],
-                            'car_type' => $data[5],
-                            'engine' => $data[6]
+                    // Only create if pilot exists
+                    $pilotId = (int)trim($data[1]);
+                    if (Pilot::where('pilot_id', $pilotId)->exists()) {
+                        Result::create([
+                            'race_date' => Carbon::createFromFormat('Y.n.j', trim($data[0])),
+                            'pilot_id' => $pilotId,
+                            'position' => trim($data[2]) === '' ? null : (int)trim($data[2]),
+                            'issue' => trim($data[3]) === '' ? null : trim($data[3]),
+                            'team' => trim($data[4]),
+                            'car_type' => trim($data[5]),
+                            'engine' => trim($data[6])
                         ]);
-                    } catch (\Exception $e) {
-                        $this->command->warn("Error seeding result line $i: " . $e->getMessage());
                     }
                 }
+            } catch (\Exception $e) {
+                echo "Error seeding result line " . ($lineNumber + 2) . ": " . $e->getMessage() . " Data: " . $line . "\n";
             }
         }
+        
+        echo "Results seeded successfully!\n";
     }
 }

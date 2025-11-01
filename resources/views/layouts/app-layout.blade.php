@@ -70,7 +70,7 @@
                     </li>
                     @endauth
                     <li class="nav-item">
-                        <a class="nav-link" href="#" onclick="comingSoon('Diagram')">Diagram</a>
+                        <a class="nav-link {{ request()->routeIs('diagrams') ? 'active' : '' }}" href="{{ route('diagrams') }}">Diagram</a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link {{ request()->routeIs('pilots.*') ? 'active' : '' }}" href="{{ route('pilots.index') }}">Pilóták(CRUD)</a>
