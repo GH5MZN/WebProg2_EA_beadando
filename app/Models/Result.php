@@ -24,4 +24,9 @@ class Result extends Model
     {
         return $this->belongsTo(Pilot::class, 'pilot_id', 'pilot_id');
     }
+
+    public function grandPrix()
+    {
+        return $this->belongsTo(GrandPrix::class, 'race_date', 'race_date');
+    }
 }

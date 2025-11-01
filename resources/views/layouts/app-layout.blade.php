@@ -6,21 +6,38 @@
     <title>@yield('title', 'F1 Tech Solutions')</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link href="{{ asset('css/f1-styles.css') }}" rel="stylesheet">
+    <link href="{{ asset('css/f1-racing-animation.css') }}" rel="stylesheet">
 </head>
 <body>
     <!-- Background Video -->
-    <div class="video-background">
+    <div class="video-background" id="videoBackground">
+        <!-- YouTube videó iframe (csak user interaction után fog működni) -->
         <iframe 
-            src="https://www.youtube.com/embed/3BEHQEiDgW0?autoplay=1&mute=1&loop=1&playlist=3BEHQEiDgW0&controls=0&showinfo=0&modestbranding=1&iv_load_policy=3&rel=0&disablekb=1&fs=0&cc_load_policy=0&playsinline=1&enablejsapi=0"
+            id="bgVideo"
+            src=""
             frameborder="0" 
             allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
-            allowfullscreen>
+            allowfullscreen
+            style="display: none;">
         </iframe>
+        
+        <!-- Alternatív CSS-alapú animált háttér -->
+        <div class="css-video-background"></div>
     </div>
     
     <!-- Fallback Animated Background -->
     <div class="animated-background"></div>
     <div class="racing-stripes"></div>
+    
+    <!-- Enhanced F1 Racing Animation -->
+    <div class="f1-cars-animation">
+        <div class="f1-car"></div>
+        <div class="f1-car"></div>
+        <div class="f1-car"></div>
+        <div class="f1-car"></div>
+    </div>
+    <div class="track-lines"></div>
+    <div class="racing-lights"></div>
     
     <!-- Video Overlay for better readability -->
     <div class="video-overlay"></div>
@@ -56,7 +73,7 @@
                         <a class="nav-link" href="#" onclick="comingSoon('Diagram')">Diagram</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="#" onclick="comingSoon('CRUD')">CRUD</a>
+                        <a class="nav-link {{ request()->routeIs('pilots.*') ? 'active' : '' }}" href="{{ route('pilots.index') }}">Pilóták(CRUD)</a>
                     </li>
                     @auth
                     @if(auth()->user()->is_admin ?? false)
@@ -131,25 +148,48 @@
             alert('🏁 ' + feature + ' - Coming Soon!\nEz a funkció hamarosan elérhető lesz.');
         }
 
-        // Video Toggle Functionality
+        // Enhanced Video Toggle Functionality
         document.addEventListener('DOMContentLoaded', function() {
             const videoToggle = document.getElementById('videoToggle');
             const videoBackground = document.querySelector('.video-background');
+            const bgVideo = document.getElementById('bgVideo');
             let videoVisible = true;
+            let userInteracted = false;
+
+            // YouTube videó URL
+            const youtubeUrl = "https://www.youtube.com/embed/3BEHQEiDgW0?autoplay=1&mute=1&loop=1&playlist=3BEHQEiDgW0&controls=0&showinfo=0&modestbranding=1&iv_load_policy=3&rel=0&disablekb=1&fs=0&cc_load_policy=0&playsinline=1&enablejsapi=0";
+
+            // Első user interaction után próbálja betölteni a YouTube videót
+            function enableYouTubeVideo() {
+                if (!userInteracted) {
+                    userInteracted = true;
+                    bgVideo.src = youtubeUrl;
+                    bgVideo.style.display = 'block';
+                    // CSS animációt halványítja
+                    document.querySelector('.css-video-background').style.opacity = '0.1';
+                }
+            }
+
+            // User interaction detektálása
+            document.addEventListener('click', enableYouTubeVideo, { once: true });
+            document.addEventListener('keydown', enableYouTubeVideo, { once: true });
+            document.addEventListener('scroll', enableYouTubeVideo, { once: true });
 
             videoToggle.addEventListener('click', function() {
                 if (videoVisible) {
                     videoBackground.classList.add('hidden');
                     videoToggle.textContent = '🎥';
                     videoToggle.classList.add('paused');
-                    videoToggle.title = 'Videó bekapcsolás';
+                    videoToggle.title = 'Háttér bekapcsolás';
                     videoVisible = false;
                 } else {
                     videoBackground.classList.remove('hidden');
                     videoToggle.textContent = '🎬';
                     videoToggle.classList.remove('paused');
-                    videoToggle.title = 'Videó kikapcsolás';
+                    videoToggle.title = 'Háttér kikapcsolás';
                     videoVisible = true;
+                    // YouTube videó indítása ha még nem történt meg
+                    enableYouTubeVideo();
                 }
             });
         });

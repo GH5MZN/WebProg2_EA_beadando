@@ -1,170 +1,115 @@
 @extends('layouts.app-layout')
 
-@section('title', 'F1 Adatbázis - F1 Tech Solutions')
+@section('title', 'Pilóták Kezelése - F1 Tech Solutions')
 
 @section('content')
 <div class="content-section">
     <div class="container">
         <!-- Header -->
         <div class="hero-section">
-            <h1 class="hero-title">F1 Bajnokság Adatbázis</h1>
-            <p class="lead">Fedezd fel a Forma-1 teljes történetét<br />
-            Pilóták, eredmények és Grand Prix adatok archívumunkból</p>
+            <h1 class="hero-title">🏎️ Pilóták Kezelése (CRUD)</h1>
+            <p class="lead">F1 pilóták adatainak teljes körű kezelése<br />
+            Hozzáadás, módosítás, törlés és megtekintés</p>
         </div>
 
-        <!-- Statistics Overview -->
-        <div class="row g-4 mb-5">
-            <div class="col-md-4">
-                <div class="card-f1 text-center">
-                    <div style="font-size: 2.5em; color: #ff6b6b;">{{ count($pilots) }}</div>
-                    <h3>Pilóták</h3>
+        <!-- Success/Error Messages -->
+        @if(session('success'))
+            <div class="alert alert-success alert-dismissible fade show" role="alert">
+                <strong>Siker!</strong> {{ session('success') }}
+                <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+            </div>
+        @endif
+
+        @if(session('error'))
+            <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                <strong>Hiba!</strong> {{ session('error') }}
+                <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+            </div>
+        @endif
+
+        <!-- Action Buttons -->
+        <div class="row mb-4">
+            <div class="col-md-6">
+                <a href="{{ route('pilots.create') }}" class="btn btn-f1">
+                    ➕ Új Pilóta Hozzáadása
+                </a>
+            </div>
+            <div class="col-md-6 text-end">
+                <div class="badge bg-f1 fs-6">
+                    Összesen: {{ $pilots->total() }} pilóta
                 </div>
             </div>
+        </div>
+
+        <!-- Pilots Table -->
+        <div class="card-f1">
+            <h2 class="text-f1 mb-4 text-center">� F1 Pilóták Adatbázis</h2>
             
-            <div class="col-md-4">
-                <div class="card-f1 text-center">
-                    <div style="font-size: 2.5em; color: #ff6b6b;">{{ count($results) }}</div>
-                    <h3>Eredmények</h3>
-                </div>
-            </div>
-            
-            <div class="col-md-4">
-                <div class="card-f1 text-center">
-                    <div style="font-size: 2.5em; color: #ff6b6b;">{{ count($gps) }}</div>
-                    <h3>Grand Prix</h3>
-                </div>
-            </div>
-        </div>
-
-        <!-- Tab Navigation -->
-        <div class="text-center mb-4">
-            <div class="btn-group" role="group">
-                <button type="button" class="btn btn-f1" onclick="showTab('drivers')" id="driversBtn">
-                    👨‍🏆 Pilóták
-                </button>
-                <button type="button" class="btn btn-outline-f1" onclick="showTab('results')" id="resultsBtn">
-                    🏆 Eredmények
-                </button>
-                <button type="button" class="btn btn-outline-f1" onclick="showTab('grandprix')" id="grandprixBtn">
-                    🏁 Grand Prix
-                </button>
-            </div>
-        </div>
-
-        <!-- Drivers Tab -->
-        <div id="driversTab" class="tab-content">
-            <div class="card-f1">
-                <h2 class="text-f1 mb-4 text-center">🏎️ F1 Pilóták Adatbázis</h2>
+            @if($pilots->count() > 0)
                 <div class="table-responsive">
                     <table class="table table-f1">
                         <thead>
                             <tr>
-                                <th>ID</th>
+                                <th>Pilóta ID</th>
                                 <th>Pilóta neve</th>
                                 <th>Nem</th>
                                 <th>Születési dátum</th>
                                 <th>Nemzetiség</th>
-                                <th>Műveletek</th>
+                                <th width="200">Műveletek</th>
                             </tr>
                         </thead>
                         <tbody>
-                            @forelse($pilots as $pilot)
+                            @foreach($pilots as $pilot)
                             <tr>
-                                <td>{{ $pilot->pilot_id }}</td>
+                                <td><span class="badge bg-secondary">{{ $pilot->pilot_id }}</span></td>
                                 <td class="fw-bold">{{ $pilot->name }}</td>
-                                <td>{{ $pilot->gender == 'M' ? '👨 Férfi' : '👩 Nő' }}</td>
-                                <td>{{ $pilot->birth_date->format('Y.m.d') }}</td>
-                                <td>{{ $pilot->nationality }}</td>
                                 <td>
-                                    <a href="{{ route('pilots.show', $pilot->pilot_id) }}" 
-                                       class="btn btn-f1 btn-sm">Megtekintés</a>
-                                </td>
-                            </tr>
-                            @empty
-                            <tr>
-                                <td colspan="6" class="text-center">Nincsenek pilóták az adatbázisban</td>
-                            </tr>
-                            @endforelse
-                        </tbody>
-                    </table>
-                </div>
-            </div>
-        </div>
-
-        <!-- Results Tab -->
-        <div id="resultsTab" class="tab-content" style="display: none;">
-            <div class="card-f1">
-                <h2 class="text-f1 mb-4 text-center">🏆 Verseny Eredmények</h2>
-                <div class="table-responsive">
-                    <table class="table table-f1">
-                        <thead>
-                            <tr>
-                                <th>Dátum</th>
-                                <th>Pilóta ID</th>
-                                <th>Pozíció</th>
-                                <th>Probléma</th>
-                                <th>Csapat</th>
-                                <th>Autó típus</th>
-                                <th>Motor</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            @forelse($results as $result)
-                            <tr>
-                                <td>{{ $result->race_date->format('Y.m.d') }}</td>
-                                <td class="fw-bold">{{ $result->pilot_id }}</td>
-                                <td>
-                                    @if($result->position)
-                                        <span class="badge bg-f1">{{ $result->position }}</span>
+                                    @if($pilot->gender == 'Male')
+                                        <span class="text-primary">👨 Férfi</span>
                                     @else
-                                        <span class="badge bg-secondary">DNF</span>
+                                        <span class="text-danger">👩 Nő</span>
                                     @endif
                                 </td>
-                                <td>{{ $result->issue ?: '-' }}</td>
-                                <td>{{ $result->team }}</td>
-                                <td>{{ $result->car_type }}</td>
-                                <td>{{ $result->engine }}</td>
+                                <td>{{ $pilot->birth_date->format('Y.m.d') }}</td>
+                                <td>� {{ $pilot->nationality }}</td>
+                                <td>
+                                    <div class="btn-group btn-group-sm" role="group">
+                                        <a href="{{ route('pilots.show', $pilot->pilot_id) }}" 
+                                           class="btn btn-outline-info" title="Megtekintés">
+                                            👁️
+                                        </a>
+                                        <a href="{{ route('pilots.edit', $pilot->pilot_id) }}" 
+                                           class="btn btn-outline-warning" title="Szerkesztés">
+                                            ✏️
+                                        </a>
+                                        <button type="button" 
+                                                class="btn btn-outline-danger" 
+                                                title="Törlés"
+                                                onclick="confirmDelete('{{ $pilot->pilot_id }}', '{{ $pilot->name }}')">
+                                            🗑️
+                                        </button>
+                                    </div>
+                                </td>
                             </tr>
-                            @empty
-                            <tr>
-                                <td colspan="7" class="text-center">Nincsenek eredmények az adatbázisban</td>
-                            </tr>
-                            @endforelse
+                            @endforeach
                         </tbody>
                     </table>
                 </div>
-            </div>
-        </div>
 
-        <!-- Grand Prix Tab -->
-        <div id="grandprixTab" class="tab-content" style="display: none;">
-            <div class="card-f1">
-                <h2 class="text-f1 mb-4 text-center">🏁 Grand Prix Naptár</h2>
-                <div class="table-responsive">
-                    <table class="table table-f1">
-                        <thead>
-                            <tr>
-                                <th>Dátum</th>
-                                <th>Grand Prix</th>
-                                <th>Helyszín</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            @forelse($gps as $gp)
-                            <tr>
-                                <td>{{ $gp->race_date->format('Y.m.d') }}</td>
-                                <td class="fw-bold">🏆 {{ $gp->name }} GP</td>
-                                <td>📍 {{ $gp->location }}</td>
-                            </tr>
-                            @empty
-                            <tr>
-                                <td colspan="3" class="text-center">Nincsenek Grand Prix adatok</td>
-                            </tr>
-                            @endforelse
-                        </tbody>
-                    </table>
+                <!-- Pagination -->
+                <div class="d-flex justify-content-center mt-4">
+                    {{ $pilots->links() }}
                 </div>
-            </div>
+            @else
+                <div class="text-center py-5">
+                    <div style="font-size: 3em; color: #ff6b6b;">�️</div>
+                    <h3>Nincsenek pilóták az adatbázisban</h3>
+                    <p class="text-muted">Kezdj el új pilóták hozzáadásával!</p>
+                    <a href="{{ route('pilots.create') }}" class="btn btn-f1 mt-3">
+                        ➕ Első Pilóta Hozzáadása
+                    </a>
+                </div>
+            @endif
         </div>
 
         <!-- Back Button -->
@@ -176,32 +121,38 @@
     </div>
 </div>
 
+<!-- Delete Confirmation Modal -->
+<div class="modal fade" id="deleteModal" tabindex="-1">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Pilóta törlése</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+            </div>
+            <div class="modal-body">
+                <p>Biztosan törölni szeretnéd ezt a pilótát?</p>
+                <p><strong id="pilotName"></strong></p>
+                <p class="text-danger"><small>Ez a művelet nem visszavonható!</small></p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Mégse</button>
+                <form id="deleteForm" method="POST" style="display: inline;">
+                    @csrf
+                    @method('DELETE')
+                    <button type="submit" class="btn btn-danger">Törlés</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
 <script>
-    function showTab(tabName) {
-        // Hide all tabs
-        document.querySelectorAll('.tab-content').forEach(tab => {
-            tab.style.display = 'none';
-        });
-        
-        // Remove active state from all buttons
-        document.querySelectorAll('[id$="Btn"]').forEach(btn => {
-            btn.className = btn.className.replace('btn-f1', 'btn-outline-f1');
-        });
-        
-        // Show selected tab and set active button
-        if (tabName === 'drivers') {
-            document.getElementById('driversTab').style.display = 'block';
-            document.getElementById('driversBtn').className = 
-                document.getElementById('driversBtn').className.replace('btn-outline-f1', 'btn-f1');
-        } else if (tabName === 'results') {
-            document.getElementById('resultsTab').style.display = 'block';
-            document.getElementById('resultsBtn').className = 
-                document.getElementById('resultsBtn').className.replace('btn-outline-f1', 'btn-f1');
-        } else if (tabName === 'grandprix') {
-            document.getElementById('grandprixTab').style.display = 'block';
-            document.getElementById('grandprixBtn').className = 
-                document.getElementById('grandprixBtn').className.replace('btn-outline-f1', 'btn-f1');
-        }
-    }
+function confirmDelete(pilotId, pilotName) {
+    document.getElementById('pilotName').textContent = pilotName;
+    document.getElementById('deleteForm').action = '{{ route("pilots.index") }}/' + pilotId;
+    
+    var deleteModal = new bootstrap.Modal(document.getElementById('deleteModal'));
+    deleteModal.show();
+}
 </script>
 @endsection

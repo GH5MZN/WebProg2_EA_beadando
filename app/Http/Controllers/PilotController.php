@@ -14,17 +14,9 @@ class PilotController extends Controller
      */
     public function index()
     {
-        // Get data from database instead of txt files
-        $pilots = Pilot::orderBy('pilot_id')->limit(100)->get();
-        $results = Result::with('pilot')->orderBy('race_date', 'desc')->limit(50)->get();
-        $gps = GrandPrix::orderBy('race_date', 'desc')->limit(50)->get();
+        $pilots = Pilot::orderBy('pilot_id')->paginate(20);
         
-        // Check which route we're on
-        if (request()->route()->getName() === 'test') {
-            return view('test', compact('pilots', 'results', 'gps'));
-        }
-        
-        return view('pilots.index', compact('pilots', 'results', 'gps'));
+        return view('pilots.index', compact('pilots'));
     }
 
     /**
@@ -40,8 +32,18 @@ class PilotController extends Controller
      */
     public function store(Request $request)
     {
-        // For demo purposes, just redirect back with success message
-        return redirect()->route('pilots.index')->with('success', 'Pilot added successfully!');
+        $validated = $request->validate([
+            'pilot_id' => 'required|string|max:10|unique:pilots,pilot_id',
+            'name' => 'required|string|max:255',
+            'gender' => 'required|in:Male,Female',
+            'birth_date' => 'required|date|before:today',
+            'nationality' => 'required|string|max:100'
+        ]);
+
+        Pilot::create($validated);
+
+        return redirect()->route('pilots.index')
+                        ->with('success', 'Pilóta sikeresen hozzáadva!');
     }
 
     /**
@@ -51,11 +53,11 @@ class PilotController extends Controller
     {
         $pilot = Pilot::where('pilot_id', $id)->firstOrFail();
         
-        // Get pilot's results
+        // Get pilot's results with related Grand Prix data
         $pilotResults = Result::where('pilot_id', $id)
+                              ->with('grandPrix')
                               ->orderBy('race_date', 'desc')
-                              ->limit(10)
-                              ->get();
+                              ->paginate(10);
         
         return view('pilots.show', compact('pilot', 'pilotResults'));
     }
@@ -75,7 +77,19 @@ class PilotController extends Controller
      */
     public function update(Request $request, string $id)
     {
-        return redirect()->route('pilots.index')->with('success', 'Pilot updated successfully!');
+        $pilot = Pilot::where('pilot_id', $id)->firstOrFail();
+        
+        $validated = $request->validate([
+            'name' => 'required|string|max:255',
+            'gender' => 'required|in:Male,Female',
+            'birth_date' => 'required|date|before:today',
+            'nationality' => 'required|string|max:100'
+        ]);
+
+        $pilot->update($validated);
+
+        return redirect()->route('pilots.index')
+                        ->with('success', 'Pilóta sikeresen módosítva!');
     }
 
     /**
@@ -83,6 +97,19 @@ class PilotController extends Controller
      */
     public function destroy(string $id)
     {
-        return redirect()->route('pilots.index')->with('success', 'Pilot deleted successfully!');
+        $pilot = Pilot::where('pilot_id', $id)->firstOrFail();
+        
+        // Check if pilot has results (optional safety check)
+        $hasResults = Result::where('pilot_id', $id)->exists();
+        
+        if ($hasResults) {
+            return redirect()->route('pilots.index')
+                           ->with('error', 'Nem törölhető a pilóta, mert vannak eredményei!');
+        }
+        
+        $pilot->delete();
+
+        return redirect()->route('pilots.index')
+                        ->with('success', 'Pilóta sikeresen törölve!');
     }
 }
