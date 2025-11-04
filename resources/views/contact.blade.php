@@ -1,4 +1,4 @@
-@extends('layouts.app-layout')
+@extends('layouts.landed-layout')
 
 @section('title', 'Kapcsolat - F1 Tech Solutions')
 
@@ -8,8 +8,7 @@
         <!-- Header -->
         <div class="hero-section">
             <h1 class="hero-title">Kapcsolat</h1>
-            <p class="lead">Vedd fel velünk a kapcsolatot bármilyen kérdéssel, visszajelzéssel vagy megkereséssel.<br />
-            Szívesen hallunk rólad!</p>
+            <p class="lead">Vedd fel velünk a kapcsolatot bármilyen kérdéssel, visszajelzéssel vagy megkereséssel.</p>
         </div>
 
         <!-- Contact Form -->

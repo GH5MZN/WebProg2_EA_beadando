@@ -26,7 +26,6 @@ class ContactMessage extends Model
         'updated_at' => 'datetime',
     ];
 
-    // Scope-ok a könnyebb lekérdezésekhez
     public function scopeUnread($query)
     {
         return $query->where('is_read', false);
@@ -42,7 +41,6 @@ class ContactMessage extends Model
         return $query->orderBy('created_at', 'desc');
     }
 
-    // Mutator az olvasott állapot beállításához
     public function markAsRead()
     {
         $this->update([

@@ -11,7 +11,8 @@ class Pilot extends Model
         'name',
         'gender',
         'birth_date',
-        'nationality'
+        'nationality',
+        'team'
     ];
 
     protected $casts = [

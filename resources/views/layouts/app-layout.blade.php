@@ -6,7 +6,7 @@
     <title>@yield('title', 'F1 Tech Solutions')</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link href="{{ asset('css/f1-styles.css') }}" rel="stylesheet">
-    <link href="{{ asset('css/f1-racing-animation.css') }}" rel="stylesheet">
+    <!-- F1 racing animation CSS eltávolítva a teljesítmény javításáért -->
 </head>
 <body>
     <!-- Background Video -->
@@ -21,23 +21,9 @@
             style="display: none;">
         </iframe>
         
-        <!-- Alternatív CSS-alapú animált háttér -->
+        <!-- Egyszerűsített háttér - animációk eltávolítva -->
         <div class="css-video-background"></div>
     </div>
-    
-    <!-- Fallback Animated Background -->
-    <div class="animated-background"></div>
-    <div class="racing-stripes"></div>
-    
-    <!-- Enhanced F1 Racing Animation -->
-    <div class="f1-cars-animation">
-        <div class="f1-car"></div>
-        <div class="f1-car"></div>
-        <div class="f1-car"></div>
-        <div class="f1-car"></div>
-    </div>
-    <div class="track-lines"></div>
-    <div class="racing-lights"></div>
     
     <!-- Video Overlay for better readability -->
     <div class="video-overlay"></div>

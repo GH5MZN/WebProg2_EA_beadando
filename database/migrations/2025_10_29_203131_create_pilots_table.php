@@ -6,25 +6,18 @@ use Illuminate\Support\Facades\Schema;
 
 return new class extends Migration
 {
-    /**
-     * Run the migrations.
-     */
     public function up(): void
     {
         Schema::create('pilots', function (Blueprint $table) {
-            $table->id();
-            $table->integer('pilot_id')->unique(); // az mező
-            $table->string('name'); // nev mező
-            $table->char('gender', 1); // nem mező (F/M)
-            $table->date('birth_date'); // szuldat mező
-            $table->string('nationality'); // nemzet mező
+            $table->id('pilot_id');
+            $table->string('name');
+            $table->enum('gender', ['M', 'F', 'N'])->nullable();
+            $table->date('birth_date')->nullable();
+            $table->string('nationality')->nullable();
             $table->timestamps();
         });
     }
 
-    /**
-     * Reverse the migrations.
-     */
     public function down(): void
     {
         Schema::dropIfExists('pilots');

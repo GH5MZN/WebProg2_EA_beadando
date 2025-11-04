@@ -1,14 +1,259 @@
-/* F1 Tech Solutions - Global Styles */
+/* F1 Tech - Eventually Theme Kiegészítések */
 
-/* === CRUD SPECIFIC STYLES === */
+/* KRITIKUS: Minden pseudo-element nyíl letiltása */
+*::before, *::after,
+*:before, *:after {
+    content: none !important;
+    display: none !important;
+    visibility: hidden !important;
+    opacity: 0 !important;
+    width: 0 !important;
+    height: 0 !important;
+    position: absolute !important;
+    left: -9999px !important;
+    top: -9999px !important;
+    z-index: -1 !important;
+}
+
+/* Pagination specifikus nyíl letiltás */
+.pagination *::before, .pagination *::after,
+.pagination *:before, .pagination *:after,
+.page-link::before, .page-link::after,
+.page-link:before, .page-link:after,
+nav[aria-label="pagination"] *::before,
+nav[aria-label="pagination"] *::after,
+nav[aria-label="pagination"] *:before,
+nav[aria-label="pagination"] *:after {
+    content: '' !important;
+    display: none !important;
+    visibility: hidden !important;
+    opacity: 0 !important;
+    width: 0 !important;
+    height: 0 !important;
+}
+
+/* Eventually téma specifikus override */
+body::before, body::after, body:before, body:after,
+#main::before, #main::after, #main:before, #main:after,
+.inner::before, .inner::after, .inner:before, .inner:after,
+#main > .inner::before, #main > .inner::after,
+#main > .inner:before, #main > .inner:after,
+.pagination::before, .pagination::after,
+.pagination:before, .pagination:after,
+.btn::before, .btn::after, .btn:before, .btn:after {
+    content: '' !important;
+    display: none !important;
+    visibility: hidden !important;
+    opacity: 0 !important;
+    width: 0 !important;
+    height: 0 !important;
+}
+
+/* Bootstrap kiegészítések és form stílusok */
 .table-f1 {
     background: rgba(255, 255, 255, 0.95);
     border-radius: 10px;
     overflow: hidden;
     box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+    font-size: 0.9rem;
+    width: 100%;
+    table-layout: auto;
 }
 
-/* === DIAGRAM STYLES === */
+.table-f1 thead th {
+    background: linear-gradient(135deg, #ff6b6b 0%, #e74c3c 100%);
+    color: white;
+    font-weight: bold;
+    border: none;
+    text-transform: uppercase;
+    font-size: 0.8em;
+    letter-spacing: 0.5px;
+    padding: 10px 8px;
+    white-space: nowrap;
+}
+
+.table-f1 tbody tr:hover {
+    background-color: rgba(255, 107, 107, 0.1);
+}
+
+.table-f1 td, .table-f1 th {
+    padding: 10px 8px;
+    vertical-align: middle;
+    border-bottom: 1px solid rgba(255, 107, 107, 0.2);
+    word-wrap: break-word;
+    max-width: 150px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.alert {
+    border: none;
+    border-radius: 10px;
+}
+
+/* Responsive utilities */
+.table-responsive {
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+    width: 100%;
+}
+
+.container {
+    max-width: 100%;
+    padding-left: 15px;
+    padding-right: 15px;
+}
+
+/* Media queries for responsive design */
+@media (max-width: 1200px) {
+    .table-f1 {
+        font-size: 0.85rem;
+    }
+    
+    .table-f1 td, .table-f1 th {
+        padding: 8px 6px;
+        max-width: 120px;
+    }
+}
+
+@media (max-width: 992px) {
+    .table-f1 {
+        font-size: 0.8rem;
+    }
+    
+    .table-f1 td, .table-f1 th {
+        padding: 6px 4px;
+        max-width: 100px;
+    }
+    
+    .table-f1 thead th {
+        font-size: 0.7em;
+    }
+    
+    .btn-group .btn {
+        font-size: 0.75rem;
+        padding: 0.25rem 0.5rem;
+    }
+}
+
+@media (max-width: 768px) {
+    .table-f1 {
+        font-size: 0.75rem;
+    }
+    
+    .table-f1 td, .table-f1 th {
+        padding: 5px 3px;
+        max-width: 80px;
+    }
+    
+    .table-f1 thead th {
+        font-size: 0.65em;
+    }
+    
+    .btn-group .btn {
+        font-size: 0.7rem;
+        padding: 0.2rem 0.4rem;
+    }
+    
+    .container {
+        padding-left: 10px;
+        padding-right: 10px;
+    }
+}
+
+@media (max-width: 576px) {
+    .table-f1 {
+        font-size: 0.7rem;
+    }
+    
+    .table-f1 td, .table-f1 th {
+        padding: 4px 2px;
+        max-width: 60px;
+    }
+    
+    .table-f1 thead th {
+        font-size: 0.6em;
+    }
+    
+    .btn-group .btn {
+        font-size: 0.65rem;
+        padding: 0.15rem 0.3rem;
+    }
+}
+
+.alert-success {
+    background: linear-gradient(135deg, #27ae60 0%, #2ecc71 100%);
+    color: white;
+}
+
+.modal-content {
+    border-radius: 15px;
+    border: none;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+}
+
+.modal-header {
+    background: linear-gradient(135deg, #ff6b6b 0%, #e74c3c 100%);
+    color: white;
+    border-radius: 15px 15px 0 0;
+    border-bottom: none;
+}
+
+.modal-footer {
+    border-top: 1px solid rgba(255, 107, 107, 0.2);
+    border-radius: 0 0 15px 15px;
+}
+
+/* Form stílusok */
+.form-control {
+    background: rgba(255, 255, 255, 0.95);
+    border: 2px solid rgba(255, 107, 107, 0.3);
+    border-radius: 10px;
+    padding: 15px 20px;
+    font-size: 1rem;
+    transition: border-color 0.15s ease, box-shadow 0.15s ease;
+}
+
+.form-control:focus {
+    border-color: #ff6b6b;
+    box-shadow: 0 0 0 0.2rem rgba(255, 107, 107, 0.25);
+    background-color: white;
+}
+
+.btn-f1 {
+    background: linear-gradient(135deg, #ff6b6b 0%, #e74c3c 100%);
+    border: none;
+    color: white;
+    padding: 12px 30px;
+    border-radius: 25px;
+    font-weight: bold;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    transition: background-color 0.2s ease, transform 0.15s ease;
+}
+
+.btn-f1:hover {
+    background: linear-gradient(135deg, #e74c3c 0%, #c0392b 100%);
+    transform: translateY(-2px);
+    color: white;
+}
+
+.btn-outline-f1 {
+    border: 2px solid #ff6b6b;
+    color: #ff6b6b;
+    background: transparent;
+    padding: 10px 25px;
+    border-radius: 25px;
+    font-weight: bold;
+    transition: all 0.3s;
+}
+
+.btn-outline-f1:hover {
+    background: #ff6b6b;
+    color: white;
+}
+
+/* Chart stílusok */
 .chart-container {
     margin-bottom: 2rem;
 }
@@ -36,80 +281,50 @@
     overflow-y: auto;
 }
 
-.chart-legend table {
-    font-size: 0.9em;
+/* Contact form specifikus stílusok */
+.contact-container {
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 2rem;
 }
 
-.chart-legend .badge {
-    font-size: 0.8em;
+.contact-form {
+    background: rgba(255, 255, 255, 0.1);
+    padding: 2rem;
+    border-radius: 15px;
+    backdrop-filter: blur(10px);
+    border: 1px solid rgba(255, 107, 107, 0.2);
 }
 
-.table-f1 thead th {
-    background: linear-gradient(135deg, #ff6b6b 0%, #e74c3c 100%);
-    color: white;
-    font-weight: bold;
-    border: none;
-    text-transform: uppercase;
-    font-size: 0.9em;
-    letter-spacing: 0.5px;
+/* Utility classes */
+.bg-f1 {
+    background: #ff6b6b !important;
 }
 
-.table-f1 tbody tr {
-    transition: all 0.3s ease;
+.border-f1 {
+    border-color: #ff6b6b !important;
 }
 
-.table-f1 tbody tr:hover {
-    background-color: rgba(255, 107, 107, 0.1);
-    transform: translateX(5px);
+.shadow-f1 {
+    box-shadow: 0 5px 15px rgba(255,107,107,0.3) !important;
 }
 
-.table-f1 td, .table-f1 th {
-    padding: 15px 20px;
-    vertical-align: middle;
-    border-bottom: 1px solid rgba(255, 107, 107, 0.2);
+/* Responsive */
+@media (max-width: 768px) {
+    .contact-container {
+        padding: 1rem;
+    }
+    
+    .contact-form {
+        padding: 1.5rem;
+    }
 }
 
-.table-f1 .btn-group .btn {
-    margin: 0 2px;
-    transition: all 0.3s ease;
-}
-
-.table-f1 .btn-group .btn:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-}
-
-/* Pagination F1 style */
-.pagination .page-link {
-    color: #ff6b6b;
-    border: 1px solid #ff6b6b;
-    background-color: transparent;
-    transition: all 0.3s ease;
-}
-
-.pagination .page-link:hover {
-    color: white;
-    background-color: #ff6b6b;
-    border-color: #ff6b6b;
-    transform: translateY(-2px);
-}
-
-.pagination .page-item.active .page-link {
-    background-color: #ff6b6b;
-    border-color: #ff6b6b;
-    color: white;
-}
-
-/* Alert improvements */
-.alert {
-    border: none;
-    border-radius: 10px;
-    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
-}
-
-.alert-success {
-    background: linear-gradient(135deg, #27ae60 0%, #2ecc71 100%);
-    color: white;
+@media (max-width: 576px) {
+    .btn-f1, .btn-outline-f1 {
+        padding: 10px 20px;
+        font-size: 0.9rem;
+    }
 }
 
 .alert-danger {
@@ -117,7 +332,6 @@
     color: white;
 }
 
-/* Modal F1 styling */
 .modal-content {
     border-radius: 15px;
     border: none;
@@ -135,22 +349,20 @@
     border-top: 1px solid rgba(255, 107, 107, 0.2);
     border-radius: 0 0 15px 15px;
 }
+
 * {
     box-sizing: border-box;
 }
 
-/* CSS Containment for better performance */
 .card-f1, .floating-login, .video-background {
     contain: layout style paint;
 }
 
-/* Hardware acceleration for smooth animations */
 .btn-f1, .btn-outline-f1, .nav-link, .form-control {
     transform: translateZ(0);
     backface-visibility: hidden;
 }
 
-/* === BACKGROUND VIDEO & ANIMATION === */
 .video-background {
     position: fixed;
     top: 0;
@@ -167,58 +379,14 @@
     opacity: 0;
 }
 
-/* CSS-alapú video-szerű animált háttér */
 .css-video-background {
     position: absolute;
     top: 0;
     left: 0;
     width: 100%;
     height: 100%;
-    background: 
-        radial-gradient(circle at 20% 80%, rgba(255, 107, 107, 0.3) 0%, transparent 50%),
-        radial-gradient(circle at 80% 20%, rgba(255, 255, 255, 0.15) 0%, transparent 50%),
-        radial-gradient(circle at 40% 40%, rgba(255, 107, 107, 0.2) 0%, transparent 50%),
-        linear-gradient(135deg, #1a1a1a 0%, #2d2d30 25%, #ff6b6b 50%, #2d2d30 75%, #1a1a1a 100%);
-    background-size: 
-        300% 300%,
-        200% 200%,
-        250% 250%,
-        400% 400%;
-    animation: 
-        racing-bg 12s ease-in-out infinite,
-        spotlight 8s ease-in-out infinite,
-        pulse 6s ease-in-out infinite;
+    background: linear-gradient(135deg, #1a1a1a 0%, #2d2d30 25%, #ff6b6b 50%, #2d2d30 75%, #1a1a1a 100%);
     opacity: 0.4;
-}
-
-@keyframes racing-bg {
-    0%, 100% { 
-        background-position: 0% 50%, 100% 0%, 0% 100%, 0% 50%; 
-        transform: scale(1);
-    }
-    25% { 
-        background-position: 50% 100%, 0% 100%, 50% 0%, 100% 50%; 
-        transform: scale(1.05);
-    }
-    50% { 
-        background-position: 100% 50%, 50% 50%, 100% 50%, 50% 100%; 
-        transform: scale(1.02);
-    }
-    75% { 
-        background-position: 50% 0%, 100% 0%, 50% 100%, 0% 0%; 
-        transform: scale(1.03);
-    }
-}
-
-@keyframes spotlight {
-    0%, 100% { filter: brightness(0.8) contrast(1.1) hue-rotate(0deg); }
-    33% { filter: brightness(1.1) contrast(1.3) hue-rotate(10deg); }
-    66% { filter: brightness(0.9) contrast(1.2) hue-rotate(-5deg); }
-}
-
-@keyframes pulse {
-    0%, 100% { opacity: 0.3; }
-    50% { opacity: 0.5; }
 }
 
 .video-background iframe {
@@ -226,15 +394,14 @@
     top: 50%;
     left: 50%;
     width: 100vw;
-    height: 56.25vw; /* 16:9 aspect ratio */
+    height: 56.25vw;
     min-height: 100vh;
-    min-width: 177.77vh; /* 16:9 aspect ratio */
+    min-width: 177.77vh;
     transform: translate(-50%, -50%);
     opacity: 0.3;
     filter: brightness(0.5) contrast(1.1);
 }
 
-/* Fallback animált háttér ha a videó nem működik */
 .animated-background {
     position: fixed;
     top: 0;
@@ -242,34 +409,10 @@
     width: 100%;
     height: 100%;
     z-index: -3;
-    background: 
-        linear-gradient(45deg, #1a1a1a 0%, #2d2d30 25%, #ff6b6b 50%, #2d2d30 75%, #1a1a1a 100%),
-        repeating-linear-gradient(
-            90deg,
-            transparent,
-            transparent 98px,
-            rgba(255, 107, 107, 0.1) 100px,
-            rgba(255, 107, 107, 0.1) 102px
-        );
-    background-size: 400% 400%, 200px 100%;
-    animation: f1Gradient 10s ease infinite, racing-lines 3s linear infinite;
+    background: linear-gradient(45deg, #1a1a1a 0%, #2d2d30 25%, #ff6b6b 50%, #2d2d30 75%, #1a1a1a 100%);
     opacity: 0.2;
 }
 
-@keyframes f1Gradient {
-    0% { background-position: 0% 50%, 0 0; }
-    25% { background-position: 100% 0%, -50px 0; }
-    50% { background-position: 100% 100%, -100px 0; }
-    75% { background-position: 0% 100%, -150px 0; }
-    100% { background-position: 0% 50%, -200px 0; }
-}
-
-@keyframes racing-lines {
-    0% { background-position: 0% 50%, 0 0; }
-    100% { background-position: 0% 50%, 200px 0; }
-}
-
-/* F1 sávok animáció */
 .racing-stripes {
     position: fixed;
     top: 0;
@@ -282,22 +425,11 @@
         transparent,
         transparent 20px,
         rgba(255, 107, 107, 0.05) 20px,
-        rgba(255, 107, 107, 0.05) 40px,
-        transparent 40px,
-        transparent 80px,
-        rgba(255, 255, 255, 0.02) 80px,
-        rgba(255, 255, 255, 0.02) 100px
+        rgba(255, 107, 107, 0.05) 40px
     );
-    animation: racing-stripes 8s linear infinite;
     opacity: 0.6;
 }
 
-@keyframes racing-stripes {
-    0% { transform: translateX(-100px) translateY(-100px); }
-    100% { transform: translateX(100px) translateY(100px); }
-}
-
-/* Video overlay for better readability */
 .video-overlay {
     position: fixed;
     top: 0;
@@ -327,15 +459,6 @@
     animation: raceStripes 3s linear infinite;
 }
 
-@keyframes raceStripes {
-    0% {
-        transform: translateX(-100%);
-    }
-    100% {
-        transform: translateX(0%);
-    }
-}
-
 .video-overlay {
     position: fixed;
     top: 0;
@@ -347,7 +470,6 @@
     pointer-events: none;
 }
 
-/* Video Toggle Button */
 .video-toggle {
     position: fixed;
     bottom: 20px;
@@ -360,23 +482,20 @@
     color: white;
     cursor: pointer;
     z-index: 1060;
-    transition: all 0.3s ease;
     backdrop-filter: blur(10px);
     box-shadow: 0 4px 15px rgba(0,0,0,0.3);
 }
 
 .video-toggle:hover {
     background: rgba(255,107,107,1);
-    transform: scale(1.1);
 }
 
 .video-toggle.paused {
     background: rgba(100,100,100,0.9);
 }
 
-/* === GLOBAL LAYOUT === */
 body {
-    background: linear-gradient(45deg, #1a1a1a 0%, #2d2d30 50%, #1a1a1a 100%); /* Fallback háttér */
+    background: linear-gradient(45deg, #1a1a1a 0%, #2d2d30 50%, #1a1a1a 100%);
     min-height: 100vh;
     color: white;
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
@@ -385,7 +504,6 @@ body {
     position: relative;
 }
 
-/* Ha a videó nem töltődik be, legyen szép gradient háttér */
 body::before {
     content: '';
     position: fixed;
@@ -401,7 +519,7 @@ main {
     flex: 1;
 }
 
-/* === NAVIGATION === */
+/* Navigation */
 .navbar {
     background: rgba(0,0,0,0.9) !important;
     backdrop-filter: blur(10px);
@@ -424,8 +542,8 @@ main {
     margin: 0 0.5rem;
     padding: 0.5rem 1rem !important;
     border-radius: 5px;
-    transition: background-color 0.15s ease; /* Gyorsabb transition */
-    will-change: background-color; /* GPU optimalizálás */
+    transition: background-color 0.15s ease;
+    will-change: background-color;
 }
 
 .navbar-nav .nav-link:hover,
@@ -443,7 +561,7 @@ main {
     box-shadow: none;
 }
 
-/* === HERO SECTION === */
+
 .hero-section {
     padding: 5rem 0;
     text-align: center;
@@ -461,7 +579,7 @@ main {
     font-size: 1.2rem;
 }
 
-/* === BUTTONS === */
+
 .btn-f1 {
     background: #ff6b6b;
     border: none;
@@ -469,8 +587,8 @@ main {
     border-radius: 25px;
     color: white;
     font-weight: bold;
-    transition: background-color 0.2s ease, transform 0.15s ease; /* Gyorsabb transitions */
-    will-change: background-color, transform; /* GPU optimalizálás */
+    transition: background-color 0.2s ease, transform 0.15s ease;
+    will-change: background-color, transform;
 }
 
 .btn-f1:hover {
@@ -497,7 +615,7 @@ main {
     text-decoration: none;
 }
 
-/* === FOOTER === */
+
 footer {
     margin-top: auto;
     padding: 2rem 0;
@@ -516,7 +634,7 @@ footer small {
     color: rgba(255,255,255,0.8) !important;
 }
 
-/* === FLOATING LOGIN BOX === */
+
 .floating-login {
     position: fixed;
     top: 20px;
@@ -578,18 +696,18 @@ footer small {
     font-size: 0.85rem;
 }
 
-/* === FORMS === */
+
 .form-control {
     background: rgba(255,255,255,0.1);
     border: 1px solid rgba(255,107,107,0.3);
     color: white;
     border-radius: 8px;
     padding: 0.75rem;
-    transition: border-color 0.15s ease, box-shadow 0.15s ease; /* Gyorsabb transitions */
-    will-change: border-color, box-shadow; /* GPU optimalizálás */
+    transition: border-color 0.15s ease, box-shadow 0.15s ease;
+    will-change: border-color, box-shadow;
 }
 
-/* Speciális stílusozás a select elemekhez */
+
 select.form-control {
     background: rgba(128,128,128,0.3);
     color: white;
@@ -665,7 +783,7 @@ select.form-control:focus {
     margin-top: 0.25rem;
 }
 
-/* === CONTENT SECTIONS === */
+
 .content-section {
     padding: 3rem 0;
     color: white;
@@ -683,7 +801,7 @@ select.form-control:focus {
     line-height: 1.6;
 }
 
-/* === CARDS === */
+
 .card-f1 {
     background: rgba(255,255,255,0.05);
     border: 1px solid rgba(255,107,107,0.2);
@@ -708,7 +826,7 @@ select.form-control:focus {
     color: rgba(255,255,255,0.8);
 }
 
-/* === TABLES === */
+
 .table-f1 {
     background: rgba(255,255,255,0.05);
     border-radius: 10px;
@@ -733,7 +851,7 @@ select.form-control:focus {
     background: rgba(255,107,107,0.1);
 }
 
-/* === ALERTS === */
+
 .alert-f1 {
     background: rgba(255,107,107,0.1);
     border: 1px solid rgba(255,107,107,0.3);
@@ -743,14 +861,14 @@ select.form-control:focus {
     margin: 1rem 0;
 }
 
-/* === RESPONSIVE === */
+/* Responsive */
 @media (max-width: 768px) {
     .floating-login {
         display: none;
     }
     
     .video-background iframe {
-        opacity: 0.15; /* Közepes átlátszóság mobilon */
+        opacity: 0.15;
     }
     
     .hero-title {
@@ -770,7 +888,7 @@ select.form-control:focus {
 
 @media (max-width: 576px) {
     .video-background iframe {
-        opacity: 0.1; /* Alacsonyabb átlátszóság kis képernyőn */
+        opacity: 0.1;
     }
     
     .hero-title {
@@ -803,23 +921,9 @@ select.form-control:focus {
     box-shadow: 0 5px 15px rgba(255,107,107,0.3) !important;
 }
 
-/* === ANIMATIONS === */
-@keyframes fadeInUp {
-    from {
-        opacity: 0;
-        transform: translateY(30px);
-    }
-    to {
-        opacity: 1;
-        transform: translateY(0);
-    }
-}
 
-.fade-in-up {
-    animation: fadeInUp 0.6s ease;
-}
 
-/* === CUSTOM SCROLLBAR === */
+/* Scrollbar */
 ::-webkit-scrollbar {
     width: 8px;
 }
@@ -837,41 +941,30 @@ select.form-control:focus {
     background: #ff5252;
 }
 
-/* ===== TELJESÍTMÉNY OPTIMALIZÁLÁSOK ===== */
+/* Optimalizálás */
 
-/* CPU és GPU optimalizálás */
 .contact-container,
 .contact-form,
 .form-group,
 .btn,
 input,
 textarea {
-    /* GPU réteg létrehozása */
     transform: translateZ(0);
     backface-visibility: hidden;
     perspective: 1000px;
-    
-    /* Layout és composite optimalizálás */
     will-change: transform, opacity;
     contain: layout style paint;
 }
 
-/* Gyorsított átmenetek */
 .form-control:focus,
 .btn:hover,
 .btn:focus {
-    transition: all 0.1s ease-out !important; /* Gyorsabb átmenet */
+    transition: all 0.1s ease-out !important;
 }
 
 .form-control.is-valid,
 .form-control.is-invalid {
     transition: border-color 0.08s ease, box-shadow 0.08s ease !important;
-}
-
-/* Preload animációk */
-@keyframes pulse-fast {
-    0%, 100% { opacity: 1; }
-    50% { opacity: 0.7; }
 }
 
 .btn.loading {
@@ -883,25 +976,24 @@ textarea {
 @media (hover: none) and (pointer: coarse) {
     .btn,
     .form-control {
-        transition: none !important; /* Touchscreen eszközökön nincs hover */
+        transition: none !important;
     }
+}
     
+@media screen and (max-width: 767px) {
     .form-control {
-        font-size: 16px; /* Zoom megakadályozása iOS-en */
+        font-size: 16px;
     }
 }
 
-/* Memory leak megelőzés */
 .contact-container * {
     box-sizing: border-box;
 }
 
-/* Async font loading support */
 .font-loading {
     font-family: system-ui, -apple-system, sans-serif;
 }
 
-/* Critical path optimalizálás */
 .above-fold {
     contain: layout style;
 }
@@ -912,7 +1004,6 @@ textarea {
     contain-intrinsic-size: 0 500px;
 }
 
-/* Hardware acceleration forced */
 .performance-critical {
     transform: translate3d(0,0,0);
     will-change: auto;

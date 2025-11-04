@@ -1,41 +1,42 @@
-@extends('layouts.app-layout')
+@extends('layouts.landed-layout')
 
 @section('title', $pilot->name . ' - F1 Pilóta Profil')
+
+@push('styles')
+<link href="{{ asset('css/pilots.css') }}" rel="stylesheet">
+@endpush
 
 @section('content')
 <div class="content-section">
     <div class="container">
         <!-- Driver Header -->
         <div class="hero-section">
-            <h1 class="hero-title">🏎️ {{ $pilot->name }}</h1>
-            <p class="lead">Pilóta ID: {{ $pilot->pilot_id }} | {{ $pilot->nationality }}</p>
+            <h1 class="hero-title">{{ $pilot->name }}</h1>
+            <p class="lead">
+                Pilóta ID: {{ $pilot->pilot_id }} | 
+                @if($pilot->team)
+                    <span class="badge bg-primary">{{ $pilot->team }}</span> | 
+                @endif
+                {{ $pilot->nationality }}
+            </p>
         </div>
 
         <!-- Driver Info Cards -->
         <div class="row g-4 mb-5">
+            @if($pilot->team)
             <div class="col-md-3">
                 <div class="card-f1 text-center">
-                    <h6 class="text-muted">Nem</h6>
+                    <h6 class="text-muted">Csapat</h6>
                     <p class="h5 mb-0">
-                        @if($pilot->gender == 'Male')
-                            <span class="text-primary">👨 Férfi</span>
-                        @else
-                            <span class="text-danger">👩 Nő</span>
-                        @endif
+                        <span class="badge bg-primary">{{ $pilot->team }}</span>
                     </p>
                 </div>
             </div>
-            <div class="col-md-3">
-                <div class="card-f1 text-center">
-                    <h6 class="text-muted">Születési dátum</h6>
-                    <p class="h5 mb-0">{{ $pilot->birth_date->format('Y. m. d.') }}</p>
-                    <small class="text-muted">{{ $pilot->birth_date->age }} éves</small>
-                </div>
-            </div>
+            @endif
             <div class="col-md-3">
                 <div class="card-f1 text-center">
                     <h6 class="text-muted">Nemzetiség</h6>
-                    <p class="h5 mb-0">🏁 {{ $pilot->nationality }}</p>
+                    <p class="h5 mb-0">{{ $pilot->nationality ?: '-' }}</p>
                 </div>
             </div>
             <div class="col-md-3">
@@ -50,7 +51,7 @@
         @if($pilotResults->count() > 0)
         <div class="card-f1">
             <div class="d-flex justify-content-between align-items-center mb-4">
-                <h3 class="text-f1 mb-0">🏆 Verseny eredmények</h3>
+                <h3 class="text-f1 mb-0">Verseny eredmények</h3>
                 <span class="badge bg-f1">{{ $pilotResults->total() }} eredmény</span>
             </div>
             
@@ -113,7 +114,7 @@
         </div>
         @else
         <div class="card-f1 text-center">
-            <div style="font-size: 3em; color: #ff6b6b;">🏁</div>
+            <div class="pilot-no-results">🏁</div>
             <h3 class="text-f1">Nincsenek verseny eredmények</h3>
             <p class="text-muted">Ez a pilóta még nem vett részt versenyeken az adatbázisban.</p>
         </div>
@@ -126,12 +127,12 @@
             </a>
             <div>
                 <a href="{{ route('pilots.edit', $pilot->pilot_id) }}" class="btn btn-outline-warning">
-                    ✏️ Pilóta szerkesztése
+                    Pilóta szerkesztése
                 </a>
                 <button type="button" 
                         class="btn btn-outline-danger" 
-                        onclick="confirmDelete('{{ $pilot->pilot_id }}', '{{ $pilot->name }}')">
-                    🗑️ Törlés
+                        onclick="deleteDirectly('{{ $pilot->pilot_id }}', '{{ $pilot->name }}')">
+                    Törlés
                 </button>
             </div>
         </div>
@@ -143,38 +144,34 @@
     </div>
 </div>
 
-<!-- Delete Confirmation Modal -->
-<div class="modal fade" id="deleteModal" tabindex="-1">
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title">Pilóta törlése</h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
-            </div>
-            <div class="modal-body">
-                <p>Biztosan törölni szeretnéd ezt a pilótát?</p>
-                <p><strong id="pilotName"></strong></p>
-                <p class="text-danger"><small>Ez a művelet nem visszavonható!</small></p>
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Mégse</button>
-                <form id="deleteForm" method="POST" style="display: inline;">
-                    @csrf
-                    @method('DELETE')
-                    <button type="submit" class="btn btn-danger">Törlés</button>
-                </form>
-            </div>
-        </div>
-    </div>
-</div>
+
 
 <script>
-function confirmDelete(pilotId, pilotName) {
-    document.getElementById('pilotName').textContent = pilotName;
-    document.getElementById('deleteForm').action = '{{ route("pilots.index") }}/' + pilotId;
-    
-    var deleteModal = new bootstrap.Modal(document.getElementById('deleteModal'));
-    deleteModal.show();
+function deleteDirectly(pilotId, pilotName) {
+    if (confirm('Biztosan törölni szeretnéd ezt a pilótát?\n\n' + pilotName + '\n\nEz a művelet nem visszavonható!')) {
+        // Create a hidden form and submit it
+        const form = document.createElement('form');
+        form.method = 'POST';
+        form.action = '/pilots/' + pilotId;
+        form.style.display = 'none';
+        
+        // Add CSRF token
+        const csrfToken = document.createElement('input');
+        csrfToken.type = 'hidden';
+        csrfToken.name = '_token';
+        csrfToken.value = '{{ csrf_token() }}';
+        
+        // Add DELETE method
+        const methodField = document.createElement('input');
+        methodField.type = 'hidden';
+        methodField.name = '_method';
+        methodField.value = 'DELETE';
+        
+        form.appendChild(csrfToken);
+        form.appendChild(methodField);
+        document.body.appendChild(form);
+        form.submit();
+    }
 }
 </script>
 @endsection

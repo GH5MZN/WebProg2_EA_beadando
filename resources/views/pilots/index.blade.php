@@ -1,14 +1,19 @@
-@extends('layouts.app-layout')
+@extends('layouts.landed-layout')
 
 @section('title', 'Pilóták Kezelése - F1 Tech Solutions')
+
+@push('styles')
+<link href="{{ asset('css/pilots.css') }}" rel="stylesheet">
+<link href="{{ asset('css/navigation.css') }}" rel="stylesheet">
+@endpush
 
 @section('content')
 <div class="content-section">
     <div class="container">
         <!-- Header -->
         <div class="hero-section">
-            <h1 class="hero-title">🏎️ Pilóták Kezelése (CRUD)</h1>
-            <p class="lead">F1 pilóták adatainak teljes körű kezelése<br />
+            <h1 class="hero-title">Jelenlegi Pilóták Kezelése (CRUD)</h1>
+            <p class="lead">2025-ös F1 szezon pilótáinak teljes körű kezelése<br />
             Hozzáadás, módosítás, törlés és megtekintés</p>
         </div>
 
@@ -31,62 +36,63 @@
         <div class="row mb-4">
             <div class="col-md-6">
                 <a href="{{ route('pilots.create') }}" class="btn btn-f1">
-                    ➕ Új Pilóta Hozzáadása
+                    Új Pilóta Hozzáadása
                 </a>
             </div>
             <div class="col-md-6 text-end">
                 <div class="badge bg-f1 fs-6">
-                    Összesen: {{ $pilots->total() }} pilóta
+                    Összesen: {{ $pilots->count() }} pilóta
                 </div>
             </div>
         </div>
 
         <!-- Pilots Table -->
         <div class="card-f1">
-            <h2 class="text-f1 mb-4 text-center">� F1 Pilóták Adatbázis</h2>
+            <h2 class="text-f1 mb-4 text-center">Az idei pilóták (2025)</h2>
             
             @if($pilots->count() > 0)
                 <div class="table-responsive">
                     <table class="table table-f1">
                         <thead>
                             <tr>
-                                <th>Pilóta ID</th>
-                                <th>Pilóta neve</th>
-                                <th>Nem</th>
-                                <th>Születési dátum</th>
-                                <th>Nemzetiség</th>
-                                <th width="200">Műveletek</th>
+                                <th class="d-none d-md-table-cell">ID</th>
+                                <th>Név</th>
+                                <th class="d-none d-xl-table-cell">Csapat</th>
+                                <th class="d-none d-lg-table-cell">Nemzetiség</th>
+                                <th>Műveletek</th>
                             </tr>
                         </thead>
                         <tbody>
                             @foreach($pilots as $pilot)
-                            <tr>
-                                <td><span class="badge bg-secondary">{{ $pilot->pilot_id }}</span></td>
+                                                        <tr>
+                                <td class="d-none d-md-table-cell"><span class="badge bg-secondary">{{ $pilot->pilot_id }}</span></td>
                                 <td class="fw-bold">{{ $pilot->name }}</td>
-                                <td>
-                                    @if($pilot->gender == 'Male')
-                                        <span class="text-primary">👨 Férfi</span>
+                                <td class="d-none d-xl-table-cell">
+                                    @if($pilot->team)
+                                        <span class="badge bg-primary">{{ $pilot->team }}</span>
                                     @else
-                                        <span class="text-danger">👩 Nő</span>
+                                        -
                                     @endif
                                 </td>
-                                <td>{{ $pilot->birth_date->format('Y.m.d') }}</td>
-                                <td>� {{ $pilot->nationality }}</td>
-                                <td>
-                                    <div class="btn-group btn-group-sm" role="group">
+                                <td class="d-none d-lg-table-cell">{{ $pilot->nationality ?? '-' }}</td>
+                                <td class="actions-cell">
+                                    <div class="d-flex gap-1 w-100">
                                         <a href="{{ route('pilots.show', $pilot->pilot_id) }}" 
-                                           class="btn btn-outline-info" title="Megtekintés">
-                                            👁️
+                                           class="btn btn-outline-info btn-sm flex-fill" title="Megtekintés">
+                                            <span class="d-none d-md-inline">Nézet</span>
+                                            <span class="d-md-none">N</span>
                                         </a>
                                         <a href="{{ route('pilots.edit', $pilot->pilot_id) }}" 
-                                           class="btn btn-outline-warning" title="Szerkesztés">
-                                            ✏️
+                                           class="btn btn-outline-warning btn-sm flex-fill" title="Szerkesztés">
+                                            <span class="d-none d-md-inline">Szerk</span>
+                                            <span class="d-md-none">S</span>
                                         </a>
                                         <button type="button" 
-                                                class="btn btn-outline-danger" 
+                                                class="btn btn-outline-danger btn-sm flex-fill" 
                                                 title="Törlés"
-                                                onclick="confirmDelete('{{ $pilot->pilot_id }}', '{{ $pilot->name }}')">
-                                            🗑️
+                                                onclick="deleteDirectly('{{ $pilot->pilot_id }}', '{{ $pilot->name }}')">
+                                            <span class="d-none d-md-inline">Töröl</span>
+                                            <span class="d-md-none">T</span>
                                         </button>
                                     </div>
                                 </td>
@@ -95,18 +101,12 @@
                         </tbody>
                     </table>
                 </div>
-
-                <!-- Pagination -->
-                <div class="d-flex justify-content-center mt-4">
-                    {{ $pilots->links() }}
-                </div>
             @else
                 <div class="text-center py-5">
-                    <div style="font-size: 3em; color: #ff6b6b;">�️</div>
                     <h3>Nincsenek pilóták az adatbázisban</h3>
                     <p class="text-muted">Kezdj el új pilóták hozzáadásával!</p>
                     <a href="{{ route('pilots.create') }}" class="btn btn-f1 mt-3">
-                        ➕ Első Pilóta Hozzáadása
+                        Első Pilóta Hozzáadása
                     </a>
                 </div>
             @endif
@@ -121,38 +121,35 @@
     </div>
 </div>
 
-<!-- Delete Confirmation Modal -->
-<div class="modal fade" id="deleteModal" tabindex="-1">
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title">Pilóta törlése</h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
-            </div>
-            <div class="modal-body">
-                <p>Biztosan törölni szeretnéd ezt a pilótát?</p>
-                <p><strong id="pilotName"></strong></p>
-                <p class="text-danger"><small>Ez a művelet nem visszavonható!</small></p>
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Mégse</button>
-                <form id="deleteForm" method="POST" style="display: inline;">
-                    @csrf
-                    @method('DELETE')
-                    <button type="submit" class="btn btn-danger">Törlés</button>
-                </form>
-            </div>
-        </div>
-    </div>
-</div>
+
 
 <script>
-function confirmDelete(pilotId, pilotName) {
-    document.getElementById('pilotName').textContent = pilotName;
-    document.getElementById('deleteForm').action = '{{ route("pilots.index") }}/' + pilotId;
-    
-    var deleteModal = new bootstrap.Modal(document.getElementById('deleteModal'));
-    deleteModal.show();
+function deleteDirectly(pilotId, pilotName) {
+    if (confirm('Biztosan törölni szeretnéd ezt a pilótát?\n\n' + pilotName + '\n\nEz a művelet nem visszavonható!')) {
+        // Create a hidden form and submit it
+        const form = document.createElement('form');
+        form.method = 'POST';
+        form.action = '/pilots/' + pilotId;
+        form.style.display = 'none';
+        
+        // Add CSRF token
+        const csrfToken = document.createElement('input');
+        csrfToken.type = 'hidden';
+        csrfToken.name = '_token';
+        csrfToken.value = '{{ csrf_token() }}';
+        
+        // Add DELETE method
+        const methodField = document.createElement('input');
+        methodField.type = 'hidden';
+        methodField.name = '_method';
+        methodField.value = 'DELETE';
+        
+        form.appendChild(csrfToken);
+        form.appendChild(methodField);
+        document.body.appendChild(form);
+        form.submit();
+    }
 }
 </script>
+
 @endsection

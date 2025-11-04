@@ -1,13 +1,8 @@
-/**
- * Optimalizált kontakt form kezelő - teljesítmény orientált
- * F1 Projekt - Kapcsolat oldal
- */
-
 class ContactFormOptimizer {
     constructor() {
         this.form = document.getElementById('contactForm');
         this.submitBtn = document.getElementById('submitBtn');
-        this.debounceDelay = 150; // ms
+        this.debounceDelay = 150;
         this.validationTimeouts = new Map();
         
         this.init();
@@ -16,22 +11,15 @@ class ContactFormOptimizer {
     init() {
         if (!this.form) return;
         
-        // Gyors esemény kezelők hozzáadása
         this.attachEventListeners();
-        
-        // Előtöltött validáció
         this.preloadValidation();
-        
-        // GPU gyorsítás aktiválása
         this.enableHardwareAcceleration();
     }
 
     attachEventListeners() {
-        // Gyorsított input kezelés
         const inputs = this.form.querySelectorAll('input, textarea');
         
         inputs.forEach(input => {
-            // Passive event listeners a jobb teljesítményért
             input.addEventListener('input', this.debounce(
                 this.validateField.bind(this, input)
             ), { passive: true });
@@ -41,7 +29,6 @@ class ContactFormOptimizer {
             }, { passive: true });
         });
 
-        // Form submit optimalizálás
         this.form.addEventListener('submit', this.handleSubmit.bind(this));
     }
 
@@ -57,7 +44,6 @@ class ContactFormOptimizer {
     }
 
     validateField(field) {
-        // Gyors validációs szabályok
         const rules = {
             name: (val) => val.length >= 2 && val.length <= 100 && /^[a-zA-ZÀ-ÿ\s]+$/.test(val),
             email: (val) => /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(val) && val.length <= 150,
@@ -68,24 +54,20 @@ class ContactFormOptimizer {
         const value = field.value.trim();
         const isValid = rules[field.name] ? rules[field.name](value) : true;
 
-        // GPU gyorsított CSS osztály váltás
         this.toggleValidationClass(field, isValid);
         
         return isValid;
     }
 
     toggleValidationClass(field, isValid) {
-        // Használjuk a classList.toggle-t a jobb teljesítményért
         field.classList.toggle('is-valid', isValid && field.value.trim() !== '');
         field.classList.toggle('is-invalid', !isValid && field.value.trim() !== '');
     }
 
     handleSubmit(e) {
-        // Gyors teljes validáció
         const inputs = this.form.querySelectorAll('input[required], textarea[required]');
         let isFormValid = true;
 
-        // Batch DOM updates
         const updates = [];
         
         inputs.forEach(input => {
@@ -98,7 +80,6 @@ class ContactFormOptimizer {
         if (!isFormValid) {
             e.preventDefault();
             
-            // Smooth scroll az első hibás mezőhöz
             const firstInvalid = this.form.querySelector('.is-invalid');
             if (firstInvalid) {
                 firstInvalid.scrollIntoView({ 
@@ -110,7 +91,6 @@ class ContactFormOptimizer {
             return false;
         }
 
-        // Loading állapot aktiválása
         this.setLoadingState(true);
     }
 
@@ -127,7 +107,6 @@ class ContactFormOptimizer {
     }
 
     enableHardwareAcceleration() {
-        // GPU réteg létrehozása a form elemekhez
         const animatedElements = this.form.querySelectorAll(
             'input, textarea, button, .form-group'
         );
@@ -139,7 +118,6 @@ class ContactFormOptimizer {
     }
 
     preloadValidation() {
-        // Előtöltjük a validációs szabályokat a gyorsabb futásért
         const cache = new Map();
         cache.set('emailRegex', /^[^\s@]+@[^\s@]+\.[^\s@]+$/);
         cache.set('nameRegex', /^[a-zA-ZÀ-ÿ\s]+$/);
@@ -147,14 +125,12 @@ class ContactFormOptimizer {
         this.validationCache = cache;
     }
 
-    // Karakterszámláló optimalizálás
     updateCharacterCount(input, maxLength) {
         const counter = document.querySelector(`[data-counter="${input.name}"]`);
         if (!counter) return;
 
         const remaining = maxLength - input.value.length;
         
-        // Batch DOM update
         requestAnimationFrame(() => {
             counter.textContent = `${remaining} karakter maradt`;
             counter.className = remaining < 50 ? 'text-warning' : 'text-muted';
@@ -162,7 +138,6 @@ class ContactFormOptimizer {
     }
 }
 
-// Csak akkor inicializáljuk, ha a DOM betöltött
 if (document.readyState === 'loading') {
     document.addEventListener('DOMContentLoaded', () => {
         new ContactFormOptimizer();
@@ -171,16 +146,13 @@ if (document.readyState === 'loading') {
     new ContactFormOptimizer();
 }
 
-// Egyéb teljesítmény optimalizálások
 document.addEventListener('DOMContentLoaded', function() {
-    // Preload kritikus CSS
     const link = document.createElement('link');
     link.rel = 'preload';
     link.href = '/css/f1-styles.css';
     link.as = 'style';
     document.head.appendChild(link);
     
-    // Lazy loading képekhez (ha vannak)
     if ('IntersectionObserver' in window) {
         const images = document.querySelectorAll('img[data-lazy]');
         const imageObserver = new IntersectionObserver((entries, observer) => {

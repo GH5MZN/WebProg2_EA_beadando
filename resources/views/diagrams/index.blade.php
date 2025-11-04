@@ -1,4 +1,4 @@
-@extends('layouts.app-layout')
+@extends('layouts.landed-layout')
 
 @section('title', 'F1 Statisztikai Diagramok - F1 Tech Solutions')
 
@@ -7,20 +7,19 @@
     <div class="container">
         <!-- Header -->
         <div class="hero-section">
-            <h1 class="hero-title">📊 F1 Statisztikai Diagramok</h1>
+            <h1 class="hero-title">F1 Statisztikai Diagramok</h1>
             <p class="lead">Interaktív diagramok a Forma-1 adatbázis alapján<br />
             Verseny eredmények és statisztikák vizualizálása</p>
         </div>
 
-        <!-- Chart Controls -->
         <div class="row mb-4">
             <div class="col-md-6">
                 <div class="btn-group" role="group">
                     <button type="button" class="btn btn-f1" onclick="showChart('radar')" id="radarBtn">
-                        🎯 DNF Statisztikák
+                        DNF Statisztikák
                     </button>
                     <button type="button" class="btn btn-outline-f1" onclick="showChart('bar')" id="barBtn">
-                        📊 Helyszín Gyakoriság
+                        Helyszín Gyakoriság
                     </button>
                 </div>
             </div>
@@ -31,10 +30,9 @@
             </div>
         </div>
 
-        <!-- Radar Chart - DNF Statistics -->
         <div id="radarChart" class="chart-container">
             <div class="card-f1">
-                <h2 class="text-f1 mb-4 text-center">🎯 Csapatok DNF Statisztikái</h2>
+                <h2 class="text-f1 mb-4 text-center">Csapatok DNF Statisztikái</h2>
                 <p class="text-center text-muted mb-4">
                     Radar diagram a csapatok Did Not Finish (DNF) eredményeiről
                 </p>
@@ -44,7 +42,7 @@
                         <canvas id="dnfRadarChart" width="400" height="300"></canvas>
                     </div>
                     <div class="col-md-4">
-                        <h5 class="text-f1">📋 DNF Részletek</h5>
+                        <h5 class="text-f1">DNF Részletek</h5>
                         <div class="table-responsive" style="max-height: 400px; overflow-y: auto;">
                             <table class="table table-sm">
                                 <thead>
@@ -78,7 +76,7 @@
         <!-- Bar Chart - Location Frequency -->
         <div id="barChart" class="chart-container" style="display: none;">
             <div class="card-f1">
-                <h2 class="text-f1 mb-4 text-center">📊 Grand Prix Helyszínek Gyakorisága</h2>
+                <h2 class="text-f1 mb-4 text-center">Grand Prix Helyszínek Gyakorisága</h2>
                 <p class="text-center text-muted mb-4">
                     Oszlopdiagram arról, hogy melyik helyszínen hányszor rendeztek Grand Prix-t
                 </p>
@@ -88,7 +86,7 @@
                         <canvas id="locationBarChart" width="400" height="300"></canvas>
                     </div>
                     <div class="col-md-4">
-                        <h5 class="text-f1">🏁 Helyszín Részletek</h5>
+                        <h5 class="text-f1">Helyszín Részletek</h5>
                         <div class="table-responsive" style="max-height: 400px; overflow-y: auto;">
                             <table class="table table-sm">
                                 <thead>

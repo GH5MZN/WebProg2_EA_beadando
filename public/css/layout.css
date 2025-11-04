@@ -1,0 +1,308 @@
+/* Layout és navigáció stílusok - Eventually theme felülírása */
+
+/* Alapvető oldal beállítások */
+html, body {
+    height: 100% !important;
+    margin: 0 !important;
+    padding: 0 !important;
+}
+
+body,
+body.is-preload {
+    background: linear-gradient(135deg, #1a1a1a 0%, #2d2d30 50%, #1a1a1a 100%) !important;
+    color: white !important;
+    font-family: 'Roboto', 'Segoe UI', sans-serif !important;
+    display: flex !important;
+    flex-direction: column !important;
+    min-height: 100vh !important;
+}
+
+html {
+    background: #1a1a1a !important;
+}
+
+/* Minden pseudo-element nyíl letiltása */
+*::before, *::after {
+    content: none !important;
+    display: none !important;
+}
+
+/* Header navigáció - Landed theme felülírása */
+#header {
+    background: rgba(0,0,0,0.95) !important;
+    backdrop-filter: blur(10px) !important;
+    position: sticky !important;
+    top: 0 !important;
+    z-index: 1000 !important;
+    padding: 1.2em 0 !important; /* Kisebb padding - gombok feljebb */
+    border-bottom: 2px solid rgba(255, 107, 107, 0.3) !important; /* Piros alsó határ */
+    width: 100% !important; /* Teljes szélesség */
+    min-height: 70px !important; /* Kisebb minimális magasság */
+}
+
+#header .container {
+    max-width: 1400px !important;
+    margin: 0 auto !important;
+    display: flex !important;
+    justify-content: space-between !important;
+    align-items: center !important;
+    padding: 0 3em !important; /* Nagyobb oldalpaddingek */
+    width: 100% !important;
+    box-sizing: border-box !important;
+    height: 100% !important;
+}
+
+#header nav {
+    position: static !important; /* Landed theme override */
+    right: auto !important;
+    top: auto !important;
+    flex-shrink: 0 !important; /* Ne zsugorodjon a nav */
+}
+
+#header nav ul {
+    display: flex !important;
+    list-style: none !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    gap: 0.7em !important; /* Optimalizált távolság */
+    flex-wrap: nowrap !important; /* Egy sorban tartani */
+    align-items: center !important;
+}
+
+#header nav ul li {
+    display: inline-block !important;
+    margin-left: 0 !important; /* Landed theme override */
+    flex-shrink: 0 !important; /* Ne zsugorodjanak */
+}
+
+#header nav a {
+    color: white !important;
+    text-decoration: none !important;
+    padding: 0 1em !important; /* Csak oldalsó padding a szöveg központosításához */
+    border-radius: 20px !important; /* Kicsit kisebb border-radius */
+    transition: all 0.3s ease !important; /* Smooth átmenet minden tulajdonságra */
+    font-size: 1em !important; /* Kisebb betűméret, hogy elfért */
+    font-weight: bold !important; /* Félkövér betűk */
+    display: flex !important;
+    white-space: nowrap !important;
+    border: 2px solid transparent !important; /* Elegáns határ átmenethez */
+    box-shadow: 0 2px 8px rgba(0,0,0,0.4) !important; /* Erősebb árnyék */
+    height: 34px !important; /* Illeszkedik a login form magasságához */
+    line-height: 1 !important; /* Szöveg középre igazítása */
+    align-items: center !important;
+    justify-content: center !important;
+    box-sizing: border-box !important;
+}
+
+#header nav a:hover {
+    background: linear-gradient(135deg, #dc143c 0%, #b91c1c 100%) !important; /* Erős piros gradiens */
+    color: white !important;
+    text-decoration: none !important;
+    transform: translateY(-2px) !important; /* Kiemelés hover-on */
+    box-shadow: 0 4px 15px rgba(220, 20, 60, 0.4) !important; /* Piros árnyék */
+    border-color: #dc143c !important;
+}
+
+#header nav a.active {
+    background: linear-gradient(135deg, #ff1744 0%, #d50000 100%) !important; /* Aktív elem piros gradiens */
+    color: white !important;
+    border-color: #ff1744 !important;
+    box-shadow: 0 3px 12px rgba(255, 23, 68, 0.5) !important; /* Piros árnyék aktív elemre */
+}
+
+/* Logo/Brand area */
+#header .logo {
+    color: #ff6b6b !important;
+    font-weight: bold !important;
+    font-size: 1.3em !important; /* Nagyobb betűméret */
+    min-width: 450px !important; /* Nagyobb minimum szélesség */
+    flex: 1 !important; /* Rugalmas szélesség */
+    max-width: 60% !important; /* Maximum 60% a header szélességéből */
+    display: flex !important;
+    align-items: center !important;
+}
+
+/* Bejelentkezési űrlap stílusok */
+.header-login-form {
+    display: flex !important;
+    align-items: center !important;
+    gap: 8px !important; /* Kisebb gap az elemek között */
+    flex-wrap: nowrap !important;
+    height: 100% !important;
+}
+
+.header-input {
+    padding: 0.35em 0.6em !important; /* Kis padding növelés a jobb igazításhoz */
+    border: none !important;
+    border-radius: 4px !important; /* Kisebb border-radius */
+    background: rgba(255,255,255,0.95) !important;
+    font-size: 0.85em !important; /* Kisebb betűméret */
+    width: 140px !important; /* Hosszabb mezők */
+    height: 34px !important; /* Kicsit kisebb magasság */
+    box-sizing: border-box !important;
+    transition: all 0.2s ease !important;
+    line-height: 1.2 !important; /* Jobb szövegigazítás */
+    vertical-align: middle !important;
+}
+
+.header-input:focus {
+    outline: 2px solid #ff6b6b !important;
+    background: rgba(255,255,255,1) !important;
+}
+
+.header-button {
+    padding: 0 0.8em !important; /* Csak oldalsó padding */
+    background: #ff6b6b !important;
+    color: white !important;
+    border: none !important;
+    border-radius: 4px !important; /* Kisebb border-radius */
+    font-size: 0.85em !important; /* Kisebb betűméret */
+    font-weight: 600 !important; /* Kicsit vastagabb betű */
+    cursor: pointer !important;
+    height: 34px !important; /* Fix magasság, illeszkedik a header-hez */
+    box-sizing: border-box !important;
+    transition: all 0.2s ease !important;
+    white-space: nowrap !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    line-height: 1 !important; /* Szöveg középre igazítása */
+}
+
+.header-button:hover {
+    background: #e55a5a !important;
+    transform: translateY(-1px) !important;
+}
+
+/* Bejelentkezési űrlap placeholder színek */
+#header .logo input::placeholder {
+    color: #666 !important;
+    opacity: 1 !important;
+}
+
+/* Bejelentkezési űrlap placeholder színek */
+.nav-logo input::placeholder {
+    color: #666 !important;
+    opacity: 1 !important;
+}
+
+/* Content area - normál flow */
+main,
+body main,
+body.is-preload main {
+    margin-top: 0 !important;
+    background: rgba(0,0,0,0.3) !important;
+    flex: 1 !important;
+    padding: 2rem 0 !important;
+}
+
+/* Footer */
+footer {
+    background: rgba(0,0,0,0.8) !important;
+    padding: 1em 0 !important;
+    text-align: center !important;
+    color: white !important;
+    margin-top: auto !important;
+    flex-shrink: 0 !important;
+}
+
+.footer-container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 2em;
+}
+
+/* Mobile menü toggle */
+.mobile-toggle {
+    display: none;
+    background: none;
+    border: none;
+    color: white;
+    font-size: 1.5em;
+    cursor: pointer;
+}
+
+/* Responsive design */
+@media (max-width: 1200px) {
+    .nav-container {
+        padding: 0 1em !important;
+    }
+}
+
+/* Responsive design */
+@media (max-width: 1200px) {
+    #header .container {
+        padding: 0 2em !important; /* Kisebb padding közepes képernyőkön */
+    }
+    
+    #header .logo {
+        min-width: 320px !important;
+        font-size: 1.2em !important;
+    }
+    
+    .header-input {
+        width: 120px !important; /* Kisebb input mezők */
+    }
+    
+    #header nav a {
+        padding: 0.5em 0.8em !important;
+        font-size: 0.95em !important;
+    }
+}
+
+@media (max-width: 768px) {
+    #header {
+        padding: 0.8em 0 !important; /* Még kisebb vertikális padding mobilon */
+    }
+    
+    #header .container {
+        flex-direction: column !important; /* Függőlegesen egymás alatt */
+        padding: 0 1.5em !important;
+        gap: 0.8em !important; /* Kisebb gap */
+        align-items: stretch !important;
+    }
+    
+    #header .logo {
+        min-width: auto !important;
+        font-size: 1.1em !important;
+        flex: none !important;
+        max-width: 100% !important;
+        justify-content: center !important;
+    }
+    
+    .header-login-form {
+        justify-content: center !important;
+        gap: 6px !important;
+    }
+    
+    .header-input {
+        width: 100px !important; /* Még kisebb input mezők mobilon */
+        font-size: 0.8em !important;
+        height: 30px !important; /* Kisebb magasság mobilon */
+    }
+    
+    .header-button {
+        font-size: 0.8em !important;
+        height: 30px !important; /* Kisebb magasság mobilon */
+    }
+    
+    #header nav {
+        width: 100% !important;
+    }
+    
+    #header nav ul {
+        gap: 0.4em !important;
+        justify-content: center !important;
+        flex-wrap: wrap !important; /* Mobilon megengedjük a törést */
+    }
+    
+    #header nav a {
+        font-size: 0.9em !important; /* Mobilon kisebb betűk */
+        padding: 0 0.8em !important; /* Kisebb padding mobilon */
+        height: 30px !important; /* Kisebb gombok mobilon */
+    }
+    
+    .mobile-toggle {
+        display: none !important; /* Nincs szükség mobile toggle-ra, minden látható */
+    }
+}

@@ -16,7 +16,6 @@ class ContactController extends Controller
 
     public function store(Request $request)
     {
-        // Gyorsított validáció - csak a szükséges szabályok
         $validated = $request->validate([
             'name' => 'required|string|min:2|max:100',
             'email' => 'required|email|max:150',
@@ -24,7 +23,6 @@ class ContactController extends Controller
             'message' => 'required|string|min:10|max:2000',
             'newsletter' => 'nullable|boolean'
         ], [
-            // Csak a legfontosabb hibaüzenetek
             'name.required' => 'A név megadása kötelező.',
             'email.required' => 'Az email cím megadása kötelező.',
             'email.email' => 'Érvényes email címet adjon meg.',
@@ -33,7 +31,6 @@ class ContactController extends Controller
         ]);
 
         try {
-            // Egyszerűsített adatfeldolgozás
             $data = [
                 'name' => trim($validated['name']),
                 'email' => strtolower(trim($validated['email'])),
@@ -43,14 +40,12 @@ class ContactController extends Controller
                 'ip_address' => $request->ip(),
             ];
 
-            // Próbáljuk meg az adatbázisba menteni
             $contactMessage = ContactMessage::create($data);
 
             return redirect()->route('contact')->with('success', 
                 'Köszönjük az üzenetet! 🏁 (ID: ' . $contactMessage->id . ')');
 
         } catch (\Exception $e) {
-            // Gyorsított fallback - log mentés
             Log::info('Kapcsolat üzenet', array_merge($data ?? [], [
                 'timestamp' => now()->toDateTimeString()
             ]));
@@ -60,7 +55,6 @@ class ContactController extends Controller
         }
     }
 
-    // Admin funkció az üzenetek megtekintéséhez
     public function index()
     {
         $messages = ContactMessage::recent()
@@ -69,7 +63,6 @@ class ContactController extends Controller
         return view('admin.contact-messages', compact('messages'));
     }
 
-    // Üzenet olvasottként jelölése
     public function markAsRead($id)
     {
         $message = ContactMessage::findOrFail($id);

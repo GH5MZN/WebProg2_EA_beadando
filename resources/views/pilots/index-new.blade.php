@@ -1,4 +1,4 @@
-@extends('layouts.app-layout')
+@extends('layouts.landed-layout')
 
 @section('title', 'F1 Adatbázis - F1 Tech Solutions')
 
