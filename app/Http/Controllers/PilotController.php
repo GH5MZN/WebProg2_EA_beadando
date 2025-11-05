@@ -3,19 +3,36 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\Models\Pilot;
 use App\Models\PilotCurrent;
 use App\Models\Result;
 use App\Models\GrandPrix;
 
 class PilotController extends Controller
 {
-
-
-    public function index()
+    public function index(Request $request)
     {
-        $pilots = PilotCurrent::orderBy('pilot_id')->get();
+        $query = PilotCurrent::query();
         
-        return view('pilots.index', compact('pilots'));
+        // Név keresés
+        if ($request->filled('search')) {
+            $query->where('name', 'like', '%' . $request->search . '%');
+        }
+        
+        // Nemzetiség szűrés
+        if ($request->filled('nationality')) {
+            $query->where('nationality', $request->nationality);
+        }
+        
+        $pilots = $query->orderBy('pilot_id')->paginate(50);
+        
+        // Egyedi nemzetiségek lekérése a szűrő dropdown-hoz
+        $nationalities = PilotCurrent::whereNotNull('nationality')
+                                    ->distinct()
+                                    ->orderBy('nationality')
+                                    ->pluck('nationality');
+        
+        return view('pilots.index', compact('pilots', 'nationalities'));
     }
 
     public function create()
@@ -41,7 +58,7 @@ class PilotController extends Controller
     {
         $pilot = PilotCurrent::where('pilot_id', $id)->firstOrFail();
         
-        $pilotResults = Result::where('pilot_id', $id)
+        $pilotResults = Result::where('pilotaaz', $id)
                               ->with('grandPrix')
                               ->orderBy('race_date', 'desc')
                               ->paginate(10);
@@ -76,7 +93,7 @@ class PilotController extends Controller
     {
         $pilot = PilotCurrent::where('pilot_id', $id)->firstOrFail();
         
-        $hasResults = Result::where('pilot_id', $id)->exists();
+        $hasResults = Result::where('pilotaaz', $id)->exists();
         
         if ($hasResults) {
             return redirect()->route('pilots.index')

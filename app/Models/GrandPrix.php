@@ -17,4 +17,9 @@ class GrandPrix extends Model
     protected $casts = [
         'race_date' => 'date'
     ];
+
+    public function results()
+    {
+        return $this->hasMany(Result::class, 'grand_prix_id');
+    }
 }

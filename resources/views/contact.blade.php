@@ -2,6 +2,75 @@
 
 @section('title', 'Kapcsolat - F1 Tech Solutions')
 
+@push('styles')
+<style>
+.contact-newsletter-container {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    cursor: pointer;
+}
+
+.contact-checkbox-visual {
+    width: 20px;
+    height: 20px;
+    border: 2px solid #ff6b6b;
+    border-radius: 3px;
+    background-color: white;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 12px;
+    color: white;
+    font-weight: bold;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    flex-shrink: 0;
+}
+
+.contact-checkbox-visual:hover {
+    border-color: #e74c3c;
+    box-shadow: 0 0 5px rgba(255, 107, 107, 0.3);
+}
+
+.contact-checkbox-label {
+    color: #ff6b6b;
+    font-weight: 500;
+    cursor: pointer;
+    margin: 0;
+    user-select: none;
+}
+
+.contact-checkbox-label:hover {
+    color: #e74c3c;
+}
+
+/* Textarea styling improvements */
+.form-control {
+    background-color: rgba(255, 255, 255, 0.95) !important;
+    border: 1px solid #ff6b6b;
+    color: #333 !important;
+}
+
+.form-control:focus {
+    background-color: white !important;
+    border-color: #ff6b6b;
+    box-shadow: 0 0 0 0.2rem rgba(255, 107, 107, 0.25);
+    color: #333 !important;
+}
+
+.form-control::placeholder {
+    color: #666 !important;
+    opacity: 0.7;
+}
+
+#messageCounter {
+    font-weight: bold;
+    color: #ff6b6b;
+}
+</style>
+@endpush
+
 @section('content')
 <div class="content-section">
     <div class="container">
@@ -99,23 +168,9 @@
                         </div>
 
                         <div class="mb-4">
-                            <div style="display: flex; align-items: center; gap: 15px; padding: 20px; background: rgba(255,255,255,0.1); border-radius: 10px; border: 2px solid rgba(255,107,107,0.3);">
-                                <!-- Custom checkbox -->
-                                <div onclick="toggleCheckbox()" style="
-                                    width: 30px; 
-                                    height: 30px; 
-                                    background: white; 
-                                    border: 3px solid #ff6b6b; 
-                                    border-radius: 5px; 
-                                    cursor: pointer;
-                                    display: flex;
-                                    align-items: center;
-                                    justify-content: center;
-                                    font-size: 18px;
-                                    font-weight: bold;
-                                    color: white;
-                                    transition: all 0.3s ease;
-                                " id="customCheckbox">
+                            <div class="contact-newsletter-container">
+                                <!-- Custom Checkbox Visual -->
+                                <div onclick="toggleCheckbox()" class="contact-checkbox-visual" id="customCheckbox">
                                 </div>
                                 
                                 <!-- Rejtett eredeti checkbox -->
@@ -123,10 +178,10 @@
                                        id="newsletter" 
                                        name="newsletter" 
                                        value="1"
-                                       style="display: none;"
+                                       class="d-none"
                                        {{ old('newsletter') ? 'checked' : '' }}>
                                 
-                                <label onclick="toggleCheckbox()" style="color: white; font-weight: 500; cursor: pointer; font-size: 16px; flex: 1;">
+                                <label onclick="toggleCheckbox()" class="contact-checkbox-label">
                                     Szeretnék F1 Tech Solutions frissítéseket és hírlevelet kapni 🏁
                                 </label>
                             </div>
@@ -150,15 +205,36 @@
                             }
                         }
                         
+                        // Character counter for message textarea
+                        function updateCharacterCount() {
+                            const textarea = document.getElementById('message');
+                            const counter = document.getElementById('messageCounter');
+                            if (textarea && counter) {
+                                counter.textContent = textarea.value.length;
+                            }
+                        }
+                        
                         // Kezdeti állapot beállítása
                         document.addEventListener('DOMContentLoaded', function() {
                             const checkbox = document.getElementById('newsletter');
                             const customCheckbox = document.getElementById('customCheckbox');
+                            const textarea = document.getElementById('message');
                             
+                            // Checkbox initial state
                             if (checkbox.checked) {
                                 customCheckbox.style.backgroundColor = '#ff6b6b';
                                 customCheckbox.style.borderColor = '#ff6b6b';
                                 customCheckbox.innerHTML = '✓';
+                            }
+                            
+                            // Character counter setup
+                            if (textarea) {
+                                updateCharacterCount(); // Initial count
+                                textarea.addEventListener('input', updateCharacterCount);
+                                textarea.addEventListener('keyup', updateCharacterCount);
+                                textarea.addEventListener('paste', function() {
+                                    setTimeout(updateCharacterCount, 10);
+                                });
                             }
                         });
                         </script>
@@ -180,7 +256,7 @@
         <div class="row g-4 mt-5">
             <div class="col-md-4">
                 <div class="card-f1 text-center">
-                    <div style="font-size: 2em; margin-bottom: 0.5em;">📧</div>
+                    <div class="contact-info-icon">📧</div>
                     <h3 class="text-f1">Email</h3>
                     <p>info@f1techsolutions.com</p>
                 </div>
@@ -188,7 +264,7 @@
             
             <div class="col-md-4">
                 <div class="card-f1 text-center">
-                    <div style="font-size: 2em; margin-bottom: 0.5em;">📱</div>
+                    <div class="contact-info-icon">📱</div>
                     <h3 class="text-f1">Telefon</h3>
                     <p>+36 (1) F1-TECH</p>
                 </div>
@@ -196,7 +272,7 @@
             
             <div class="col-md-4">
                 <div class="card-f1 text-center">
-                    <div style="font-size: 2em; margin-bottom: 0.5em;">📍</div>
+                    <div class="contact-info-icon">📍</div>
                     <h3 class="text-f1">Cím</h3>
                     <p>Budapest Racing HQ<br>Magyarország</p>
                 </div>

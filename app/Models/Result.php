@@ -8,7 +8,7 @@ class Result extends Model
 {
     protected $fillable = [
         'race_date',
-        'pilot_id',
+        'pilotaaz',
         'position',
         'issue',
         'team',
@@ -22,7 +22,7 @@ class Result extends Model
 
     public function pilot()
     {
-        return $this->belongsTo(Pilot::class, 'pilot_id', 'pilot_id');
+        return $this->belongsTo(Pilot::class, 'pilotaaz', 'az');
     }
 
     public function grandPrix()

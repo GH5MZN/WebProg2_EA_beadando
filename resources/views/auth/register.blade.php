@@ -19,7 +19,7 @@
                         <div class="alert alert-danger alert-f1 mb-4">
                             <i class="fas fa-exclamation-triangle"></i>
                             <strong>Hiba történt:</strong>
-                            <ul style="margin: 0; padding-left: 20px;">
+                            <ul class="mb-0 ps-4">
                                 @foreach($errors->all() as $error)
                                     <li>{{ $error }}</li>
                                 @endforeach
@@ -104,9 +104,9 @@
 
         <!-- Login Link -->
         <div class="text-center mt-4">
-            <p style="color: rgba(255,255,255,0.8);">
+            <p class="register-form-text">
                 Már van fiókod? 
-                <a href="{{ route('login') }}" class="text-f1" style="text-decoration: none; font-weight: 500;">
+                <a href="{{ route('login') }}" class="text-f1 register-login-link">
                     Bejelentkezés itt
                 </a>
             </p>

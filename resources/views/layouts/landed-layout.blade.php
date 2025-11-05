@@ -10,7 +10,6 @@
 		<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
 		<link href="{{ asset('css/f1-styles.css') }}" rel="stylesheet">
 		@stack('styles')
-		<link href="{{ asset('css/layout.css') }}" rel="stylesheet">
 	</head>
 	<body class="is-preload">
 
@@ -19,18 +18,25 @@
 			<div class="container">
 				<div class="logo">
 					@guest
-						<form method="POST" action="{{ route('login') }}" class="header-login-form">
+						<form method="POST" action="{{ route('login') }}" class="header-login-form" id="headerLoginForm">
 							@csrf
 							<input type="email" name="email" placeholder="Email" required class="header-input">
 							<input type="password" name="password" placeholder="Jelszó" required class="header-input">
 							<button type="submit" class="header-button">Belépés</button>
 						</form>
+						@if(session('login_error'))
+							<script>
+								document.addEventListener('DOMContentLoaded', function() {
+									alert('{{ session('login_error') }}');
+								});
+							</script>
+						@endif
 					@else
-						<div style="color: #ff6b6b; font-weight: bold;">
+						<div class="user-info-display">
 							Üdv, {{ Auth::user()->name }}! 
-							<form method="POST" action="{{ route('logout') }}" style="display: inline;">
+							<form method="POST" action="{{ route('logout') }}" class="logout-form-inline">
 								@csrf
-								<button type="submit" style="background: none; border: none; color: #ff6b6b; cursor: pointer; font-size: 0.9em;">(Kilépés)</button>
+								<button type="submit" class="logout-button">(Kilépés)</button>
 							</form>
 						</div>
 					@endguest
@@ -81,10 +87,49 @@
 
 
 		<script>
-			// Mobile menu toggle
-			document.querySelector('.mobile-toggle').addEventListener('click', function() {
-				const menu = document.querySelector('.nav-menu');
-				menu.classList.toggle('show');
+			// AJAX Login form handling
+			document.addEventListener('DOMContentLoaded', function() {
+				const loginForm = document.getElementById('headerLoginForm');
+				if (loginForm) {
+					loginForm.addEventListener('submit', function(e) {
+						e.preventDefault();
+						
+						const formData = new FormData(this);
+						const submitButton = this.querySelector('button[type="submit"]');
+						const originalText = submitButton.textContent;
+						
+						submitButton.textContent = 'Belépés...';
+						submitButton.disabled = true;
+						
+						fetch(this.action, {
+							method: 'POST',
+							body: formData,
+							headers: {
+								'X-Requested-With': 'XMLHttpRequest',
+								'Accept': 'application/json'
+							}
+						})
+						.then(response => {
+							if (response.ok) {
+								window.location.reload();
+							} else {
+								return response.json();
+							}
+						})
+						.then(data => {
+							if (data && !data.success) {
+								alert(data.message || 'Helytelen email cím vagy jelszó!');
+							}
+						})
+						.catch(error => {
+							alert('Helytelen email cím vagy jelszó!');
+						})
+						.finally(() => {
+							submitButton.textContent = originalText;
+							submitButton.disabled = false;
+						});
+					});
+				}
 			});
 		</script>
 

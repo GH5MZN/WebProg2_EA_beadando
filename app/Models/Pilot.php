@@ -6,8 +6,10 @@ use Illuminate\Database\Eloquent\Model;
 
 class Pilot extends Model
 {
+    protected $primaryKey = 'az';
+    
     protected $fillable = [
-        'pilot_id',
+        'az',
         'name',
         'gender',
         'birth_date',
@@ -21,6 +23,6 @@ class Pilot extends Model
 
     public function results()
     {
-        return $this->hasMany(Result::class, 'pilot_id', 'pilot_id');
+        return $this->hasMany(Result::class, 'pilotaaz', 'az');
     }
 }

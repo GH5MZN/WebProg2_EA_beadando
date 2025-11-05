@@ -8,7 +8,7 @@ use App\Http\Controllers\DiagramController;
 use App\Http\Controllers\DatabaseController;
 
 Route::get('/', function () {
-    return view('eventually-welcome');
+    return view('welcome');
 })->name('home');
 
 Route::get('/history', [PilotController::class, 'index'])->name('history');

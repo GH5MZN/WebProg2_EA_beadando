@@ -11,7 +11,7 @@ return new class extends Migration
         Schema::create('results', function (Blueprint $table) {
             $table->id();
             $table->date('race_date');
-            $table->unsignedBigInteger('pilot_id');
+            $table->unsignedBigInteger('pilotaaz');
             $table->integer('position')->nullable();
             $table->string('issue')->nullable();
             $table->string('team');
@@ -19,7 +19,8 @@ return new class extends Migration
             $table->string('engine');
             $table->timestamps();
             
-            $table->foreign('pilot_id')->references('pilot_id')->on('pilots');
+            $table->foreign('pilotaaz')->references('az')->on('pilots');
+            // Note: race_date connects logically to grand_prix but no foreign key constraint
         });
     }
 

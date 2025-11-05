@@ -9,19 +9,35 @@ use Illuminate\Support\Facades\DB;
 
 class DiagramController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
-        $dnfData = $this->getDNFDataByTeam();
+        $selectedTeam = $request->get('team');
+        $selectedYear = $request->get('year');
+        
+        $dnfData = $this->getDNFDataByTeam($selectedTeam, $selectedYear);
         $locationData = $this->getGrandPrixLocationData();
         
-        return view('diagrams.index', compact('dnfData', 'locationData'));
+        // Get available teams and years for filter options
+        $teams = Result::select('team')->distinct()->orderBy('team')->pluck('team');
+        $years = Result::selectRaw('YEAR(race_date) as year')->distinct()->orderBy('year', 'desc')->pluck('year');
+        
+        return view('diagrams.index', compact('dnfData', 'locationData', 'teams', 'years', 'selectedTeam', 'selectedYear'));
     }
 
-    private function getDNFDataByTeam()
+    private function getDNFDataByTeam($selectedTeam = null, $selectedYear = null)
     {
-        $dnfResults = Result::whereNull('position')
-            ->orWhere('position', 0)
-            ->select('team', 'issue', 'engine', DB::raw('COUNT(*) as dnf_count'))
+        $query = Result::whereNull('position')
+            ->orWhere('position', 0);
+            
+        if ($selectedTeam) {
+            $query->where('team', $selectedTeam);
+        }
+        
+        if ($selectedYear) {
+            $query->whereYear('race_date', $selectedYear);
+        }
+        
+        $dnfResults = $query->select('team', 'issue', 'engine', DB::raw('COUNT(*) as dnf_count'))
             ->groupBy('team', 'issue', 'engine')
             ->orderBy('team')
             ->get();

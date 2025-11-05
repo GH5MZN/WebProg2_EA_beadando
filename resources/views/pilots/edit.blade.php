@@ -3,7 +3,7 @@
 @section('title', 'Pilóta Szerkesztése - F1 Tech Solutions')
 
 @push('styles')
-<link href="{{ asset('css/pilots.css') }}" rel="stylesheet">
+<!-- CSS már az f1-styles.css-ben van -->
 @endpush
 
 @section('content')

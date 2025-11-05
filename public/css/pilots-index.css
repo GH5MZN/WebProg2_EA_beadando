@@ -1,0 +1,204 @@
+/* Pilots Index Page Styles */
+.pilot-counter {
+    background-color: #ff6b6b;
+    color: white;
+    padding: 0.75rem 1.5rem;
+    border-radius: 25px;
+    font-size: 1.1rem;
+    font-weight: bold;
+    display: inline-block;
+}
+
+.pilot-id-badge {
+    background-color: #6c757d;
+    color: white;
+    padding: 0.25rem 0.75rem;
+    border-radius: 15px;
+    font-size: 0.875rem;
+    font-weight: bold;
+}
+
+.pilot-name-cell {
+    font-weight: bold;
+}
+
+.team-badge {
+    background-color: #0d6efd;
+    color: white;
+    padding: 0.25rem 0.75rem;
+    border-radius: 15px;
+    font-size: 0.875rem;
+    font-weight: bold;
+}
+
+.action-buttons-container {
+    display: flex;
+    gap: 0.25rem;
+    width: 100%;
+}
+
+.view-action-button {
+    background-color: #17a2b8;
+    color: #212529;
+    border: 1px solid #17a2b8;
+    padding: 0.4rem 0.8rem;
+    border-radius: 4px;
+    flex: 1;
+    text-align: center;
+    text-decoration: none;
+    font-size: 0.875rem;
+    font-weight: bold;
+}
+
+.view-action-button:hover {
+    background-color: #138496;
+    color: #212529;
+}
+
+.edit-action-button {
+    background-color: #ffc107;
+    color: #212529;
+    border: 1px solid #ffc107;
+    padding: 0.4rem 0.8rem;
+    border-radius: 4px;
+    flex: 1;
+    text-align: center;
+    text-decoration: none;
+    font-size: 0.875rem;
+    font-weight: bold;
+}
+
+.edit-action-button:hover {
+    background-color: #e0a800;
+    color: #212529;
+}
+
+.delete-action-button {
+    background-color: #dc3545;
+    color: white;
+    border: 1px solid #dc3545;
+    padding: 0.4rem 0.8rem;
+    border-radius: 4px;
+    flex: 1;
+    cursor: pointer;
+    font-size: 0.875rem;
+    font-weight: bold;
+}
+
+.delete-action-button:hover {
+    background-color: #c82333;
+    color: white;
+}
+
+.mobile-only {
+    display: none;
+}
+
+.desktop-only {
+    display: inline;
+}
+
+.tablet-hidden {
+    display: none;
+}
+
+.mobile-hidden {
+    display: table-cell;
+}
+
+.large-screen-only {
+    display: none;
+}
+
+.medium-screen-only {
+    display: none;
+}
+
+@media (max-width: 768px) {
+    .mobile-only {
+        display: inline;
+    }
+    
+    .desktop-only {
+        display: none;
+    }
+    
+    .mobile-hidden {
+        display: none;
+    }
+}
+
+@media (min-width: 769px) {
+    .mobile-hidden {
+        display: table-cell;
+    }
+}
+
+@media (min-width: 992px) {
+    .medium-screen-only {
+        display: table-cell;
+    }
+}
+
+@media (min-width: 1200px) {
+    .large-screen-only {
+        display: table-cell;
+    }
+}
+
+.add-pilot-button {
+    background-color: #ff6b6b;
+    color: white;
+    border: none;
+    padding: 0.75rem 1.5rem;
+    border-radius: 5px;
+    text-decoration: none;
+    font-weight: bold;
+}
+
+.add-pilot-button:hover {
+    background-color: #e74c3c;
+    color: white;
+}
+
+.back-to-home-button {
+    border: 1px solid #ff6b6b;
+    color: #ff6b6b;
+    background: transparent;
+    padding: 0.75rem 1.5rem;
+    border-radius: 5px;
+    text-decoration: none;
+    font-weight: bold;
+}
+
+.back-to-home-button:hover {
+    background-color: #ff6b6b;
+    color: white;
+}
+
+.hidden-form {
+    display: none;
+}
+
+.pagination-container {
+    display: flex;
+    justify-content: center;
+    margin-top: 1rem;
+}
+
+.empty-state-container {
+    text-align: center;
+    padding: 3rem 0;
+}
+
+.empty-state-text {
+    color: #6c757d;
+}
+
+/* F1 Style Title */
+.pilots-page-title {
+    color: #ff6b6b;
+    font-weight: 600;
+    font-size: 2.5rem;
+    margin-bottom: 1.5rem;
+}

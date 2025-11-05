@@ -3,7 +3,7 @@
 @section('title', $pilot->name . ' - F1 Pilóta Profil')
 
 @push('styles')
-<link href="{{ asset('css/pilots.css') }}" rel="stylesheet">
+<!-- CSS már az f1-styles.css-ben van -->
 @endpush
 
 @section('content')
@@ -11,47 +11,50 @@
     <div class="container">
         <!-- Driver Header -->
         <div class="hero-section">
-            <h1 class="hero-title">{{ $pilot->name }}</h1>
-            <p class="lead">
-                Pilóta ID: {{ $pilot->pilot_id }} | 
-                @if($pilot->team)
-                    <span class="badge bg-primary">{{ $pilot->team }}</span> | 
-                @endif
-                {{ $pilot->nationality }}
-            </p>
+            <h1 class="hero-title"><strong>{{ $pilot->name }}</strong></h1>
         </div>
 
         <!-- Driver Info Cards -->
         <div class="row g-4 mb-5">
-            @if($pilot->team)
-            <div class="col-md-3">
+            <div class="col-md-4">
                 <div class="card-f1 text-center">
-                    <h6 class="text-muted">Csapat</h6>
-                    <p class="h5 mb-0">
-                        <span class="badge bg-primary">{{ $pilot->team }}</span>
+                    <h4 class="text-f1">Csapat</h4>
+                    <p class="h3 mb-0 text-f1">
+                        @if($pilot->team)
+                            <strong>{{ $pilot->team }}</strong>
+                        @else
+                            <span class="text-muted">-</span>
+                        @endif
                     </p>
                 </div>
             </div>
-            @endif
-            <div class="col-md-3">
+            <div class="col-md-4">
                 <div class="card-f1 text-center">
-                    <h6 class="text-muted">Nemzetiség</h6>
-                    <p class="h5 mb-0">{{ $pilot->nationality ?: '-' }}</p>
+                    <h4 class="text-f1">Nemzetiség</h4>
+                    <p class="h3 mb-0 text-f1">
+                        @if($pilot->nationality)
+                            <strong>{{ $pilot->nationality }}</strong>
+                        @else
+                            <span class="text-muted">-</span>
+                        @endif
+                    </p>
                 </div>
             </div>
-            <div class="col-md-3">
+            <div class="col-md-4">
                 <div class="card-f1 text-center">
-                    <h6 class="text-muted">Verseny eredmények</h6>
-                    <p class="h5 mb-0">{{ $pilotResults->total() }} db</p>
+                    <h4 class="text-f1">Pilóta ID</h4>
+                    <p class="h3 mb-0">
+                        <span class="badge bg-f1 fs-5">{{ $pilot->pilot_id }}</span>
+                    </p>
                 </div>
             </div>
         </div>
 
-        <!-- Race Results -->
+        <!-- Results -->
         @if($pilotResults->count() > 0)
         <div class="card-f1">
             <div class="d-flex justify-content-between align-items-center mb-4">
-                <h3 class="text-f1 mb-0">Verseny eredmények</h3>
+                <h3 class="text-f1 mb-0">Eredmények</h3>
                 <span class="badge bg-f1">{{ $pilotResults->total() }} eredmény</span>
             </div>
             
@@ -59,6 +62,7 @@
                 <table class="table table-f1">
                     <thead>
                         <tr>
+                            <th>ID</th>
                             <th>Dátum</th>
                             <th>Grand Prix</th>
                             <th>Pozíció</th>
@@ -71,6 +75,7 @@
                     <tbody>
                         @foreach($pilotResults as $result)
                         <tr>
+                            <td><span class="badge bg-secondary">{{ $result->id }}</span></td>
                             <td>{{ $result->race_date->format('Y.m.d') }}</td>
                             <td>
                                 @if($result->grandPrix)
@@ -111,12 +116,6 @@
                     {{ $pilotResults->links() }}
                 </div>
             @endif
-        </div>
-        @else
-        <div class="card-f1 text-center">
-            <div class="pilot-no-results">🏁</div>
-            <h3 class="text-f1">Nincsenek verseny eredmények</h3>
-            <p class="text-muted">Ez a pilóta még nem vett részt versenyeken az adatbázisban.</p>
         </div>
         @endif
 

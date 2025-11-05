@@ -3,7 +3,7 @@
 @section('title', 'Regisztrált Felhasználók - Admin')
 
 @section('content')
-<div class="container" style="padding: 2rem;">
+<div class="container">
     <div class="row">
         <div class="col-12">
             <div class="contact-form">
@@ -35,7 +35,7 @@
                                     <th>ID</th>
                                     <th>Név</th>
                                     <th>Email</th>
-                                    <th>Email Verificálva</th>
+                                    <th>Email Megerősítve</th>
                                     <th>Regisztráció Dátuma</th>
                                     <th>Utolsó Módosítás</th>
                                 </tr>
@@ -49,12 +49,12 @@
                                     <td>
                                         @if($user->email_verified_at)
                                             <span class="badge bg-success">
-                                                <i class="fas fa-check"></i> Verificálva
+                                                <i class="fas fa-check"></i> Megerősítve
                                             </span>
                                             <br><small class="text-muted">{{ $user->email_verified_at->format('Y-m-d H:i') }}</small>
                                         @else
                                             <span class="badge bg-warning">
-                                                <i class="fas fa-clock"></i> Nem verificált
+                                                <i class="fas fa-clock"></i> Nem megerősített
                                             </span>
                                         @endif
                                     </td>
@@ -74,7 +74,7 @@
                     <!-- Statisztikák -->
                     <div class="row mt-4">
                         <div class="col-md-4">
-                            <div class="card bg-primary text-white">
+                            <div class="card bg-f1-red text-white">
                                 <div class="card-body text-center">
                                     <h3>{{ $users->total() }}</h3>
                                     <p>Összes felhasználó</p>
@@ -82,15 +82,15 @@
                             </div>
                         </div>
                         <div class="col-md-4">
-                            <div class="card bg-success text-white">
+                            <div class="card bg-f1-dark text-white">
                                 <div class="card-body text-center">
                                     <h3>{{ \App\Models\User::whereNotNull('email_verified_at')->count() }}</h3>
-                                    <p>Verificált email</p>
+                                    <p>Megerősített email</p>
                                 </div>
                             </div>
                         </div>
                         <div class="col-md-4">
-                            <div class="card bg-info text-white">
+                            <div class="card bg-f1-silver text-dark">
                                 <div class="card-body text-center">
                                     <h3>{{ \App\Models\User::whereDate('created_at', today())->count() }}</h3>
                                     <p>Mai regisztrációk</p>
@@ -106,13 +106,10 @@
                 @endif
                 
                 <div class="text-center mt-4">
-                    <a href="{{ route('register') }}" class="btn btn-outline-primary">
+                    <a href="{{ route('register') }}" class="btn btn-f1-red">
                         <i class="fas fa-user-plus"></i> Új regisztráció
                     </a>
-                    <a href="{{ url('/phpmyadmin') }}" target="_blank" class="btn btn-outline-success">
-                        <i class="fas fa-database"></i> phpMyAdmin megnyitása
-                    </a>
-                    <a href="{{ route('admin.contact-messages') }}" class="btn btn-outline-info">
+                    <a href="{{ route('admin.contact-messages') }}" class="btn btn-f1-dark">
                         <i class="fas fa-envelope"></i> Kontakt üzenetek
                     </a>
                 </div>
@@ -122,6 +119,53 @@
 </div>
 
 <style>
+/* F1 színek */
+.bg-f1-red {
+    background: linear-gradient(135deg, #ff6b6b, #dc3545) !important;
+}
+
+.bg-f1-dark {
+    background: linear-gradient(135deg, #2c2c2c, #1a1a1a) !important;
+}
+
+.bg-f1-silver {
+    background: linear-gradient(135deg, #e0e0e0, #c0c0c0) !important;
+}
+
+.btn-f1-red {
+    background: linear-gradient(135deg, #ff6b6b, #dc3545);
+    border: none;
+    color: white;
+    padding: 10px 20px;
+    border-radius: 25px;
+    font-weight: 600;
+    transition: all 0.3s ease;
+}
+
+.btn-f1-red:hover {
+    background: linear-gradient(135deg, #dc3545, #ff6b6b);
+    color: white;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 15px rgba(220, 53, 69, 0.4);
+}
+
+.btn-f1-dark {
+    background: linear-gradient(135deg, #2c2c2c, #1a1a1a);
+    border: none;
+    color: white;
+    padding: 10px 20px;
+    border-radius: 25px;
+    font-weight: 600;
+    transition: all 0.3s ease;
+}
+
+.btn-f1-dark:hover {
+    background: linear-gradient(135deg, #1a1a1a, #2c2c2c);
+    color: white;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 15px rgba(44, 44, 44, 0.4);
+}
+
 .table {
     background: rgba(255, 255, 255, 0.95);
     border-radius: 10px;
@@ -130,7 +174,7 @@
 }
 
 .table th {
-    background: #343a40 !important;
+    background: linear-gradient(135deg, #2c2c2c, #1a1a1a) !important;
     color: white !important;
     border: none !important;
 }
@@ -144,10 +188,37 @@
     border: none;
     border-radius: 15px;
     box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s ease;
+}
+
+.card:hover {
+    transform: translateY(-5px);
 }
 
 .badge {
     font-size: 0.85em;
+}
+
+.admin-nav .btn {
+    border-radius: 25px;
+    font-weight: 600;
+    transition: all 0.3s ease;
+}
+
+.admin-nav .btn-primary {
+    background: linear-gradient(135deg, #ff6b6b, #dc3545);
+    border: none;
+}
+
+.admin-nav .btn-outline-primary {
+    color: #ff6b6b;
+    border-color: #ff6b6b;
+}
+
+.admin-nav .btn-outline-primary:hover {
+    background: linear-gradient(135deg, #ff6b6b, #dc3545);
+    border-color: #ff6b6b;
+    color: white;
 }
 </style>
 @endsection
