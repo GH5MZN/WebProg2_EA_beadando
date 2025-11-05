@@ -42,7 +42,11 @@
 						<li><a href="{{ route('diagrams') }}" class="{{ request()->routeIs('diagrams') ? 'active' : '' }}">Diagramok</a></li>
 						<li><a href="{{ route('database.index') }}" class="{{ request()->routeIs('database.index') ? 'active' : '' }}">Adatbázis menü</a></li>
 						<li><a href="{{ route('contact') }}" class="{{ request()->routeIs('contact') ? 'active' : '' }}">Kapcsolat</a></li>
-						<li><a href="{{ route('admin.contact-messages') }}" class="{{ request()->routeIs('admin.contact-messages') ? 'active' : '' }}">📧 Admin</a></li>
+						@auth
+							@if(auth()->user()->is_admin)
+								<li><a href="{{ route('admin.contact-messages') }}" class="{{ request()->routeIs('admin.*') ? 'active' : '' }}">🛡️ Admin</a></li>
+							@endif
+						@endauth
 					</ul>
 				</nav>
 			</div>

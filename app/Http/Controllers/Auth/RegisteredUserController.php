@@ -18,9 +18,9 @@ class RegisteredUserController extends Controller
     /**
      * Show the registration page.
      */
-    public function create(): Response
+    public function create()
     {
-        return Inertia::render('auth/register');
+        return view('auth.register');
     }
 
     /**
@@ -34,18 +34,34 @@ class RegisteredUserController extends Controller
             'name' => 'required|string|max:255',
             'email' => 'required|string|lowercase|email|max:255|unique:'.User::class,
             'password' => ['required', 'confirmed', Rules\Password::defaults()],
+        ], [
+            'name.required' => 'A név megadása kötelező.',
+            'name.max' => 'A név maximum 255 karakter lehet.',
+            'email.required' => 'Az email cím megadása kötelező.',
+            'email.email' => 'Érvényes email címet adjon meg.',
+            'email.unique' => 'Ez az email cím már használatban van.',
+            'password.required' => 'A jelszó megadása kötelező.',
+            'password.confirmed' => 'A jelszó megerősítése nem egyezik.',
         ]);
 
-        $user = User::create([
-            'name' => $request->name,
-            'email' => $request->email,
-            'password' => Hash::make($request->password),
-        ]);
+        try {
+            $user = User::create([
+                'name' => trim($request->name),
+                'email' => strtolower(trim($request->email)),
+                'password' => Hash::make($request->password),
+            ]);
 
-        event(new Registered($user));
+            event(new Registered($user));
 
-        Auth::login($user);
+            // Auth::login($user);  // Automatikus bejelentkezés kikapcsolva
 
-        return redirect()->intended(route('dashboard', absolute: false));
+            return redirect()->route('home')->with('success', 
+                'Sikeres regisztráció! Most már bejelentkezhet a fiókjába! 🏁 (ID: ' . $user->id . ')');
+
+        } catch (\Exception $e) {
+            return redirect()->back()
+                ->withInput($request->except('password', 'password_confirmation'))
+                ->with('error', 'Hiba történt a regisztráció során. Kérjük próbálja újra.');
+        }
     }
 }

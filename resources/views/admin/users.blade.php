@@ -1,6 +1,6 @@
 @extends('layouts.landed-layout')
 
-@section('title', 'Kontakt Üzenetek - Admin')
+@section('title', 'Regisztrált Felhasználók - Admin')
 
 @section('content')
 <div class="container" style="padding: 2rem;">
@@ -14,20 +14,20 @@
                 <!-- Admin Navigation -->
                 <div class="admin-nav mb-4">
                     <div class="btn-group w-100" role="group">
-                        <a href="{{ route('admin.contact-messages') }}" class="btn btn-primary {{ request()->routeIs('admin.contact-messages') ? 'active' : '' }}">
+                        <a href="{{ route('admin.contact-messages') }}" class="btn btn-outline-primary {{ request()->routeIs('admin.contact-messages') ? 'active' : '' }}">
                             <i class="fas fa-envelope"></i> Kontakt Üzenetek
                         </a>
-                        <a href="{{ route('admin.users') }}" class="btn btn-outline-primary {{ request()->routeIs('admin.users') ? 'active' : '' }}">
+                        <a href="{{ route('admin.users') }}" class="btn btn-primary {{ request()->routeIs('admin.users') ? 'active' : '' }}">
                             <i class="fas fa-users"></i> Felhasználók
                         </a>
                     </div>
                 </div>
                 
                 <h3 class="mb-4">
-                    <i class="fas fa-envelope"></i> Kontakt Üzenetek
+                    <i class="fas fa-users"></i> Regisztrált Felhasználók
                 </h3>
                 
-                @if($messages->count() > 0)
+                @if($users->count() > 0)
                     <div class="table-responsive">
                         <table class="table table-striped">
                             <thead class="table-dark">
@@ -35,42 +35,31 @@
                                     <th>ID</th>
                                     <th>Név</th>
                                     <th>Email</th>
-                                    <th>Tárgy</th>
-                                    <th>Üzenet</th>
-                                    <th>Hírlevél</th>
-                                    <th>IP</th>
-                                    <th>Dátum</th>
-                                    <th>Olvasva</th>
+                                    <th>Email Verificálva</th>
+                                    <th>Regisztráció Dátuma</th>
+                                    <th>Utolsó Módosítás</th>
                                 </tr>
                             </thead>
                             <tbody>
-                                @foreach($messages as $message)
-                                <tr class="{{ $message->is_read ? '' : 'table-warning' }}">
-                                    <td>{{ $message->id }}</td>
-                                    <td>{{ $message->name }}</td>
-                                    <td>{{ $message->email }}</td>
-                                    <td>{{ Str::limit($message->subject, 30) }}</td>
-                                    <td>{{ Str::limit($message->message, 50) }}</td>
+                                @foreach($users as $user)
+                                <tr>
+                                    <td>{{ $user->id }}</td>
+                                    <td>{{ $user->name }}</td>
+                                    <td>{{ $user->email }}</td>
                                     <td>
-                                        @if($message->newsletter)
-                                            <span class="badge bg-success">Igen</span>
-                                        @else
-                                            <span class="badge bg-secondary">Nem</span>
-                                        @endif
-                                    </td>
-                                    <td>{{ $message->ip_address }}</td>
-                                    <td>{{ $message->created_at->format('Y-m-d H:i') }}</td>
-                                    <td>
-                                        @if($message->is_read)
+                                        @if($user->email_verified_at)
                                             <span class="badge bg-success">
-                                                <i class="fas fa-check"></i> Olvasva
+                                                <i class="fas fa-check"></i> Verificálva
                                             </span>
+                                            <br><small class="text-muted">{{ $user->email_verified_at->format('Y-m-d H:i') }}</small>
                                         @else
                                             <span class="badge bg-warning">
-                                                <i class="fas fa-clock"></i> Új
+                                                <i class="fas fa-clock"></i> Nem verificált
                                             </span>
                                         @endif
                                     </td>
+                                    <td>{{ $user->created_at->format('Y-m-d H:i') }}</td>
+                                    <td>{{ $user->updated_at->format('Y-m-d H:i') }}</td>
                                 </tr>
                                 @endforeach
                             </tbody>
@@ -79,7 +68,7 @@
                     
                     <!-- Pagination -->
                     <div class="d-flex justify-content-center mt-4">
-                        {{ $messages->links() }}
+                        {{ $users->links() }}
                     </div>
                     
                     <!-- Statisztikák -->
@@ -87,24 +76,24 @@
                         <div class="col-md-4">
                             <div class="card bg-primary text-white">
                                 <div class="card-body text-center">
-                                    <h3>{{ $messages->total() }}</h3>
-                                    <p>Összes üzenet</p>
+                                    <h3>{{ $users->total() }}</h3>
+                                    <p>Összes felhasználó</p>
                                 </div>
                             </div>
                         </div>
                         <div class="col-md-4">
                             <div class="card bg-success text-white">
                                 <div class="card-body text-center">
-                                    <h3>{{ \App\Models\ContactMessage::where('is_read', true)->count() }}</h3>
-                                    <p>Olvasott üzenetek</p>
+                                    <h3>{{ \App\Models\User::whereNotNull('email_verified_at')->count() }}</h3>
+                                    <p>Verificált email</p>
                                 </div>
                             </div>
                         </div>
                         <div class="col-md-4">
-                            <div class="card bg-warning text-white">
+                            <div class="card bg-info text-white">
                                 <div class="card-body text-center">
-                                    <h3>{{ \App\Models\ContactMessage::where('is_read', false)->count() }}</h3>
-                                    <p>Új üzenetek</p>
+                                    <h3>{{ \App\Models\User::whereDate('created_at', today())->count() }}</h3>
+                                    <p>Mai regisztrációk</p>
                                 </div>
                             </div>
                         </div>
@@ -112,16 +101,19 @@
                 @else
                     <div class="alert alert-info text-center">
                         <i class="fas fa-info-circle"></i>
-                        Még nincsenek kontakt üzenetek.
+                        Még nincsenek regisztrált felhasználók.
                     </div>
                 @endif
                 
                 <div class="text-center mt-4">
-                    <a href="{{ route('contact') }}" class="btn btn-outline-primary">
-                        <i class="fas fa-arrow-left"></i> Vissza a kapcsolat oldalra
+                    <a href="{{ route('register') }}" class="btn btn-outline-primary">
+                        <i class="fas fa-user-plus"></i> Új regisztráció
                     </a>
                     <a href="{{ url('/phpmyadmin') }}" target="_blank" class="btn btn-outline-success">
                         <i class="fas fa-database"></i> phpMyAdmin megnyitása
+                    </a>
+                    <a href="{{ route('admin.contact-messages') }}" class="btn btn-outline-info">
+                        <i class="fas fa-envelope"></i> Kontakt üzenetek
                     </a>
                 </div>
             </div>
@@ -148,14 +140,14 @@
     vertical-align: middle;
 }
 
-.table-warning {
-    background-color: rgba(255, 193, 7, 0.1) !important;
-}
-
 .card {
     border: none;
     border-radius: 15px;
     box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+}
+
+.badge {
+    font-size: 0.85em;
 }
 </style>
 @endsection

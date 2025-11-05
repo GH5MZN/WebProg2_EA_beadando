@@ -1,0 +1,239 @@
+@extends('layouts.landed-layout')
+
+@section('title', 'Regisztráció - F1 Tech Solutions')
+
+@section('content')
+<div class="content-section">
+    <div class="container">
+        <!-- Header -->
+        <div class="hero-section">
+            <h1 class="hero-title">🏁 Regisztráció</h1>
+            <p class="lead">Csatlakozz a F1 Tech Solutions közösséghez!</p>
+        </div>
+
+        <!-- Registration Form -->
+        <div class="row justify-content-center">
+            <div class="col-lg-6 col-md-8">
+                <div class="card-f1">
+                    @if($errors->any())
+                        <div class="alert alert-danger alert-f1 mb-4">
+                            <i class="fas fa-exclamation-triangle"></i>
+                            <strong>Hiba történt:</strong>
+                            <ul style="margin: 0; padding-left: 20px;">
+                                @foreach($errors->all() as $error)
+                                    <li>{{ $error }}</li>
+                                @endforeach
+                            </ul>
+                        </div>
+                    @endif
+                    
+                    <form method="post" action="{{ route('register') }}" id="registerForm">
+                        @csrf
+                        
+                        <div class="mb-3">
+                            <label for="name" class="form-label">Teljes név *</label>
+                            <input type="text" 
+                                   name="name" 
+                                   id="name" 
+                                   class="form-control @error('name') is-invalid @enderror" 
+                                   value="{{ old('name') }}"
+                                   required 
+                                   maxlength="255"
+                                   placeholder="Teljes neved">
+                            @error('name')
+                                <div class="invalid-feedback">{{ $message }}</div>
+                            @enderror
+                        </div>
+
+                        <div class="mb-3">
+                            <label for="email" class="form-label">Email cím *</label>
+                            <input type="email" 
+                                   name="email" 
+                                   id="email" 
+                                   class="form-control @error('email') is-invalid @enderror" 
+                                   value="{{ old('email') }}"
+                                   required 
+                                   maxlength="255"
+                                   placeholder="email@example.com">
+                            @error('email')
+                                <div class="invalid-feedback">{{ $message }}</div>
+                            @enderror
+                        </div>
+
+                        <div class="mb-3">
+                            <label for="password" class="form-label">Jelszó *</label>
+                            <input type="password" 
+                                   name="password" 
+                                   id="password" 
+                                   class="form-control @error('password') is-invalid @enderror" 
+                                   required 
+                                   minlength="8"
+                                   placeholder="Legalább 8 karakter">
+                            @error('password')
+                                <div class="invalid-feedback">{{ $message }}</div>
+                            @enderror
+                            <div class="form-text">
+                                A jelszó legalább 8 karakter hosszú legyen.
+                            </div>
+                        </div>
+
+                        <div class="mb-4">
+                            <label for="password_confirmation" class="form-label">Jelszó megerősítése *</label>
+                            <input type="password" 
+                                   name="password_confirmation" 
+                                   id="password_confirmation" 
+                                   class="form-control" 
+                                   required 
+                                   minlength="8"
+                                   placeholder="Jelszó újra">
+                        </div>
+
+                        <div class="text-center mb-4">
+                            <button type="submit" class="btn btn-f1" id="submitBtn">
+                                <i class="fas fa-user-plus"></i> Regisztráció 🏁
+                            </button>
+                        </div>
+                        
+                        <div class="text-center">
+                            <small class="text-muted">* Kötelező mezők</small>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+
+        <!-- Login Link -->
+        <div class="text-center mt-4">
+            <p style="color: rgba(255,255,255,0.8);">
+                Már van fiókod? 
+                <a href="{{ route('login') }}" class="text-f1" style="text-decoration: none; font-weight: 500;">
+                    Bejelentkezés itt
+                </a>
+            </p>
+        </div>
+
+        <!-- Back Button -->
+        <div class="text-center mt-3">
+            <a href="{{ route('home') }}" class="btn btn-outline-f1">
+                ← Vissza a főoldalra
+            </a>
+        </div>
+    </div>
+</div>
+
+<style>
+.hero-section {
+    text-align: center;
+    margin-bottom: 3rem;
+}
+
+.hero-title {
+    font-size: 2.5rem;
+    font-weight: bold;
+    color: #ff6b6b;
+    margin-bottom: 1rem;
+}
+
+.card-f1 {
+    background: rgba(255, 255, 255, 0.1);
+    padding: 2rem;
+    border-radius: 15px;
+    backdrop-filter: blur(10px);
+    border: 1px solid rgba(255, 107, 107, 0.2);
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+}
+
+.form-control {
+    background: rgba(255, 255, 255, 0.1);
+    border: 1px solid rgba(255, 107, 107, 0.3);
+    color: white;
+    border-radius: 8px;
+    padding: 12px;
+}
+
+.form-control:focus {
+    background: rgba(255, 255, 255, 0.15);
+    border-color: #ff6b6b;
+    box-shadow: 0 0 0 0.25rem rgba(255, 107, 107, 0.25);
+    color: white;
+}
+
+.form-control::placeholder {
+    color: rgba(255, 255, 255, 0.6);
+}
+
+.form-label {
+    color: rgba(255,255,255,0.9);
+    font-weight: 500;
+    margin-bottom: 0.5rem;
+}
+
+.form-text {
+    color: rgba(255,255,255,0.6);
+    font-size: 0.875em;
+    margin-top: 0.25rem;
+}
+
+.btn-f1 {
+    background: linear-gradient(45deg, #ff6b6b, #ff8a8a);
+    border: none;
+    color: white;
+    padding: 12px 30px;
+    border-radius: 25px;
+    font-weight: 600;
+    transition: all 0.3s ease;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+.btn-f1:hover {
+    background: linear-gradient(45deg, #ff5252, #ff6b6b);
+    transform: translateY(-2px);
+    box-shadow: 0 8px 25px rgba(255, 107, 107, 0.4);
+    color: white;
+}
+
+.btn-outline-f1 {
+    border: 2px solid #ff6b6b;
+    color: #ff6b6b;
+    background: transparent;
+    padding: 10px 25px;
+    border-radius: 25px;
+    font-weight: 500;
+    transition: all 0.3s ease;
+}
+
+.btn-outline-f1:hover {
+    background: #ff6b6b;
+    color: white;
+    transform: translateY(-2px);
+}
+
+.alert-f1 {
+    background: rgba(220, 53, 69, 0.2);
+    border: 1px solid rgba(220, 53, 69, 0.5);
+    color: #fff;
+    border-radius: 10px;
+}
+
+.text-f1 {
+    color: #ff6b6b !important;
+}
+
+.content-section {
+    padding: 3rem 0;
+    color: white;
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+}
+</style>
+
+<script>
+document.getElementById('registerForm').addEventListener('submit', function() {
+    const submitBtn = document.getElementById('submitBtn');
+    submitBtn.disabled = true;
+    submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Regisztráció...';
+});
+</script>
+@endsection

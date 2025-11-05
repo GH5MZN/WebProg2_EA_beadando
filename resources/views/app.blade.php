@@ -45,8 +45,8 @@
         <!-- F1 Custom Styles -->
         <link href="{{ asset('css/f1-styles.css') }}" rel="stylesheet">
 
-        @viteReactRefresh
-        @vite(['resources/js/app.tsx', "resources/js/pages/{$page['component']}.tsx"])
+        {{-- @viteReactRefresh --}}
+        {{-- @vite(['resources/js/app.tsx', "resources/js/pages/{$page['component']}.tsx"]) --}}
         @inertiaHead
     </head>
     <body class="font-sans antialiased">
