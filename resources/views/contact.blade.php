@@ -99,18 +99,69 @@
                         </div>
 
                         <div class="mb-4">
-                            <div class="form-check">
+                            <div style="display: flex; align-items: center; gap: 15px; padding: 20px; background: rgba(255,255,255,0.1); border-radius: 10px; border: 2px solid rgba(255,107,107,0.3);">
+                                <!-- Custom checkbox -->
+                                <div onclick="toggleCheckbox()" style="
+                                    width: 30px; 
+                                    height: 30px; 
+                                    background: white; 
+                                    border: 3px solid #ff6b6b; 
+                                    border-radius: 5px; 
+                                    cursor: pointer;
+                                    display: flex;
+                                    align-items: center;
+                                    justify-content: center;
+                                    font-size: 18px;
+                                    font-weight: bold;
+                                    color: white;
+                                    transition: all 0.3s ease;
+                                " id="customCheckbox">
+                                </div>
+                                
+                                <!-- Rejtett eredeti checkbox -->
                                 <input type="checkbox" 
                                        id="newsletter" 
                                        name="newsletter" 
-                                       class="form-check-input"
                                        value="1"
+                                       style="display: none;"
                                        {{ old('newsletter') ? 'checked' : '' }}>
-                                <label for="newsletter" class="form-check-label">
+                                
+                                <label onclick="toggleCheckbox()" style="color: white; font-weight: 500; cursor: pointer; font-size: 16px; flex: 1;">
                                     Szeretnék F1 Tech Solutions frissítéseket és hírlevelet kapni 🏁
                                 </label>
                             </div>
                         </div>
+
+                        <script>
+                        function toggleCheckbox() {
+                            const checkbox = document.getElementById('newsletter');
+                            const customCheckbox = document.getElementById('customCheckbox');
+                            
+                            checkbox.checked = !checkbox.checked;
+                            
+                            if (checkbox.checked) {
+                                customCheckbox.style.backgroundColor = '#ff6b6b';
+                                customCheckbox.style.borderColor = '#ff6b6b';
+                                customCheckbox.innerHTML = '✓';
+                            } else {
+                                customCheckbox.style.backgroundColor = 'white';
+                                customCheckbox.style.borderColor = '#ff6b6b';
+                                customCheckbox.innerHTML = '';
+                            }
+                        }
+                        
+                        // Kezdeti állapot beállítása
+                        document.addEventListener('DOMContentLoaded', function() {
+                            const checkbox = document.getElementById('newsletter');
+                            const customCheckbox = document.getElementById('customCheckbox');
+                            
+                            if (checkbox.checked) {
+                                customCheckbox.style.backgroundColor = '#ff6b6b';
+                                customCheckbox.style.borderColor = '#ff6b6b';
+                                customCheckbox.innerHTML = '✓';
+                            }
+                        });
+                        </script>
 
                         <div class="text-center">
                             <button type="submit" class="btn btn-f1" id="submitBtn">

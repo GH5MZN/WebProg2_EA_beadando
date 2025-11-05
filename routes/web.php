@@ -15,6 +15,7 @@ Route::get('/history', [PilotController::class, 'index'])->name('history');
 Route::get('/test', [PilotController::class, 'index'])->name('test');
 Route::get('/contact', [ContactController::class, 'show'])->name('contact');
 Route::post('/contact', [ContactController::class, 'store'])->name('contact.store');
+Route::get('/admin/contact-messages', [ContactController::class, 'index'])->name('admin.contact-messages');
 
 Route::get('/diagrams', [DiagramController::class, 'index'])->name('diagrams');
 Route::get('/database', [DatabaseController::class, 'index'])->name('database.index');
