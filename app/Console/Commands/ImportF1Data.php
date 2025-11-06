@@ -32,26 +32,18 @@ class ImportF1Data extends Command
     {
         $this->info('Starting F1 data import...');
 
-        // Clear existing data
         $this->info('Clearing existing data...');
         
-        // Disable foreign key checks temporarily
         DB::statement('SET FOREIGN_KEY_CHECKS=0;');
         
         Result::truncate();
         Pilot::truncate();
         GrandPrix::truncate();
         
-        // Re-enable foreign key checks
         DB::statement('SET FOREIGN_KEY_CHECKS=1;');
 
-        // Import pilots
         $this->importPilots();
-        
-        // Import Grand Prix
         $this->importGrandPrix();
-        
-        // Import results
         $this->importResults();
 
         $this->info('F1 data import completed successfully!');
@@ -68,7 +60,14 @@ class ImportF1Data extends Command
         }
 
         $content = file_get_contents($filePath);
-        $content = mb_convert_encoding($content, 'UTF-8', 'auto');
+        // Próbáljuk többféle kódolást a magyar karakterekhez
+        $encodings = ['UTF-8', 'ISO-8859-1', 'ISO-8859-2', 'Windows-1252', 'CP1250'];
+        foreach ($encodings as $encoding) {
+            if (mb_check_encoding($content, $encoding)) {
+                $content = mb_convert_encoding($content, 'UTF-8', $encoding);
+                break;
+            }
+        }
         $lines = explode("\n", $content);
         $count = 0;
 
@@ -91,7 +90,7 @@ class ImportF1Data extends Command
                         ]);
                         $count++;
                     } catch (\Exception $e) {
-                        // Continue silently for encoding/date issues
+                        // Kódolási hibák esetén folytatjuk
                     }
                 }
             }
@@ -122,7 +121,14 @@ class ImportF1Data extends Command
         }
 
         $content = file_get_contents($filePath);
-        $content = mb_convert_encoding($content, 'UTF-8', 'auto');
+        // Többféle kódolás próbálása
+        $encodings = ['UTF-8', 'ISO-8859-1', 'ISO-8859-2', 'Windows-1252', 'CP1250'];
+        foreach ($encodings as $encoding) {
+            if (mb_check_encoding($content, $encoding)) {
+                $content = mb_convert_encoding($content, 'UTF-8', $encoding);
+                break;
+            }
+        }
         $lines = explode("\n", $content);
         $count = 0;
 
@@ -164,7 +170,14 @@ class ImportF1Data extends Command
         }
 
         $content = file_get_contents($filePath);
-        $content = mb_convert_encoding($content, 'UTF-8', 'auto');
+        // Többféle kódolás próbálása
+        $encodings = ['UTF-8', 'ISO-8859-1', 'ISO-8859-2', 'Windows-1252', 'CP1250'];
+        foreach ($encodings as $encoding) {
+            if (mb_check_encoding($content, $encoding)) {
+                $content = mb_convert_encoding($content, 'UTF-8', $encoding);
+                break;
+            }
+        }
         $lines = explode("\n", $content);
         $count = 0;
 
@@ -178,7 +191,7 @@ class ImportF1Data extends Command
                 if (count($data) >= 7) {
                     try {
                         $issue = !empty($data[3]) ? $data[3] : null;
-                        // Try to handle encoding issues in issue field
+                        // Kódolási problémák kezelése az issue mezőben
                         if ($issue && !mb_check_encoding($issue, 'UTF-8')) {
                             $issue = mb_convert_encoding($issue, 'UTF-8', 'Windows-1252');
                         }
@@ -194,7 +207,7 @@ class ImportF1Data extends Command
                         ]);
                         $count++;
                     } catch (\Exception $e) {
-                        // Continue silently for encoding/constraint issues
+                        // Kódolási és constraint hibák esetén folytatjuk
                     }
                 }
             }

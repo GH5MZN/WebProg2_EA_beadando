@@ -17,7 +17,7 @@ class DiagramController extends Controller
         $dnfData = $this->getDNFDataByTeam($selectedTeam, $selectedYear);
         $locationData = $this->getGrandPrixLocationData();
         
-        // Get available teams and years for filter options
+        // Szűrési opciók: csapatok és évek lekérése
         $teams = Result::select('team')->distinct()->orderBy('team')->pluck('team');
         $years = Result::selectRaw('YEAR(race_date) as year')->distinct()->orderBy('year', 'desc')->pluck('year');
         

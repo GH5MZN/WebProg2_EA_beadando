@@ -205,7 +205,7 @@
                             }
                         }
                         
-                        // Character counter for message textarea
+                        // Karakterszámláló az üzenet mezőhöz
                         function updateCharacterCount() {
                             const textarea = document.getElementById('message');
                             const counter = document.getElementById('messageCounter');
@@ -220,14 +220,14 @@
                             const customCheckbox = document.getElementById('customCheckbox');
                             const textarea = document.getElementById('message');
                             
-                            // Checkbox initial state
+                            // Checkbox kezdeti állapot
                             if (checkbox.checked) {
                                 customCheckbox.style.backgroundColor = '#ff6b6b';
                                 customCheckbox.style.borderColor = '#ff6b6b';
                                 customCheckbox.innerHTML = '✓';
                             }
                             
-                            // Character counter setup
+                            // Karakterszámláló beállítása
                             if (textarea) {
                                 updateCharacterCount(); // Initial count
                                 textarea.addEventListener('input', updateCharacterCount);

@@ -16,7 +16,7 @@ Route::get('/test', [PilotController::class, 'index'])->name('test');
 Route::get('/contact', [ContactController::class, 'show'])->name('contact');
 Route::post('/contact', [ContactController::class, 'store'])->name('contact.store');
 
-// Admin routes - only for admin users
+// Admin útvonalak - csak admin felhasználóknak
 Route::middleware(['auth', 'admin'])->group(function () {
     Route::get('/admin/contact-messages', [ContactController::class, 'index'])->name('admin.contact-messages');
     Route::get('/admin/users', [App\Http\Controllers\UserController::class, 'index'])->name('admin.users');
