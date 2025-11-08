@@ -179,10 +179,10 @@ class F1DatabaseSeeder extends Seeder
                 if (count($data) >= 7) {
                     // Only create if pilot exists
                     $pilotId = (int)trim($data[1]);
-                    if (Pilot::where('pilot_id', $pilotId)->exists()) {
+                    if (Pilot::where('az', $pilotId)->exists()) {
                         Result::create([
                             'race_date' => Carbon::createFromFormat('Y.n.j', trim($data[0])),
-                            'pilot_id' => $pilotId,
+                            'pilotaaz' => $pilotId,
                             'position' => trim($data[2]) === '' ? null : (int)trim($data[2]),
                             'issue' => trim($data[3]) === '' ? null : trim($data[3]),
                             'team' => trim($data[4]),
