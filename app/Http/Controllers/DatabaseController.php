@@ -24,7 +24,7 @@ class DatabaseController extends Controller
             $pilotsQuery->where('nationality', $request->nationality);
         }
         
-        $pilots = $pilotsQuery->orderBy('az')->get();
+        $pilots = $pilotsQuery->orderBy('id')->get();
         
         // Egyedi nemzetiségek lekérése a szűrő dropdown-hoz
         $nationalities = Pilot::whereNotNull('nationality')
