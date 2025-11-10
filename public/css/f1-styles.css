@@ -1,6 +1,366 @@
 /* F1 Tech - Összes Stílus Egyesített Fájl */
 
 /* ==========================================
+   GLOBAL UI STYLES - SÖTÉT HÁTTÉR MINDEN ELEMHEZ
+   ========================================== */
+
+/* Táblázatok egységes sötét stílusa */
+.table-f1,
+.table,
+table {
+    background: rgba(0, 0, 0, 0.7) !important;
+    border-radius: 15px !important;
+    overflow: hidden !important;
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.4) !important;
+    backdrop-filter: blur(10px) !important;
+    border: 2px solid rgba(255,107,107,0.4) !important;
+}
+
+/* Táblázat fejlécek */
+.table-f1 thead th,
+.table thead th,
+table thead th {
+    background: linear-gradient(135deg, #ff6b6b 0%, #e74c3c 100%) !important;
+    color: white !important;
+    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.5) !important;
+    border: none !important;
+}
+
+/* Táblázat sorok */
+.table-f1 tbody tr,
+.table tbody tr,
+table tbody tr {
+    background: rgba(0, 0, 0, 0.6) !important;
+}
+
+.table-f1 tbody tr:hover,
+.table tbody tr:hover,
+table tbody tr:hover {
+    background: rgba(0, 0, 0, 0.8) !important;
+    transform: scale(1.01) !important;
+    transition: all 0.3s ease !important;
+}
+
+/* Táblázat cellák */
+.table-f1 td,
+.table-f1 th,
+.table td,
+.table th,
+table td,
+table th {
+    color: white !important;
+    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.3) !important;
+    border-bottom: 1px solid rgba(255, 107, 107, 0.3) !important;
+}
+
+/* Modal ablakok */
+
+
+/* Form elemek */
+.form-control {
+    background: rgba(0, 0, 0, 0.7) !important;
+    border: 2px solid rgba(255, 107, 107, 0.4) !important;
+    border-radius: 15px !important;
+    color: white !important;
+    backdrop-filter: blur(10px) !important;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3) !important;
+}
+
+.form-control:focus {
+    background: rgba(0, 0, 0, 0.8) !important;
+    border-color: #ff6b6b !important;
+    color: white !important;
+    transform: translateY(-2px) !important;
+}
+
+.form-control::placeholder {
+    color: rgba(255, 255, 255, 0.6) !important;
+}
+
+/* Select elemek */
+select.form-control,
+select.form-control option {
+    background: rgba(0, 0, 0, 0.8) !important;
+    color: white !important;
+}
+
+/* Card elemek */
+.card {
+    background: rgba(0, 0, 0, 0.7) !important;
+    border: 2px solid rgba(255,107,107,0.4) !important;
+    border-radius: 15px !important;
+    backdrop-filter: blur(10px) !important;
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.4) !important;
+    color: white !important;
+}
+
+.card-header {
+    background: linear-gradient(135deg, #ff6b6b 0%, #e74c3c 100%) !important;
+    color: white !important;
+    border-bottom: 2px solid rgba(255, 107, 107, 0.4) !important;
+    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.5) !important;
+}
+
+.card-body {
+    background: rgba(0, 0, 0, 0.6) !important;
+    color: white !important;
+}
+
+/* Alert üzenetek */
+.alert {
+    backdrop-filter: blur(10px) !important;
+    border-radius: 15px !important;
+    border: 2px solid rgba(255,107,107,0.4) !important;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3) !important;
+}
+
+/* Navigációs menük */
+.nav,
+.navbar {
+    background: rgba(0, 0, 0, 0.8) !important;
+    backdrop-filter: blur(10px) !important;
+}
+
+/* Általános konténerek sötét háttérrel */
+.container,
+.content-container,
+.main-content {
+    background: rgba(0, 0, 0, 0.7);
+    border-radius: 20px;
+    padding: 2rem;
+    margin: 1rem auto;
+    backdrop-filter: blur(10px);
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.4);
+    border: 2px solid rgba(255,107,107,0.3);
+}
+
+/* Gombok egységes stílusa */
+.btn {
+    border-radius: 25px !important;
+    font-weight: bold !important;
+    text-transform: uppercase !important;
+    letter-spacing: 0.5px !important;
+    transition: all 0.3s ease !important;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3) !important;
+}
+
+.btn:hover {
+    transform: translateY(-2px) !important;
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.4) !important;
+}
+
+/* Pagination */
+.pagination .page-link {
+    background: rgba(0, 0, 0, 0.7) !important;
+    border: 2px solid rgba(255,107,107,0.4) !important;
+    color: white !important;
+    border-radius: 10px !important;
+    margin: 0 2px !important;
+}
+
+.pagination .page-link:hover {
+    background: rgba(0, 0, 0, 0.8) !important;
+    border-color: #ff6b6b !important;
+    color: white !important;
+}
+
+.pagination .page-item.active .page-link {
+    background: linear-gradient(135deg, #ff6b6b 0%, #e74c3c 100%) !important;
+    border-color: #ff6b6b !important;
+}
+
+/* ==========================================
+   DIAGRAM OLDAL SPECIFIKUS JAVÍTÁSOK - CSAK SZÖVEGSZÍN
+   ========================================== */
+
+/* Jobb oldali legend box - nagydíjak listája */
+.chart-legend {
+    background: rgba(255, 255, 255, 0.95) !important;
+    color: #000000 !important;
+    border: 2px solid rgba(255,107,107,0.4) !important;
+    border-radius: 15px !important;
+    padding: 1rem !important;
+    backdrop-filter: blur(5px) !important;
+}
+
+/* Minden szöveg a legend boxban legyen fekete */
+.chart-legend *,
+.chart-legend p,
+.chart-legend span,
+.chart-legend div,
+.chart-legend ul,
+.chart-legend li,
+.chart-legend strong,
+.chart-legend a {
+    color: #000000 !important;
+    text-shadow: none !important;
+}
+
+/* Chart konténer szövegek */
+.chart-container .chart-legend {
+    background: rgba(255, 255, 255, 0.95) !important;
+}
+
+.chart-container .chart-legend * {
+    color: #000000 !important;
+}
+
+/* Table responsive szövegek diagramoknál */
+.chart-container .table-responsive,
+.chart-container .table-responsive *,
+.chart-container .table,
+.chart-container .table *,
+.chart-container .table td,
+.chart-container .table th,
+.chart-container .table tbody,
+.chart-container .table thead {
+    background: rgba(255, 255, 255, 0.95) !important;
+    color: #000000 !important;
+}
+
+/* ==========================================
+   WELCOME PAGE STYLES
+   ========================================== */
+
+.white-content-wrapper {
+	background: white;
+	padding: 40px;
+	margin: 0 auto;
+	max-width: 1200px;
+	border-radius: 0;
+	box-shadow: none;
+}
+
+.welcome-logo-container {
+	text-align: center;
+	margin-bottom: 40px;
+}
+
+.welcome-logo {
+	max-width: 200px;
+	height: auto;
+}
+
+.content-section {
+	margin-bottom: 40px;
+}
+
+.content-with-image {
+	display: flex;
+	gap: 40px;
+	align-items: flex-start;
+	margin-bottom: 40px;
+}
+
+.content-text {
+	flex: 1;
+}
+
+.content-image {
+	flex: 0 0 400px;
+}
+
+.welcome-subtitle {
+	font-size: 1.1em;
+	line-height: 1.6;
+	color: #333;
+	text-align: justify;
+	text-justify: inter-word;
+	margin: 0;
+}
+
+.welcome-subtitle strong {
+	color: #dc2626;
+	font-weight: 600;
+}
+
+.red-title {
+	color: #dc2626 !important;
+	font-weight: 600;
+}
+
+.normal-text {
+	color: #333 !important;
+	font-weight: normal;
+}
+
+.welcome-register-link {
+	color: #dc2626;
+	font-weight: bold;
+	text-decoration: none;
+	padding: 3px 8px;
+	background: rgba(220, 38, 38, 0.1);
+	border-radius: 4px;
+	transition: all 0.3s ease;
+}
+
+.welcome-register-link:hover {
+	background: #dc2626;
+	color: white;
+	text-decoration: none;
+}
+
+.welcome-verstappen-img {
+	width: 100%;
+	max-width: 400px;
+	height: auto;
+	border-radius: 15px;
+	box-shadow: 0 15px 35px rgba(0, 0, 0, 0.2);
+	transition: transform 0.3s ease;
+}
+
+.welcome-verstappen-img:hover {
+	transform: scale(1.02);
+}
+
+.full-width-image {
+	width: 100%;
+	margin: 10px 0;
+	text-align: center;
+}
+
+.historical-image {
+	width: 100%;
+	height: auto;
+	border-radius: 0;
+	box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
+	transition: transform 0.3s ease;
+	display: block;
+}
+
+.historical-image:hover {
+	transform: scale(1.01);
+}
+
+@media (max-width: 768px) {
+	.white-content-wrapper {
+		padding: 20px;
+	}
+	
+	.content-with-image {
+		flex-direction: column;
+		gap: 30px;
+	}
+	
+	.content-image {
+		flex: none;
+		text-align: center;
+	}
+	
+	.welcome-verstappen-img {
+		max-width: 300px;
+	}
+	
+	.welcome-subtitle {
+		text-align: left;
+	}
+}
+
+body, .landed-main {
+	background: white !important;
+}
+
+/* ==========================================
    1. LAYOUT ÉS NAVIGÁCIÓ
    ========================================== */
 
@@ -13,16 +373,24 @@ html, body {
 
 body,
 body.is-preload {
-    background: linear-gradient(135deg, #1a1a1a 0%, #2d2d30 50%, #1a1a1a 100%) !important;
     color: white !important;
     font-family: 'Roboto', 'Segoe UI', sans-serif !important;
     display: flex !important;
     flex-direction: column !important;
     min-height: 100vh !important;
+    position: relative !important;
 }
 
 html {
-    background: #1a1a1a !important;
+    background: url('https://i.imgur.com/GfpR4rL.png') center center !important;
+    background-size: cover !important;
+    background-repeat: no-repeat !important;
+    background-attachment: fixed !important;
+    min-height: 100vh !important;
+}
+
+body {
+    background: transparent !important;
 }
 
 /* Minden pseudo-element nyíl letiltása */
@@ -37,7 +405,7 @@ html {
     backdrop-filter: blur(10px) !important;
     position: sticky !important;
     top: 0 !important;
-    z-index: 1000 !important;
+    z-index: 3000 !important;
     padding: 1.2em 0 !important;
     border-bottom: 2px solid rgba(255, 107, 107, 0.3) !important;
     width: 100% !important;
@@ -133,49 +501,58 @@ html {
     gap: 8px !important;
     flex-wrap: nowrap !important;
     height: 100% !important;
+    margin-top: 10px !important;
+    padding-top: 8px !important;
 }
 
 .header-input {
-    padding: 0.35em 0.6em !important;
-    border: none !important;
-    border-radius: 4px !important;
+    padding: 0 0.8em !important;
+    border: 2px solid transparent !important;
+    border-radius: 20px !important;
     background: rgba(255,255,255,0.95) !important;
-    font-size: 0.85em !important;
+    font-size: 1em !important;
     width: 140px !important;
     height: 34px !important;
     box-sizing: border-box !important;
-    transition: all 0.2s ease !important;
-    line-height: 1.2 !important;
+    transition: all 0.3s ease !important;
+    line-height: 1 !important;
     vertical-align: middle !important;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.4) !important;
 }
 
 .header-input:focus {
-    outline: 2px solid #ff6b6b !important;
+    outline: none !important;
+    border: 2px solid #ff1744 !important;
     background: rgba(255,255,255,1) !important;
+    box-shadow: 0 4px 15px rgba(255, 23, 68, 0.4) !important;
+    transform: translateY(-2px) !important;
 }
 
 .header-button {
-    padding: 0 0.8em !important;
-    background: #ff6b6b !important;
+    padding: 0 1em !important;
+    background: linear-gradient(135deg, #ff1744 0%, #d50000 100%) !important;
     color: white !important;
-    border: none !important;
-    border-radius: 4px !important;
-    font-size: 0.85em !important;
-    font-weight: 600 !important;
+    border: 2px solid #ff1744 !important;
+    border-radius: 20px !important;
+    font-size: 1em !important;
+    font-weight: bold !important;
     cursor: pointer !important;
     height: 34px !important;
     box-sizing: border-box !important;
-    transition: all 0.2s ease !important;
+    transition: all 0.3s ease !important;
     white-space: nowrap !important;
     display: flex !important;
     align-items: center !important;
     justify-content: center !important;
     line-height: 1 !important;
+    box-shadow: 0 3px 12px rgba(255, 23, 68, 0.5) !important;
 }
 
 .header-button:hover {
-    background: #e55a5a !important;
-    transform: translateY(-1px) !important;
+    background: linear-gradient(135deg, #dc143c 0%, #b91c1c 100%) !important;
+    transform: translateY(-2px) !important;
+    box-shadow: 0 4px 15px rgba(220, 20, 60, 0.4) !important;
+    border-color: #dc143c !important;
 }
 
 /* Bejelentkezési űrlap placeholder színek */
@@ -190,9 +567,11 @@ main,
 body main,
 body.is-preload main {
     margin-top: 0 !important;
-    background: rgba(0,0,0,0.3) !important;
+    background: transparent !important;
     flex: 1 !important;
     padding: 2rem 0 !important;
+    position: relative !important;
+    z-index: 100 !important;
 }
 
 /* Footer */
@@ -290,6 +669,9 @@ footer {
     padding: 3em 2em;
     max-width: 1200px;
     margin: 0 auto;
+    background: rgba(0, 0, 0, 0.7);
+    border-radius: 20px;
+    backdrop-filter: blur(10px);
 }
 
 .features-grid {
@@ -301,114 +683,71 @@ footer {
 .feature-card {
     text-align: center;
     padding: 2em;
-    background: rgba(255,255,255,0.05);
+    background: rgba(0, 0, 0, 0.6);
     border-radius: 15px;
-    border: 1px solid rgba(255,107,107,0.2);
+    border: 2px solid rgba(255,107,107,0.4);
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.4);
+    transition: all 0.3s ease;
+}
+
+.feature-card:hover {
+    background: rgba(0, 0, 0, 0.8);
+    border-color: rgba(255,107,107,0.7);
+    transform: translateY(-5px);
+    box-shadow: 0 15px 35px rgba(0, 0, 0, 0.6);
 }
 
 .feature-title {
     color: #ff6b6b;
     margin-bottom: 1em;
+    font-weight: bold;
+    font-size: 1.3em;
+    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.5);
+    text-align: center;
+}
+
+.hero-title {
+    color: #ff6b6b;
+    font-weight: bold;
+    font-size: 2.5em;
+    margin-bottom: 1em;
+    text-align: center;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+}
+
+/* Általános címek középre igazítása */
+h1, h2, h3 {
+    text-align: center;
 }
 
 .feature-description {
-    color: rgba(255,255,255,0.8);
+    color: rgba(255,255,255,0.95);
+    line-height: 1.5;
+    margin-bottom: 1.5em;
+    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.3);
 }
 
 .feature-link {
     color: #ff6b6b;
     text-decoration: none;
     font-weight: bold;
-}
-
-.welcome-cta {
-    text-align: center;
-    margin: 4em auto;
-    max-width: 600px;
-    padding: 3em 2em;
-    background: rgba(255,107,107,0.1);
-    border-radius: 20px;
-}
-
-/* ==========================================
-   3. NAVIGÁCIÓS MENÜ STÍLUSOK
-   ========================================== */
-
-.navigation-menu {
-    background: rgba(0,0,0,0.9);
-    padding: 2em;
-    border-radius: 15px;
-    margin-bottom: 2em;
-    box-shadow: 0 4px 15px rgba(0,0,0,0.3);
-}
-
-.navigation-header {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    margin-bottom: 1.5em;
-}
-
-.navigation-title {
-    color: #ff6b6b;
-    font-weight: bold;
-    font-size: 1.8em;
-    text-align: center;
-}
-
-.menu-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-    gap: 1em;
-    max-width: 1200px;
-    margin: 0 auto;
-}
-
-.menu-card {
-    display: block;
-    text-decoration: none;
-}
-
-.menu-card-content {
-    background: rgba(255,255,255,0.1);
-    padding: 1.5em;
-    border-radius: 10px;
-    border: 2px solid transparent;
+    padding: 0.5em 1em;
+    border: 2px solid #ff6b6b;
+    border-radius: 25px;
     transition: all 0.3s ease;
-    text-align: center;
+    display: inline-block;
+    text-shadow: none;
 }
 
-.menu-icon {
-    font-size: 2em;
-    margin-bottom: 0.5em;
-}
-
-.menu-card-title {
+.feature-link:hover {
+    background: #ff6b6b;
     color: white;
-    margin: 0 0 0.5em 0;
-    font-size: 1.1em;
+    text-decoration: none;
+    transform: translateY(-2px);
+    box-shadow: 0 5px 15px rgba(255, 107, 107, 0.4);
 }
 
-.menu-card-description {
-    color: #ccc;
-    margin: 0;
-    font-size: 0.9em;
-}
 
-.menu-card:hover .menu-card-content {
-    background: rgba(255, 107, 107, 0.2) !important;
-    border: 2px solid #ff6b6b !important;
-}
-
-.menu-card.active .menu-card-content {
-    background: linear-gradient(135deg, #ff6b6b 0%, #e74c3c 100%) !important;
-    border: 2px solid #ff6b6b !important;
-}
-
-.menu-card.active .menu-card-title,
-.menu-card.active .menu-card-description {
-    color: white !important;
-}
 
 /* ==========================================
    4. PILOTS CRUD STÍLUSOK
@@ -579,11 +918,13 @@ footer {
         width: 100px !important;
         font-size: 0.8em !important;
         height: 30px !important;
+        padding: 0 0.6em !important;
     }
     
     .header-button {
         font-size: 0.8em !important;
         height: 30px !important;
+        padding: 0 0.8em !important;
     }
     
     #header nav {
@@ -665,43 +1006,6 @@ footer {
         padding: 10px 20px;
         font-size: 0.9rem;
     }
-}
-
-/* Bootstrap kiegészítések és form stílusok */
-.table-f1 {
-    background: rgba(0, 0, 0, 0.2);
-    border-radius: 10px;
-    overflow: hidden;
-    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
-    font-size: 0.9rem;
-    width: 100%;
-    table-layout: auto;
-}
-
-.table-f1 thead th {
-    background: linear-gradient(135deg, #ff6b6b 0%, #e74c3c 100%);
-    color: white;
-    font-weight: bold;
-    border: none;
-    text-transform: uppercase;
-    font-size: 0.8em;
-    letter-spacing: 0.5px;
-    padding: 10px 8px;
-    white-space: nowrap;
-}
-
-.table-f1 tbody tr:hover {
-    background-color: rgba(255, 107, 107, 0.1);
-}
-
-.table-f1 td, .table-f1 th {
-    padding: 10px 8px;
-    vertical-align: middle;
-    border-bottom: 1px solid rgba(255, 107, 107, 0.2);
-    word-wrap: break-word;
-    max-width: 150px;
-    overflow: hidden;
-    text-overflow: ellipsis;
 }
 
 .alert {
@@ -930,23 +1234,7 @@ footer {
     box-shadow: 0 5px 15px rgba(255,107,107,0.3) !important;
 }
 
-/* Responsive */
-@media (max-width: 768px) {
-    .contact-container {
-        padding: 1rem;
-    }
-    
-    .contact-form {
-        padding: 1.5rem;
-    }
-}
 
-@media (max-width: 576px) {
-    .btn-f1, .btn-outline-f1 {
-        padding: 10px 20px;
-        font-size: 0.9rem;
-    }
-}
 
 .alert-danger {
     background: linear-gradient(135deg, #e74c3c 0%, #c0392b 100%);
@@ -984,36 +1272,9 @@ footer {
     backface-visibility: hidden;
 }
 
-
-
-/* Hero Section */
-.hero-section {
-    padding: 5rem 0;
-    text-align: center;
-    color: white;
-}
-
-.hero-title {
-    font-size: 3rem;
-    color: #ff6b6b;
-    margin-bottom: 1rem;
-}
-
 .lead {
     color: white !important;
     font-size: 1.2rem;
-}
-
-
-.btn-f1 {
-    background: #ff6b6b;
-    border: none;
-    padding: 0.8rem 2rem;
-    border-radius: 25px;
-    color: white;
-    font-weight: bold;
-    transition: background-color 0.2s ease, transform 0.15s ease;
-    will-change: background-color, transform;
 }
 
 .btn-f1:hover {
@@ -1071,7 +1332,6 @@ footer small {
     border-radius: 8px;
     padding: 0.75rem;
     transition: border-color 0.15s ease, box-shadow 0.15s ease;
-    will-change: border-color, box-shadow;
 }
 
 
@@ -1293,17 +1553,9 @@ input[type="checkbox"]#newsletter:hover {
     }
 }
 
-@media (max-width: 576px) {
-    .hero-title {
-        font-size: 1.8rem;
-    }
-    
-    .container {
-        padding: 0 1rem;
-    }
-}
 
-/* === UTILITIES === */
+
+/* Utilities */
 .text-f1 {
     color: #ff6b6b !important;
 }
@@ -1350,22 +1602,20 @@ textarea {
     transform: translateZ(0);
     backface-visibility: hidden;
     perspective: 1000px;
-    will-change: transform, opacity;
-    contain: layout style paint;
 }
 
-/* ==========================================
-   6. BOOTSTRAP KIEGÉSZÍTÉSEK ÉS FORM STÍLUSOK
-   ========================================== */
+/* Bootstrap kiegészítések */
 
 .table-f1 {
-    background: rgba(0, 0, 0, 0.2);
-    border-radius: 10px;
+    background: rgba(0, 0, 0, 0.7);
+    border-radius: 15px;
     overflow: hidden;
-    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.4);
     font-size: 0.9rem;
     width: 100%;
     table-layout: auto;
+    backdrop-filter: blur(10px);
+    border: 2px solid rgba(255,107,107,0.4);
 }
 
 .table-f1 thead th {
@@ -1374,29 +1624,33 @@ textarea {
     font-weight: bold;
     border: none;
     text-transform: uppercase;
-    font-size: 0.8em;
+    font-size: 0.9em;
     letter-spacing: 0.5px;
-    padding: 10px 8px;
+    padding: 15px 12px;
     white-space: nowrap;
+    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.5);
 }
 
 .table-f1 tbody tr {
-    background: rgba(0, 0, 0, 0.1);
+    background: rgba(0, 0, 0, 0.6);
 }
 
 .table-f1 tbody tr:hover {
-    background-color: rgba(255, 107, 107, 0.2);
+    background-color: rgba(0, 0, 0, 0.8);
+    transform: scale(1.01);
+    transition: all 0.3s ease;
 }
 
 .table-f1 td, .table-f1 th {
-    padding: 10px 8px;
+    padding: 12px 10px;
     vertical-align: middle;
-    border-bottom: 1px solid rgba(255, 107, 107, 0.2);
+    border-bottom: 1px solid rgba(255, 107, 107, 0.3);
     word-wrap: break-word;
     max-width: 150px;
     overflow: hidden;
     text-overflow: ellipsis;
     color: white;
+    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.3);
 }
 
 .alert {
@@ -1460,40 +1714,6 @@ textarea {
     transition: background-color 0.2s ease, transform 0.15s ease;
 }
 
-.btn-f1:hover {
-    background: linear-gradient(135deg, #e74c3c 0%, #c0392b 100%);
-    transform: translateY(-2px);
-    color: white;
-}
-
-.btn-outline-f1 {
-    border: 2px solid #ff6b6b;
-    color: #ff6b6b;
-    background: transparent;
-    padding: 10px 25px;
-    border-radius: 25px;
-    font-weight: bold;
-    transition: all 0.3s;
-}
-
-.btn-outline-f1:hover {
-    background: #ff6b6b;
-    color: white;
-}
-
-/* Hero Section */
-.hero-section {
-    padding: 5rem 0;
-    text-align: center;
-    color: white;
-}
-
-.hero-title {
-    font-size: 3rem;
-    color: #ff6b6b;
-    margin-bottom: 1rem;
-}
-
 .lead {
     color: white !important;
     font-size: 1.2rem;
@@ -1555,10 +1775,6 @@ textarea {
 
 .shadow-f1 {
     box-shadow: 0 5px 15px rgba(255,107,107,0.3) !important;
-}
-
-.text-f1 {
-    color: #ff6b6b !important;
 }
 
 /* Form kezelés és checkbox stílusok */
@@ -1935,12 +2151,175 @@ textarea {
     color: #ff6b6b;
 }
 
-/* Register form styles */
-.register-form-text {
-    color: rgba(255,255,255,0.8);
+/* CRUD Buttons */
+.add-pilot-button {
+    background-color: #ff6b6b;
+    color: white;
+    border: none;
+    padding: 0.75rem 1.5rem;
+    border-radius: 5px;
+    text-decoration: none;
+    font-weight: bold;
 }
 
-.register-login-link {
+.add-pilot-button:hover {
+    background-color: #e74c3c;
+    color: white;
+}
+
+.back-to-home-button {
+    border: 1px solid #ff6b6b;
+    color: #ff6b6b;
+    background: transparent;
+    padding: 0.75rem 1.5rem;
+    border-radius: 5px;
     text-decoration: none;
-    font-weight: 500;
+    font-weight: bold;
+}
+
+.back-to-home-button:hover {
+    background-color: #ff6b6b;
+    color: white;
+}
+
+.action-buttons-container {
+    display: flex;
+    gap: 0.25rem;
+    width: 100%;
+}
+
+.view-action-button {
+    background-color: #17a2b8;
+    color: #212529;
+    border: 1px solid #17a2b8;
+    padding: 0.4rem 0.8rem;
+    border-radius: 4px;
+    flex: 1;
+    text-align: center;
+    text-decoration: none;
+    font-size: 0.875rem;
+    font-weight: bold;
+}
+
+.view-action-button:hover {
+    background-color: #138496;
+    color: #212529;
+}
+
+.edit-action-button {
+    background-color: #ffc107;
+    color: #212529;
+    border: 1px solid #ffc107;
+    padding: 0.4rem 0.8rem;
+    border-radius: 4px;
+    flex: 1;
+    text-align: center;
+    text-decoration: none;
+    font-size: 0.875rem;
+    font-weight: bold;
+}
+
+.edit-action-button:hover {
+    background-color: #e0a800;
+    color: #212529;
+}
+
+.delete-action-button {
+    background-color: #dc3545;
+    color: white;
+    border: 1px solid #dc3545;
+    padding: 0.4rem 0.8rem;
+    border-radius: 4px;
+    flex: 1;
+    cursor: pointer;
+    font-size: 0.875rem;
+    font-weight: bold;
+}
+
+.delete-action-button:hover {
+    background-color: #c82333;
+    color: white;
+}
+
+.pilot-counter {
+    background-color: #ff6b6b;
+    color: white;
+    padding: 0.75rem 1.5rem;
+    border-radius: 25px;
+    font-size: 1.1rem;
+    font-weight: bold;
+    display: inline-block;
+}
+
+.pilot-id-badge {
+    background-color: #6c757d;
+    color: white;
+    padding: 0.25rem 0.75rem;
+    border-radius: 15px;
+    font-size: 0.875rem;
+    font-weight: bold;
+}
+
+.pilot-name-cell {
+    font-weight: bold;
+}
+
+.team-badge {
+    background-color: #0d6efd;
+    color: white;
+    padding: 0.25rem 0.75rem;
+    border-radius: 15px;
+    font-size: 0.875rem;
+    font-weight: bold;
+}
+
+.pilots-page-title {
+    color: #ff6b6b;
+    font-weight: 600;
+    font-size: 2.5rem;
+    margin-bottom: 1.5rem;
+    text-align: center;
+}
+
+/* Responsive */
+.mobile-only {
+    display: none;
+}
+
+.desktop-only {
+    display: inline;
+}
+
+.mobile-hidden {
+    display: table-cell;
+}
+
+.medium-screen-only, .large-screen-only {
+    display: none;
+}
+
+@media (max-width: 768px) {
+    .mobile-only {
+        display: inline;
+    }
+    
+    .desktop-only {
+        display: none;
+    }
+    
+    .mobile-hidden {
+        display: none;
+    }
+}
+
+@media (min-width: 992px) {
+    .medium-screen-only {
+        display: table-cell;
+    }
+}
+
+@media (min-width: 1200px) {
+    .large-screen-only {
+        display: table-cell;
+    }
 }

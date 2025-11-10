@@ -2,9 +2,7 @@
 
 @section('title', 'Pilóták Kezelése')
 
-@push('styles')
-<link href="{{ asset('css/pilots-index.css') }}" rel="stylesheet">
-@endpush
+{{-- Minden stílus az f1-styles.css-ben van --}}
 
 @section('content')
 <div class="content-section">

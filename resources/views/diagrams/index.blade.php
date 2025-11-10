@@ -2,6 +2,8 @@
 
 @section('title', 'Diagramok')
 
+{{-- Minden stílus az f1-styles.css-ben van --}}
+
 @section('content')
 <div class="content-section">
     <div class="container">
