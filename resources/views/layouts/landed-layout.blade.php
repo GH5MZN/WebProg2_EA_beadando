@@ -87,7 +87,7 @@
 
 
 		<script>
-			// AJAX bejelentkezési űrlap kezelése
+			// AJAX Login form handling
 			document.addEventListener('DOMContentLoaded', function() {
 				const loginForm = document.getElementById('headerLoginForm');
 				if (loginForm) {

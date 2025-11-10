@@ -20,7 +20,7 @@ return new class extends Migration
             $table->timestamps();
             
             $table->foreign('pilotaaz')->references('az')->on('pilots');
-            // Megjegyzés: race_date logikailag kapcsolódik a grand_prix-hez
+            // Note: race_date connects logically to grand_prix but no foreign key constraint
         });
     }
 

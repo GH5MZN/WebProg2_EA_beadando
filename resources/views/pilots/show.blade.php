@@ -148,17 +148,20 @@
 <script>
 function deleteDirectly(pilotId, pilotName) {
     if (confirm('Biztosan törölni szeretnéd ezt a pilótát?\n\n' + pilotName + '\n\nEz a művelet nem visszavonható!')) {
+        // Create a hidden form and submit it
         const form = document.createElement('form');
         form.method = 'POST';
         form.action = '/pilots/' + pilotId;
         form.style.display = 'none';
         
+        // Add CSRF token
         const csrfToken = document.createElement('input');
         csrfToken.type = 'hidden';
         csrfToken.name = '_token';
         csrfToken.value = '{{ csrf_token() }}';
         
-        const methodInput = document.createElement('input');
+        // Add DELETE method
+        const methodField = document.createElement('input');
         methodField.type = 'hidden';
         methodField.name = '_method';
         methodField.value = 'DELETE';

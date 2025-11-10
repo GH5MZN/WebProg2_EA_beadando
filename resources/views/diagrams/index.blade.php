@@ -117,21 +117,21 @@
         <div id="barChart" class="chart-container" style="display: none;">
             <div class="card">
                 <div class="card-body">
-                    <h2 class="text-center mb-4">Nagydíj helyszínek statisztikája</h2>
+                    <h2 class="text-center mb-4">Grand Prix Helyszínek Gyakorisága</h2>
                     
                     <div class="row">
                         <div class="col-md-8">
                             <canvas id="locationBarChart"></canvas>
                         </div>
                         <div class="col-md-4">
-                 
+                            <h5>Helyszín Részletek</h5>
                             <div class="table-responsive">
                                 <table class="table table-sm">
                                     <thead>
                                         <tr>
-                                            <th>Ország</th>
-                                            <th>Rendezett versenyek</th>
-                                            <th>Nagydíj neve</th>
+                                            <th>Helyszín</th>
+                                            <th>Versenyek</th>
+                                            <th>Nevezetességek</th>
                                         </tr>
                                     </thead>
                                     <tbody>
@@ -191,25 +191,32 @@
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
 <script>
+// Chart data from PHP
 const dnfData = @json($dnfData);
 const locationData = @json($locationData);
 
+// Chart instances
 let radarChart, barChart;
 
+// Initialize charts when page loads
 document.addEventListener('DOMContentLoaded', function() {
     initRadarChart();
     initBarChart();
 });
 
+// Show specific chart
 function showChart(chartType) {
+    // Hide all charts
     document.querySelectorAll('.chart-container').forEach(container => {
         container.style.display = 'none';
     });
     
+    // Remove active state from all buttons
     document.querySelectorAll('[id$="Btn"]').forEach(btn => {
         btn.className = btn.className.replace('btn-primary', 'btn-outline-primary');
     });
     
+    // Show selected chart and set active button
     if (chartType === 'radar') {
         document.getElementById('radarChart').style.display = 'block';
         document.getElementById('radarBtn').className = 
@@ -221,18 +228,26 @@ function showChart(chartType) {
     }
 }
 
+// Initialize Radar Chart
 function initRadarChart() {
     const ctx = document.getElementById('dnfRadarChart');
-    if (!ctx) return;
+    if (!ctx) {
+        console.error('Radar chart canvas not found!');
+        return;
+    }
     
     const context = ctx.getContext('2d');
     
+    // Destroy existing chart if exists
     if (radarChart) {
         radarChart.destroy();
     }
     
+    // Prepare data for radar chart
     const teams = dnfData.teams || [];
     const dnfCounts = teams.map(team => dnfData.teamDNFCounts[team] || 0);
+    
+    console.log('Radar chart data:', { teams, dnfCounts });
     
     radarChart = new Chart(context, {
         type: 'radar',
@@ -276,20 +291,29 @@ function initRadarChart() {
             }
         }
     });
+    
+    console.log('Radar chart created successfully');
 }
 
+// Initialize Bar Chart
 function initBarChart() {
     const ctx = document.getElementById('locationBarChart');
-    if (!ctx) return;
+    if (!ctx) {
+        console.error('Bar chart canvas not found!');
+        return;
+    }
     
     const context = ctx.getContext('2d');
     
+    // Destroy existing chart if exists
     if (barChart) {
         barChart.destroy();
     }
     
     const locations = locationData.locations || [];
     const raceCounts = locationData.raceCounts || [];
+    
+    console.log('Bar chart data:', { locations, raceCounts });
     
     barChart = new Chart(context, {
         type: 'bar',
@@ -354,6 +378,8 @@ function initBarChart() {
             }
         }
     });
+    
+    console.log('Bar chart created successfully');
 }
 </script>
 @endsection

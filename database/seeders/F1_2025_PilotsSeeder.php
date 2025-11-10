@@ -37,13 +37,13 @@ class F1_2025_PilotsSeeder extends Seeder
             ['pilot_id' => 18, 'name' => 'Pierre Gasly', 'nationality' => 'French', 'team' => 'Alpine', 'gender' => 'M', 'birth_date' => '1996-02-07'],
             ['pilot_id' => 19, 'name' => 'Gabriel Bortoleto', 'nationality' => 'Brazilian', 'team' => 'Kick Sauber', 'gender' => 'M', 'birth_date' => '2004-10-14'],
             ['pilot_id' => 20, 'name' => 'Franco Colapinto', 'nationality' => 'Argentine', 'team' => 'Alpine', 'gender' => 'M', 'birth_date' => '2003-05-27'],
+            ['pilot_id' => 21, 'name' => 'Jack Doohan', 'nationality' => 'Australian', 'team' => 'Alpine', 'gender' => 'M', 'birth_date' => '2003-01-20'],
         ];
-    
 
         foreach ($pilots as $pilot) {
             Pilot::create($pilot);
         }
 
-        $this->command->info('2025-ös F1 pilóták sikeresen hozzáadva (Jack Doohan nélkül)!');
+        $this->command->info('2025-ös F1 pilóták sikeresen hozzáadva!');
     }
 }
