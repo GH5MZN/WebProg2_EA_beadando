@@ -81,7 +81,7 @@ class PilotSeeder extends Seeder
                 }
 
                 Pilot::create([
-                    'pilot_id' => $pilotId,
+                    'az' => $pilotId,
                     'name' => $name,
                     'gender' => $gender === 'F' ? 'F' : ($gender === 'N' ? 'N' : 'F'),
                     'birth_date' => $parsedDate,

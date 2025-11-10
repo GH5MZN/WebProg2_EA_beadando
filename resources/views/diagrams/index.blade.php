@@ -50,8 +50,8 @@
         <div class="row mb-4">
             <div class="col-md-8">
                 <div class="btn-group" role="group">
-                    <button type="button" class="btn btn-primary" onclick="showChart('radar')" id="radarBtn">
-                        DNF Statisztikák
+                    <button type="button" class="btn btn-primary" onclick="showChart('dnf')" id="dnfBtn">
+                        DNF Bar Chart
                     </button>
                     <button type="button" class="btn btn-outline-primary" onclick="showChart('bar')" id="barBtn">
                         Helyszín Gyakoriság
@@ -71,41 +71,76 @@
             </div>
         </div>
 
-        <div id="radarChart" class="chart-container">
+        <div id="dnfChart" class="chart-container">
             <div class="card">
                 <div class="card-body">
-                    <h2 class="text-center mb-4">Csapatok DNF Statisztikái</h2>
+                    <h2 class="text-center mb-4">DNF Statisztikák - Bar Chart</h2>
                     
                     <div class="row">
                         <div class="col-md-8">
-                            <canvas id="dnfRadarChart"></canvas>
+                            <canvas id="dnfBarChart"></canvas>
                         </div>
                         <div class="col-md-4">
-                            <h5>DNF Részletek</h5>
-                            <div class="table-responsive">
-                                <table class="table table-sm">
-                                    <thead>
-                                        <tr>
-                                            <th>Csapat</th>
-                                            <th>DNF szám</th>
-                                            <th>Fő problémák</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        @foreach($dnfData['teamDNFCounts'] as $team => $count)
-                                        <tr>
-                                            <td class="fw-bold">{{ $team }}</td>
-                                            <td><span class="badge bg-danger">{{ $count }}</span></td>
-                                            <td>
-                                                @php
-                                                    $teamIssues = $dnfData['detailedData']->where('team', $team)->pluck('issue')->filter()->unique();
-                                                @endphp
-                                                <small>{{ $teamIssues->implode(', ') ?: 'N/A' }}</small>
-                                            </td>
-                                        </tr>
-                                        @endforeach
-                                    </tbody>
-                                </table>
+                            <h5>
+                                @if($dnfData['isFiltered'] ?? false)
+                                    Szűrt DNF Részletek
+                                @else
+                                    DNF Összesítés
+                                @endif
+                            </h5>
+                            <div class="table-responsive" style="max-height: 400px; overflow-y: auto;">
+                                @if($dnfData['isFiltered'] ?? false)
+                                    {{-- Szűrt nézet: részletes rekordok --}}
+                                    <table class="table table-sm">
+                                        <thead class="table-dark sticky-top">
+                                            <tr>
+                                                <th>Csapat</th>
+                                                <th>Dátum</th>
+                                                <th>Hiba</th>
+                                                <th>Motor</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            @forelse($dnfData['detailedData'] as $dnf)
+                                            <tr>
+                                                <td class="fw-bold">{{ $dnf->team }}</td>
+                                                <td><small>{{ $dnf->race_date }}</small></td>
+                                                <td><span class="badge bg-warning">{{ $dnf->issue ?: 'N/A' }}</span></td>
+                                                <td><small>{{ $dnf->engine ?: 'N/A' }}</small></td>
+                                            </tr>
+                                            @empty
+                                            <tr>
+                                                <td colspan="4" class="text-center text-muted">Nincs DNF adat</td>
+                                            </tr>
+                                            @endforelse
+                                        </tbody>
+                                    </table>
+                                @else
+                                    {{-- Alapértelmezett nézet: összesítés --}}
+                                    <table class="table table-sm">
+                                        <thead>
+                                            <tr>
+                                                <th>Csapat</th>
+                                                <th>DNF szám</th>
+                                                <th>Fő problémák</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            @foreach($dnfData['teamDNFCounts'] as $team => $count)
+                                            <tr>
+                                                <td class="fw-bold">{{ $team }}</td>
+                                                <td><span class="badge bg-danger">{{ $count }}</span></td>
+                                                <td>
+                                                    @php
+                                                        $teamIssues = $dnfData['detailedData']->where('team', $team)->pluck('issue')->filter()->unique();
+                                                    @endphp
+                                                    <small>{{ $teamIssues->implode(', ') ?: 'N/A' }}</small>
+                                                </td>
+                                            </tr>
+                                            @endforeach
+                                        </tbody>
+                                    </table>
+                                @endif
                             </div>
                         </div>
                     </div>
@@ -117,21 +152,21 @@
         <div id="barChart" class="chart-container" style="display: none;">
             <div class="card">
                 <div class="card-body">
-                    <h2 class="text-center mb-4">Grand Prix Helyszínek Gyakorisága</h2>
+                    <h2 class="text-center mb-4">Nagydíj helyszínek statisztikája</h2>
                     
                     <div class="row">
                         <div class="col-md-8">
                             <canvas id="locationBarChart"></canvas>
                         </div>
                         <div class="col-md-4">
-                            <h5>Helyszín Részletek</h5>
+                 
                             <div class="table-responsive">
                                 <table class="table table-sm">
                                     <thead>
                                         <tr>
-                                            <th>Helyszín</th>
-                                            <th>Versenyek</th>
-                                            <th>Nevezetességek</th>
+                                            <th>Ország</th>
+                                            <th>Rendezett versenyek</th>
+                                            <th>Nagydíj neve</th>
                                         </tr>
                                     </thead>
                                     <tbody>
@@ -163,9 +198,9 @@
             
             <div class="col-md-4">
                 <div class="card-f1 text-center">
-                    <div class="chart-stat-number">{{ $dnfData['detailedData']->sum('dnf_count') }}</div>
+                    <div class="chart-stat-number">{{ $dnfData['detailedData']->count() }}</div>
                     <h3>Összes DNF</h3>
-                    <p class="text-muted">Eredmény rekordokban</p>
+                    <p class="text-muted">Szűrt eredmények</p>
                 </div>
             </div>
             
@@ -191,36 +226,34 @@
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
 <script>
-// Chart data from PHP
 const dnfData = @json($dnfData);
 const locationData = @json($locationData);
 
-// Chart instances
-let radarChart, barChart;
+let dnfChart, barChart;
 
-// Initialize charts when page loads
 document.addEventListener('DOMContentLoaded', function() {
-    initRadarChart();
+    console.log('DNF Data:', dnfData);
+    console.log('Teams:', dnfData.teams);
+    console.log('Team DNF Counts:', dnfData.teamDNFCounts);
+    console.log('Is Filtered:', dnfData.isFiltered);
+    
+    initDnfChart();
     initBarChart();
 });
 
-// Show specific chart
 function showChart(chartType) {
-    // Hide all charts
     document.querySelectorAll('.chart-container').forEach(container => {
         container.style.display = 'none';
     });
     
-    // Remove active state from all buttons
     document.querySelectorAll('[id$="Btn"]').forEach(btn => {
         btn.className = btn.className.replace('btn-primary', 'btn-outline-primary');
     });
     
-    // Show selected chart and set active button
-    if (chartType === 'radar') {
-        document.getElementById('radarChart').style.display = 'block';
-        document.getElementById('radarBtn').className = 
-            document.getElementById('radarBtn').className.replace('btn-outline-primary', 'btn-primary');
+    if (chartType === 'dnf') {
+        document.getElementById('dnfChart').style.display = 'block';
+        document.getElementById('dnfBtn').className = 
+            document.getElementById('dnfBtn').className.replace('btn-outline-primary', 'btn-primary');
     } else if (chartType === 'bar') {
         document.getElementById('barChart').style.display = 'block';
         document.getElementById('barBtn').className = 
@@ -228,41 +261,53 @@ function showChart(chartType) {
     }
 }
 
-// Initialize Radar Chart
-function initRadarChart() {
-    const ctx = document.getElementById('dnfRadarChart');
-    if (!ctx) {
-        console.error('Radar chart canvas not found!');
-        return;
-    }
+function initDnfChart() {
+    const ctx = document.getElementById('dnfBarChart');
+    if (!ctx) return;
     
     const context = ctx.getContext('2d');
     
-    // Destroy existing chart if exists
-    if (radarChart) {
-        radarChart.destroy();
+    if (dnfChart) {
+        dnfChart.destroy();
     }
     
-    // Prepare data for radar chart
     const teams = dnfData.teams || [];
     const dnfCounts = teams.map(team => dnfData.teamDNFCounts[team] || 0);
     
-    console.log('Radar chart data:', { teams, dnfCounts });
+    // Dinamikus színek a csapatok számának megfelelően
+    const baseColors = [
+        'rgba(255, 99, 132, 0.2)',
+        'rgba(255, 159, 64, 0.2)',
+        'rgba(255, 205, 86, 0.2)',
+        'rgba(75, 192, 192, 0.2)',
+        'rgba(54, 162, 235, 0.2)',
+        'rgba(153, 102, 255, 0.2)',
+        'rgba(201, 203, 207, 0.2)'
+    ];
     
-    radarChart = new Chart(context, {
-        type: 'radar',
+    const baseBorderColors = [
+        'rgb(255, 99, 132)',
+        'rgb(255, 159, 64)',
+        'rgb(255, 205, 86)',
+        'rgb(75, 192, 192)',
+        'rgb(54, 162, 235)',
+        'rgb(153, 102, 255)',
+        'rgb(201, 203, 207)'
+    ];
+    
+    const backgroundColors = teams.map((_, index) => baseColors[index % baseColors.length]);
+    const borderColors = teams.map((_, index) => baseBorderColors[index % baseBorderColors.length]);
+    
+    dnfChart = new Chart(context, {
+        type: 'bar',
         data: {
             labels: teams,
             datasets: [{
                 label: 'DNF Szám',
                 data: dnfCounts,
-                backgroundColor: 'rgba(255, 107, 107, 0.2)',
-                borderColor: 'rgba(255, 107, 107, 1)',
-                borderWidth: 2,
-                pointBackgroundColor: 'rgba(255, 107, 107, 1)',
-                pointBorderColor: '#fff',
-                pointHoverBackgroundColor: '#fff',
-                pointHoverBorderColor: 'rgba(255, 107, 107, 1)'
+                backgroundColor: backgroundColors,
+                borderColor: borderColors,
+                borderWidth: 1
             }]
         },
         options: {
@@ -270,50 +315,37 @@ function initRadarChart() {
             maintainAspectRatio: false,
             plugins: {
                 title: {
-                    display: false
+                    display: true,
+                    text: 'DNF Statisztikák Csapatonként'
                 },
                 legend: {
-                    display: true,
-                    position: 'top'
+                    display: false
                 }
             },
             scales: {
-                r: {
+                y: {
                     beginAtZero: true,
                     ticks: {
-                        stepSize: 1,
-                        color: '#666'
-                    },
-                    grid: {
-                        color: '#ddd'
+                        stepSize: 1
                     }
                 }
             }
         }
     });
-    
-    console.log('Radar chart created successfully');
 }
 
-// Initialize Bar Chart
 function initBarChart() {
     const ctx = document.getElementById('locationBarChart');
-    if (!ctx) {
-        console.error('Bar chart canvas not found!');
-        return;
-    }
+    if (!ctx) return;
     
     const context = ctx.getContext('2d');
     
-    // Destroy existing chart if exists
     if (barChart) {
         barChart.destroy();
     }
     
     const locations = locationData.locations || [];
     const raceCounts = locationData.raceCounts || [];
-    
-    console.log('Bar chart data:', { locations, raceCounts });
     
     barChart = new Chart(context, {
         type: 'bar',
@@ -378,8 +410,6 @@ function initBarChart() {
             }
         }
     });
-    
-    console.log('Bar chart created successfully');
 }
 </script>
 @endsection

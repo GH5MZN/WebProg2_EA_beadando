@@ -26,8 +26,11 @@ class DiagramController extends Controller
 
     private function getDNFDataByTeam($selectedTeam = null, $selectedYear = null)
     {
-        $query = Result::whereNull('position')
-            ->orWhere('position', 0);
+        $query = Result::where(function($q) {
+                $q->whereNull('position')->orWhere('position', 0);
+            })
+            ->whereNotNull('team')
+            ->where('team', '!=', '');
             
         if ($selectedTeam) {
             $query->where('team', $selectedTeam);
@@ -50,12 +53,32 @@ class DiagramController extends Controller
             return $teamResults->sum('dnf_count');
         });
 
+        // Részletes DNF adatok a táblázathoz - külön query egyedi rekordokhoz
+        $detailedQuery = Result::where(function($q) {
+                $q->whereNull('position')->orWhere('position', 0);
+            })
+            ->whereNotNull('team')
+            ->where('team', '!=', '');
+        
+        if ($selectedTeam) {
+            $detailedQuery->where('team', $selectedTeam);
+        }
+        
+        if ($selectedYear) {
+            $detailedQuery->whereYear('race_date', $selectedYear);
+        }
+        
+        $detailedDNFs = $detailedQuery->select('team', 'race_date', 'issue', 'engine')
+            ->orderBy('race_date', 'desc')
+            ->get();
+
         return [
             'teams' => $teams,
             'teamDNFCounts' => $teamDNFCounts,
             'issues' => $issues,
             'engines' => $engines,
-            'detailedData' => $dnfResults
+            'detailedData' => $detailedDNFs,
+            'isFiltered' => !empty($selectedTeam) || !empty($selectedYear)
         ];
     }
 
