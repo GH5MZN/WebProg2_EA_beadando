@@ -9,8 +9,9 @@ class UserController extends Controller
 {
     public function index()
     {
-        $users = User::orderBy('created_at', 'desc')
-            ->paginate(10);
+        $users = User::select('id', 'name', 'email', 'email_verified_at', 'created_at', 'updated_at')
+            ->latest()
+            ->paginate(15);
 
         return view('admin.users', compact('users'));
     }

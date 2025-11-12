@@ -14,19 +14,16 @@ class PilotController extends Controller
     {
         $query = PilotCurrent::query();
         
-        // Név keresés
         if ($request->filled('search')) {
             $query->where('name', 'like', '%' . $request->search . '%');
         }
         
-        // Nemzetiség szűrés
         if ($request->filled('nationality')) {
             $query->where('nationality', $request->nationality);
         }
         
         $pilots = $query->orderBy('pilot_id')->paginate(50);
         
-        // Egyedi nemzetiségek lekérése a szűrő dropdown-hoz
         $nationalities = PilotCurrent::whereNotNull('nationality')
                                     ->distinct()
                                     ->orderBy('nationality')

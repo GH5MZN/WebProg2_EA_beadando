@@ -77,9 +77,7 @@
         <!-- Header -->
         <div class="hero-section">
             <h1 class="hero-title">Kapcsolat</h1>
-            <p class="lead">Vedd fel velünk a kapcsolatot bármilyen kérdéssel, visszajelzéssel vagy megkereséssel.</p>
-        </div>
-
+          
         <!-- Contact Form -->
         <div class="row justify-content-center">
             <div class="col-lg-8">
@@ -90,9 +88,14 @@
                         </div>
                     @endif
 
-                    @if($errors->has('system'))
+                    @if($errors->any())
                         <div class="alert alert-danger alert-f1 mb-4">
-                            <i class="fas fa-exclamation-triangle"></i> {{ $errors->first('system') }}
+                            <i class="fas fa-exclamation-circle"></i> Hiba! Kérlek ellenőrizd az alábbi mezőket:
+                            <ul class="mt-2 mb-0">
+                                @foreach($errors->all() as $error)
+                                    <li>{{ $error }}</li>
+                                @endforeach
+                            </ul>
                         </div>
                     @endif
                     
@@ -105,28 +108,22 @@
                                 <input type="text" 
                                        name="name" 
                                        id="name" 
-                                       class="form-control @error('name') is-invalid @enderror" 
+                                       class="form-control" 
                                        value="{{ old('name') }}"
                                        required 
                                        maxlength="100"
                                        placeholder="Teljes neved">
-                                @error('name')
-                                    <div class="invalid-feedback">{{ $message }}</div>
-                                @enderror
                             </div>
                             <div class="col-md-6">
                                 <label for="email" class="form-label">Email *</label>
                                 <input type="email" 
                                        name="email" 
                                        id="email" 
-                                       class="form-control @error('email') is-invalid @enderror" 
+                                       class="form-control" 
                                        value="{{ old('email') }}"
                                        required 
                                        maxlength="150"
                                        placeholder="email@example.com">
-                                @error('email')
-                                    <div class="invalid-feedback">{{ $message }}</div>
-                                @enderror
                             </div>
                         </div>
 
@@ -134,7 +131,7 @@
                             <label for="subject" class="form-label">Tárgy *</label>
                             <select name="subject" 
                                     id="subject" 
-                                    class="form-control @error('subject') is-invalid @enderror" 
+                                    class="form-control" 
                                     required>
                                 <option value="">Válassz egy tárgyat</option>
                                 <option value="Általános megkeresés" {{ old('subject') == 'Általános megkeresés' ? 'selected' : '' }}>Általános megkeresés</option>
@@ -144,9 +141,6 @@
                                 <option value="Visszajelzés és javaslatok" {{ old('subject') == 'Visszajelzés és javaslatok' ? 'selected' : '' }}>Visszajelzés és javaslatok</option>
                                 <option value="Egyéb" {{ old('subject') == 'Egyéb' ? 'selected' : '' }}>Egyéb</option>
                             </select>
-                            @error('subject')
-                                <div class="invalid-feedback">{{ $message }}</div>
-                            @enderror
                         </div>
                         </div>
 
@@ -155,16 +149,13 @@
                             <textarea name="message" 
                                       id="message" 
                                       rows="6" 
-                                      class="form-control @error('message') is-invalid @enderror" 
+                                      class="form-control" 
                                       required 
                                       maxlength="2000"
                                       placeholder="Írd le, hogyan segíthetünk...">{{ old('message') }}</textarea>
                             <div class="form-text">
                                 <span id="messageCounter">0</span>/2000 karakter
                             </div>
-                            @error('message')
-                                <div class="invalid-feedback">{{ $message }}</div>
-                            @enderror
                         </div>
 
                         <div class="mb-4">

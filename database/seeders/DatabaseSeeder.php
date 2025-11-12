@@ -18,6 +18,7 @@ class DatabaseSeeder extends Seeder
             PilotSeeder::class,
             PilotCurrentSeeder::class,
             GrandPrixSeeder::class,
+            ResultSeeder::class,
         ]);
     }
 }

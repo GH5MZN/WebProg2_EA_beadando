@@ -1,10 +1,5 @@
 /* F1 Tech - Összes Stílus Egyesített Fájl */
 
-/* ==========================================
-   GLOBAL UI STYLES - SÖTÉT HÁTTÉR MINDEN ELEMHEZ
-   ========================================== */
-
-/* Táblázatok egységes sötét stílusa */
 .table-f1,
 .table,
 table {
@@ -16,7 +11,6 @@ table {
     border: 2px solid rgba(255,107,107,0.4) !important;
 }
 
-/* Táblázat fejlécek */
 .table-f1 thead th,
 .table thead th,
 table thead th {
@@ -26,7 +20,6 @@ table thead th {
     border: none !important;
 }
 
-/* Táblázat sorok */
 .table-f1 tbody tr,
 .table tbody tr,
 table tbody tr {
@@ -41,7 +34,6 @@ table tbody tr:hover {
     transition: all 0.3s ease !important;
 }
 
-/* Táblázat cellák */
 .table-f1 td,
 .table-f1 th,
 .table td,
@@ -53,10 +45,7 @@ table th {
     border-bottom: 1px solid rgba(255, 107, 107, 0.3) !important;
 }
 
-/* Modal ablakok */
 
-
-/* Form elemek */
 .form-control {
     background: rgba(0, 0, 0, 0.7) !important;
     border: 2px solid rgba(255, 107, 107, 0.4) !important;
@@ -77,14 +66,12 @@ table th {
     color: rgba(255, 255, 255, 0.6) !important;
 }
 
-/* Select elemek */
 select.form-control,
 select.form-control option {
     background: rgba(0, 0, 0, 0.8) !important;
     color: white !important;
 }
 
-/* Card elemek */
 .card {
     background: rgba(0, 0, 0, 0.7) !important;
     border: 2px solid rgba(255,107,107,0.4) !important;
@@ -106,7 +93,6 @@ select.form-control option {
     color: white !important;
 }
 
-/* Alert üzenetek */
 .alert {
     backdrop-filter: blur(10px) !important;
     border-radius: 15px !important;
@@ -114,14 +100,12 @@ select.form-control option {
     box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3) !important;
 }
 
-/* Navigációs menük */
 .nav,
 .navbar {
     background: rgba(0, 0, 0, 0.8) !important;
     backdrop-filter: blur(10px) !important;
 }
 
-/* Általános konténerek sötét háttérrel */
 .container,
 .content-container,
 .main-content {
@@ -134,7 +118,6 @@ select.form-control option {
     border: 2px solid rgba(255,107,107,0.3);
 }
 
-/* Gombok egységes stílusa */
 .btn {
     border-radius: 25px !important;
     font-weight: bold !important;
@@ -149,7 +132,6 @@ select.form-control option {
     box-shadow: 0 8px 20px rgba(0, 0, 0, 0.4) !important;
 }
 
-/* Pagination */
 .pagination .page-link {
     background: rgba(0, 0, 0, 0.7) !important;
     border: 2px solid rgba(255,107,107,0.4) !important;
@@ -169,11 +151,6 @@ select.form-control option {
     border-color: #ff6b6b !important;
 }
 
-/* ==========================================
-   DIAGRAM OLDAL SPECIFIKUS JAVÍTÁSOK - CSAK SZÖVEGSZÍN
-   ========================================== */
-
-/* Jobb oldali legend box - nagydíjak listája */
 .chart-legend {
     background: rgba(255, 255, 255, 0.95) !important;
     color: #000000 !important;
@@ -183,7 +160,6 @@ select.form-control option {
     backdrop-filter: blur(5px) !important;
 }
 
-/* Minden szöveg a legend boxban legyen fekete */
 .chart-legend *,
 .chart-legend p,
 .chart-legend span,
@@ -196,7 +172,6 @@ select.form-control option {
     text-shadow: none !important;
 }
 
-/* Chart konténer szövegek */
 .chart-container .chart-legend {
     background: rgba(255, 255, 255, 0.95) !important;
 }
@@ -2273,6 +2248,19 @@ textarea {
     font-weight: bold;
 }
 
+.team-badge.bg-success {
+    background-color: #28a745 !important;
+}
+
+.team-badge.bg-secondary {
+    background-color: #6c757d !important;
+}
+
+.team-badge.bg-warning {
+    background-color: #ffc107 !important;
+    color: #000 !important;
+}
+
 .pilots-page-title {
     color: #ff6b6b;
     font-weight: 600;
@@ -2322,4 +2310,64 @@ textarea {
     .large-screen-only {
         display: table-cell;
     }
+}
+
+/* Admin specific styles */
+.btn-outline {
+    background: transparent !important;
+    border: 2px solid #ff6b6b !important;
+    color: #ff6b6b !important;
+}
+
+.btn-outline:hover {
+    background: #ff6b6b !important;
+    color: white !important;
+}
+
+.unread-message {
+    background-color: rgba(255, 193, 7, 0.1) !important;
+    border-left: 4px solid #ffc107 !important;
+}
+
+.unread-message td {
+    font-weight: 500;
+}
+
+/* Admin Statistics Cards */
+.bg-f1-red {
+    background: linear-gradient(135deg, #ff6b6b, #dc3545) !important;
+}
+
+.bg-f1-dark {
+    background: linear-gradient(135deg, #2c2c2c, #1a1a1a) !important;
+}
+
+.bg-f1-silver {
+    background: linear-gradient(135deg, #e0e0e0, #c0c0c0) !important;
+}
+
+.card {
+    border: none;
+    border-radius: 15px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+}
+
+/* Admin navigation */
+.admin-nav {
+    margin-bottom: 2rem;
+}
+
+.admin-nav .btn-group {
+    border-radius: 25px;
+    overflow: hidden;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+}
+
+.admin-nav .add-pilot-button {
+    border-radius: 0 !important;
+    border-right: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+.admin-nav .add-pilot-button:last-child {
+    border-right: none;
 }

@@ -19,6 +19,8 @@ Route::post('/contact', [ContactController::class, 'store'])->name('contact.stor
 // Admin routes - only for admin users
 Route::middleware(['auth', 'admin'])->group(function () {
     Route::get('/admin/contact-messages', [ContactController::class, 'index'])->name('admin.contact-messages');
+    Route::patch('/admin/contact-messages/{id}/mark-read', [ContactController::class, 'markAsRead'])->name('admin.contact-messages.mark-read');
+    Route::delete('/admin/contact-messages/{id}', [ContactController::class, 'destroy'])->name('admin.contact-messages.destroy');
     Route::get('/admin/users', [App\Http\Controllers\UserController::class, 'index'])->name('admin.users');
 });
 
